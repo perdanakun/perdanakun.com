@@ -1,6 +1,7 @@
 import '@react95/core/GlobalStyle';
 import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
+import winBackground from './assets/images/win_background.jpg';
 import AiAssistantContentModal from './components/AiAssistantContentModal';
 import ProjectFolderContent from './components/ProjectFolderContent';
 import CSGameModal from './components/CSGameModal';
@@ -10,20 +11,30 @@ import AboutContent from './components/AboutContent';
 import { getAIResponse } from './services/aiService';
 import { Frame, TitleBar, Button, TaskBar, List, Modal } from '@react95/core';
 import { 
-  Notepad, 
+  Notepad,
+  Notepad2,
   Folder, 
   Globe, 
-  Mail, 
+  Mail,
+  Mailnews2,
+  Mailnews14,
   Computer, 
   User, 
   PowerOff, 
   MsDos, 
   Joy102,
   Shell3232,
-  Wangimg129
+  RecycleFull,
+  Wangimg128,
+  WindowsExplorer,
+  FolderFile,
+  Winmine1,
+  Drvspace7,
+  Intl101,
 } from '@react95/icons';
 import { useState, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
+
 
 // Fungi baru DesktopIcon
 function DesktopIcon({ children, onOpen }) {
@@ -243,10 +254,19 @@ const closeImageViewer = (viewerId) => {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-image: url('/winxp pixel.png');
+            background-image: url(${winBackground});
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+
+            .draggable {
+              justify-content: flex-start !important;
+            }
+
+            .draggable > div:first-of-type {
+              text-align: left !important;
+            }
+
 
          /* Aturan scrollbar tipis dan mungil */
          div::-webkit-scrollbar {
@@ -280,9 +300,9 @@ const closeImageViewer = (viewerId) => {
   <DesktopIcon onOpen={() => openWindow('about')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Notepad variant="32x32_4" />
+        <Computer variant="32x32_4" />
       </div>
-      <span>about.txt</span>
+      <span>Perdana's PC</span>
     </div>
   </DesktopIcon>
 </Rnd>
@@ -297,9 +317,9 @@ const closeImageViewer = (viewerId) => {
   <DesktopIcon onOpen={() => openWindow('recycleBin')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Shell3232 variant="32x32_4" />
+        <RecycleFull variant="32x32_4" />
       </div>
-      <span>recycle_bin</span>
+      <span>Recycle Bin </span>
     </div>
   </DesktopIcon>
 </Rnd>
@@ -316,7 +336,7 @@ const closeImageViewer = (viewerId) => {
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Folder variant="32x32_4" />
       </div>
-      <span>projects</span>
+      <span>Projects</span>
     </div>
   </DesktopIcon>
 </Rnd>
@@ -335,9 +355,9 @@ const closeImageViewer = (viewerId) => {
   >
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Globe variant="32x32_4" />
+        <Notepad2 variant="32x32_4" />
       </div>
-      <span>medium.url</span>
+      <span>Writing</span>
     </div>
   </DesktopIcon>
 </Rnd>
@@ -352,14 +372,14 @@ const closeImageViewer = (viewerId) => {
   <DesktopIcon onOpen={() => openWindow('contact')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Mail variant="32x32_4" />
+        <Mailnews14 variant="32x32_4" />
       </div>
-      <span>contact.exe</span>
+      <span>Contact</span>
     </div>
   </DesktopIcon>
 </Rnd>
 
-        {/* Thumbnail 6: Counter-Strike 1.6 (counter_strike.exe) */}
+        {/* Thumbnail 6: Games */}
 <Rnd
   default={{ x: 120, y: 120, width: 80, height: 80 }}
   bounds="window"
@@ -369,9 +389,9 @@ const closeImageViewer = (viewerId) => {
   <DesktopIcon onOpen={() => openWindow('csGame')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Joy102 variant="32x32_4" />
+        <Winmine1 variant="32x32_4" />
       </div>
-      <span>games.exe</span>
+      <span>Games</span>
     </div>
   </DesktopIcon>
 </Rnd>
@@ -386,9 +406,9 @@ const closeImageViewer = (viewerId) => {
   <DesktopIcon onOpen={() => openWindow('aiAssistant')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Computer variant="32x32_4" />
+        <Intl101 variant="32x32_4" />
       </div>
-      <span>ai_messenger</span>
+      <span>AI Chat</span>
     </div>
   </DesktopIcon>
 </Rnd>
@@ -399,14 +419,15 @@ const closeImageViewer = (viewerId) => {
         {windows.aiAssistant && (
           <Modal
               key="aiAssistant-window"
-              icon={<Computer variant="16x16_4" />}
-              title="ai_messenger.exe"
+              icon={<Intl101 variant="16x16_4" />}
+              title="AI Assistant.exe"
               style={{ 
-                right: '20px', 
-                top: '20px', 
-                width: '400px',
-                minHeight: '300px',
-                maxHeight: '60%',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '400px',
+              minHeight: '300px',
+              maxHeight: '60%',
               }}
               titleBarOptions={
             <>
@@ -422,10 +443,9 @@ const closeImageViewer = (viewerId) => {
         {/* --- JENDELA PROJECTS --- */}
         {windows.projects && (
           <Modal
-            key="projects-window"
             key={windows.projects ? 'projects-open' : 'projects-close'}
             icon={<Folder variant="16x16_4" />}
-            title="project_explorer.exe"
+            title="Project Explorer"
             style={{
               left:'50%',
               top:'50%',
@@ -450,8 +470,8 @@ const closeImageViewer = (viewerId) => {
         {windows.contact && (
           <Modal
             key="contact-window"
-            icon={<Mail variant="16x16_4" />}
-            title="contact.exe"
+            icon={<Mailnews14 variant="16x16_4" />}
+            title="Contact.exe"
             style={{
               left: '50%',
               top: '50%',
@@ -476,8 +496,8 @@ const closeImageViewer = (viewerId) => {
         {windows.csGame && (
           <Modal
             key="csGame-window"
-            icon={<Joy102 variant="16x16_4" />}
-            title="games.exe"
+            icon={<Winmine1 variant="16x16_4" />}
+            title="Games.exe"
             style={{
               left: '50%',
               top: '50%',
@@ -501,8 +521,8 @@ const closeImageViewer = (viewerId) => {
         {windows.about && (
           <Modal
             key="about-window"
-            icon={<Notepad variant="16x16_4" />}
-            title="about.txt"
+            icon={<Computer variant="16x16_4" />}
+            title="PERDANA-PC"
             style={{
               left: '50%',
               top: '50%',
@@ -526,8 +546,8 @@ const closeImageViewer = (viewerId) => {
         {windows.recycleBin && (
           <Modal
             key="recycleBin-window"
-            icon={<Shell3232 variant="16x16_4" />}
-            title="recycle_bin.exe"
+            icon={<RecycleFull variant="16x16_4" />}
+            title="Recycle Bin"
             style={{
               left: '50%',
               top: '50%',
@@ -554,7 +574,7 @@ const closeImageViewer = (viewerId) => {
   <Modal
     key={viewer.id}
     id={`image-viewer-${viewer.id}`}
-    icon={<Wangimg129 variant="16x16_4" />}
+    icon={<Wangimg128 variant="16x16_4" />}
     title={viewer.file.name}
     style={{
       left: '50%',
@@ -624,14 +644,14 @@ const closeImageViewer = (viewerId) => {
           list={
             <List style={{ width: '240px' }}>
               <List.Item 
-                icon={<Computer variant="16x16_4" />} 
+                icon={<Intl101 variant="16x16_4" />} 
                 onClick={() => toggleWindow('aiAssistant', true)}
               >
                 AI Messenger
               </List.Item>
               <List.Divider />
               <List.Item 
-                icon={<User variant="16x16_4" />} 
+                icon={<Computer variant="16x16_4" />} 
                 onClick={() => toggleWindow('about', true)}
               >
                 About
@@ -643,16 +663,16 @@ const closeImageViewer = (viewerId) => {
                 Projects
               </List.Item>
               <List.Item 
-                icon={<Mail variant="16x16_4" />} 
+                icon={<Mailnews14 variant="16x16_4" />} 
                 onClick={() => toggleWindow('contact', true)}
               >
                 Contact Me
               </List.Item>
               <List.Item 
-                icon={<Joy102 variant="16x16_4" />} 
+                icon={<Winmine1 variant="16x16_4" />} 
                 onClick={() => toggleWindow('csGame', true)}
               >
-                Counter-Strike 1.6
+                Games
               </List.Item>
               <List.Divider />
               <List.Item 

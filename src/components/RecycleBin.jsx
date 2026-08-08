@@ -1,9 +1,12 @@
-import React from 'react';
-import { Wangimg129 } from '@react95/icons';
+import React, { useState } from 'react';
+import { Wangimg128 } from '@react95/icons';
+
 import imgNimu from '../assets/images/img_nimu.jpg';
 import imgMiyu from '../assets/images/img_miyu.jpg';
 
 export default function RecycleBin({ onOpenFile }) {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const files = [
     {
       id: 1,
@@ -17,102 +20,245 @@ export default function RecycleBin({ onOpenFile }) {
     },
   ];
 
+  // =========================
+  // SINGLE CLICK
+  // =========================
+
+  const handleFileClick = (file) => {
+    setSelectedFile(file.id);
+  };
+
+  // =========================
+  // DOUBLE CLICK
+  // =========================
+
+  const handleFileDoubleClick = (file) => {
+    onOpenFile(file);
+  };
+
+  // =========================
+  // CLICK AREA KOSONG
+  // =========================
+
+  const handleExplorerClick = () => {
+    setSelectedFile(null);
+  };
+
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        height:'100%',
-        fontFamily:'MS Sans Serif, sans-serif',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        fontFamily: 'MS Sans Serif, sans-serif',
       }}
     >
-      {/* Menu Bar */}
-      <div
-        style={{
-          display:'flex',
-          gap:'12px',
-          padding:'2px 6px',
-          backgroundColor:'#c0c0c0',
-          borderBottom:'1px solid #808080',
-          fontSize:'11px',
-          userSelect:'none'
-        }}
-      >
-        <span style={{padding:'1px 4px'}}>File</span>
-        <span style={{padding:'1px 4px'}}>Edit</span>
-        <span style={{padding:'1px 4px'}}>View</span>
-      </div>
 
-      {/* Explorer Area */}
+      {/* =========================
+          MENU BAR
+      ========================= */}
+
       <div
         style={{
-          flex:1,
-          backgroundColor:'white',
-          padding:'12px',
-          overflowY:'auto',
-          boxShadow:
-            'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
-          margin:'2px'
+          display: 'flex',
+          gap: '12px',
+          padding: '2px 6px',
+          backgroundColor: '#c0c0c0',
+          borderBottom: '1px solid #808080',
+          fontSize: '11px',
+          userSelect: 'none',
         }}
       >
-        <div
+        <span
           style={{
-            display:'flex',
-            flexWrap:'wrap',
-            gap:'24px',
-            alignItems:'flex-start',
-            padding:'4px'
+            padding: '1px 4px',
           }}
         >
-          {files.map((file) => (
-            <div
-              key={file.id}
-              onDoubleClick={() => onOpenFile(file)}
-              style={{
-                display:'flex',
-                flexDirection:'column',
-                alignItems:'center',
-                width:'70px',
-                cursor:'pointer',
-                userSelect:'none',
-                padding:'4px',
-                textAlign:'center',
-              }}
-            >
-              <div style={{ marginBottom:'4px' }}>
-                <Wangimg129 variant="32x32_4" />
-              </div>
-              <span
-                style={{
-                  fontSize:'11px',
-                  overflowWrap: 'break-word',
-                  lineHeight:'1.2'
-                }}
-              >
-                {file.name}
-              </span>
-            </div>
-          ))}
-        </div>
+          File
+        </span>
+
+        <span
+          style={{
+            padding: '1px 4px',
+          }}
+        >
+          Edit
+        </span>
+
+        <span
+          style={{
+            padding: '1px 4px',
+          }}
+        >
+          View
+        </span>
       </div>
 
-      {/* Status Bar */}
+
+      {/* =========================
+          EXPLORER AREA
+      ========================= */}
+
+      <div
+        onClick={handleExplorerClick}
+        style={{
+          flex: 1,
+
+          backgroundColor: 'white',
+
+          padding: '12px',
+
+          overflowY: 'auto',
+
+          boxShadow:
+            'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
+
+          margin: '2px',
+        }}
+      >
+
+        <div
+          style={{
+            display: 'grid',
+
+            gridTemplateColumns:
+              'repeat(auto-fill, 120px)',
+
+            gridAutoRows: '90px',
+
+            gap: '8px',
+
+            alignItems: 'start',
+
+            padding: '4px',
+          }}
+        >
+
+          {files.map((file) => {
+
+            const isSelected =
+              selectedFile === file.id;
+
+            return (
+              <div
+                key={file.id}
+
+                // Single click
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleFileClick(file);
+                }}
+
+                // Double click
+                onDoubleClick={(e) => {
+                  e.stopPropagation();
+                  handleFileDoubleClick(file);
+                }}
+
+                style={{
+                  display: 'flex',
+
+                  flexDirection: 'column',
+
+                  alignItems: 'center',
+
+                  width: '120px',
+
+                  cursor: 'pointer',
+
+                  userSelect: 'none',
+
+                  padding: '4px',
+
+                  textAlign: 'center',
+
+                  boxSizing: 'border-box',
+
+                  backgroundColor: isSelected
+                    ? '#000080'
+                    : 'transparent',
+
+                  color: isSelected
+                    ? 'white'
+                    : 'black',
+                }}
+              >
+
+                {/* =========================
+                    FILE ICON
+                ========================= */}
+
+                <div
+                  style={{
+                    marginBottom: '4px',
+                  }}
+                >
+                  <Wangimg128
+                    variant="32x32_4"
+                  />
+                </div>
+
+
+                {/* =========================
+                    FILE NAME
+                ========================= */}
+
+                <span
+                  style={{
+                    fontSize: '11px',
+
+                    lineHeight: '1.2',
+
+                    width: '100%',
+
+                    textAlign: 'center',
+
+                    wordBreak: 'normal',
+
+                    overflowWrap: 'break-word',
+                  }}
+                >
+                  {file.name}
+                </span>
+
+              </div>
+            );
+          })}
+
+        </div>
+
+      </div>
+
+
+      {/* =========================
+          STATUS BAR
+      ========================= */}
+
       <div
         style={{
-          display:'flex',
-          alignItems:'center',
-          padding:'2px 6px',
-          fontSize:'11px',
-          color:'#000',
-          backgroundColor:'#c0c0c0',
+          display: 'flex',
+
+          alignItems: 'center',
+
+          padding: '2px 6px',
+
+          fontSize: '11px',
+
+          color: '#000',
+
+          backgroundColor: '#c0c0c0',
+
           boxShadow:
             'inset 1px 1px 0px #dfdfdf, inset -1px -1px 0px #0a0a0a',
-          marginTop:'2px',
-          height:'20px'
+
+          marginTop: '2px',
+
+          height: '20px',
         }}
       >
         {files.length} object(s)
       </div>
+
     </div>
   );
 }
