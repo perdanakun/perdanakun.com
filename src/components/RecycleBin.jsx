@@ -1,26 +1,21 @@
 import React from 'react';
-import { Globe, FileText, Wangimg129 } from '@react95/icons';
+import { Wangimg129 } from '@react95/icons';
+import imgNimu from '../assets/images/img_nimu.jpg';
+import imgMiyu from '../assets/images/img_miyu.jpg';
 
-export default function RecycleBin() {
-
+export default function RecycleBin({ onOpenFile }) {
   const files = [
     {
       id: 1,
       name: 'nimu.jpg',
-      link: 'https://github.com/your-old-portfolio'
+      imagePath: imgNimu
     },
     {
       id: 2,
       name: 'miyu.jpg',
-      link: 'https://github.com/archive-project'
+      imagePath: imgMiyu
     },
   ];
-
-
-  const handleFileClick = (file) => {
-    window.open(file.link, '_blank');
-  };
-
 
   return (
     <div
@@ -28,11 +23,9 @@ export default function RecycleBin() {
         display:'flex',
         flexDirection:'column',
         height:'100%',
-        fontFamily:'MS Sans Serif, sans-serif'
+        fontFamily:'MS Sans Serif, sans-serif',
       }}
     >
-
-
       {/* Menu Bar */}
       <div
         style={{
@@ -45,22 +38,10 @@ export default function RecycleBin() {
           userSelect:'none'
         }}
       >
-
-        <span style={{padding:'1px 4px'}}>
-          File
-        </span>
-
-        <span style={{padding:'1px 4px'}}>
-          Edit
-        </span>
-
-        <span style={{padding:'1px 4px'}}>
-          View
-        </span>
-
+        <span style={{padding:'1px 4px'}}>File</span>
+        <span style={{padding:'1px 4px'}}>Edit</span>
+        <span style={{padding:'1px 4px'}}>View</span>
       </div>
-
-
 
       {/* Explorer Area */}
       <div
@@ -74,7 +55,6 @@ export default function RecycleBin() {
           margin:'2px'
         }}
       >
-
         <div
           style={{
             display:'flex',
@@ -84,57 +64,37 @@ export default function RecycleBin() {
             padding:'4px'
           }}
         >
-
-
-          {
-            files.map((file)=>(
-              <div
-                key={file.id}
-                onDoubleClick={() => handleFileClick(file)}
+          {files.map((file) => (
+            <div
+              key={file.id}
+              onDoubleClick={() => onOpenFile(file)}
+              style={{
+                display:'flex',
+                flexDirection:'column',
+                alignItems:'center',
+                width:'70px',
+                cursor:'pointer',
+                userSelect:'none',
+                padding:'4px',
+                textAlign:'center',
+              }}
+            >
+              <div style={{ marginBottom:'4px' }}>
+                <Wangimg129 variant="32x32_4" />
+              </div>
+              <span
                 style={{
-                  display:'flex',
-                  flexDirection:'column',
-                  alignItems:'center',
-                  width:'70px',
-                  cursor:'pointer',
-                  userSelect:'none',
-                  padding:'4px',
-                  textAlign:'center',
+                  fontSize:'11px',
+                  overflowWrap: 'break-word',
+                  lineHeight:'1.2'
                 }}
               >
-
-
-                <div
-                  style={{
-                    marginBottom:'4px'
-                  }}
-                >
-                  <Wangimg129 variant="32x32_4" />
-                </div>
-
-
-                <span
-                  style={{
-                    fontSize:'11px',
-                    overflowWrap: 'break-word',
-                    lineHeight:'1.2'
-                  }}
-                >
-                  {file.name}
-                </span>
-
-
-              </div>
-            ))
-          }
-
-
+                {file.name}
+              </span>
+            </div>
+          ))}
         </div>
-
-
       </div>
-
-
 
       {/* Status Bar */}
       <div
@@ -151,12 +111,8 @@ export default function RecycleBin() {
           height:'20px'
         }}
       >
-
         {files.length} object(s)
-
       </div>
-
-
     </div>
   );
 }

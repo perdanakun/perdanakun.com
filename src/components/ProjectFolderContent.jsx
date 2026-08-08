@@ -7,7 +7,7 @@ export default function ProjectFolderContent() {
   const projects = [
     {
       id: 1,
-      name: 'Project_Alpha',
+      name: 'Portfolio Website React95',
       iconType: 'folder',
       isLocked: false,
       message: 'still on progress',

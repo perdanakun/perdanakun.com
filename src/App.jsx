@@ -19,13 +19,67 @@ import {
   PowerOff, 
   MsDos, 
   Joy102,
-  Shell3232
+  Shell3232,
+  Wangimg129
 } from '@react95/icons';
 import { useState, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
 
+// Fungi baru DesktopIcon
+function DesktopIcon({ children, onOpen }) {
+  const lastTapRef = useRef(0);
+
+  const handleDoubleClick = (e) => {
+    e.preventDefault();
+    onOpen();
+  };
+
+  const handleTouchEnd = (e) => {
+    const now = Date.now();
+    const DOUBLE_TAP_DELAY = 300;
+
+    if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+      e.preventDefault();
+      lastTapRef.current = 0;
+      onOpen();
+    } else {
+      lastTapRef.current = now;
+    }
+  };
+
+  return (
+    <div
+      onDoubleClick={handleDoubleClick}
+      onTouchEnd={handleTouchEnd}
+      style={{
+        width: '100%',
+        height: '100%',
+        touchAction: 'manipulation',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
 function App() {
+
+// Mengatur responsivenes dan tap di device selain PC
+const [isMobile, setIsMobile] = useState(
+  typeof window !== 'undefined' && window.innerWidth <= 600
+);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 600);
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
 
   // Menyimpan status true (terbuka) atau false (tertutup) untuk setiap aplikasi/jendela
 const [windows, setWindows] = useState({
@@ -35,6 +89,7 @@ const [windows, setWindows] = useState({
   csGame: false,
   aiAssistant: false,
   recycleBin: false,
+  imageViewer: false,
 });
 
   const toggleWindow = (name, value) => {
@@ -79,6 +134,104 @@ const openWindow = (name) => {
     outline: 'none'
   };
 
+  // Fungsi OpenImageFile
+const [imageViewers, setImageViewers] = useState([]);
+
+  const openImageFile = (file) => {
+    setImageViewers(prev => {
+      // Jangan buka window yang sama dua kali
+      if (prev.some(viewer => viewer.file.id === file.id)) {
+        return prev;
+      }
+
+      return [
+        ...prev,
+        {
+          id: `${file.id}-${Date.now()}`,
+          file,
+          width: 300,
+          height: 200,
+        },
+      ];
+    });
+  };
+
+const closeImageViewer = (viewerId) => {
+  setImageViewers(prev =>
+    prev.filter(viewer => viewer.id !== viewerId)
+  );
+};
+
+  // Fungsi menghitung ukuran window untuk mendapat rasio asli
+    const handleImageLoad = (viewerId, e) => {
+    const img = e.currentTarget;
+
+    const naturalWidth = img.naturalWidth;
+    const naturalHeight = img.naturalHeight;
+
+    // Maksimal 40% dari desktop
+    const maxWidth = window.innerWidth * 0.4;
+    const maxHeight = window.innerHeight * 0.4;
+
+    const scale = Math.min(
+      1,
+      maxWidth / naturalWidth,
+      maxHeight / naturalHeight
+    );
+
+    const width = Math.round(naturalWidth * scale);
+    const height = Math.round(naturalHeight * scale);
+
+    setImageViewers(prev =>
+      prev.map(viewer =>
+        viewer.id === viewerId
+          ? {
+              ...viewer,
+              width,
+              height,
+            }
+          : viewer
+      )
+    );
+  };
+
+  // mengatur Responsive Modal window
+  const getResponsiveModalStyle = ({
+  width = 600,
+  height = 400,
+  mobileHeight = 'calc(100dvh - 70px)',
+} = {}) => {
+  if (isMobile) {
+    return {
+      left: '5px',
+      top: '5px',
+      transform: 'none',
+
+      width: 'calc(100vw - 10px)',
+      maxWidth: 'calc(100vw - 10px)',
+
+      height: mobileHeight,
+      maxHeight: 'calc(100dvh - 70px)',
+
+      boxSizing: 'border-box',
+    };
+  }
+
+  return {
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+
+    width: `${width}px`,
+    height: `${height}px`,
+
+    maxWidth: '90vw',
+    maxHeight: '90vh',
+
+    boxSizing: 'border-box',
+  };
+};
+
   return (
     <>
       {/* CSS Reset untuk layar full screen dan background Windows XP */}
@@ -118,81 +271,127 @@ const openWindow = (name) => {
         {/* --- THUMBNAIL DESKTOP --- */}
 
         {/* Thumbnail 1: About (about.txt) */}
-        <Rnd default={{ x: 20, y: 120, width: 80, height: 80 }} bounds="window" enableResizing={false}>
-          <div onDoubleClick={() => openWindow('about')} style={desktopIconStyle}>
-            <div style={{ fontSize: '32px', marginBottom: '0' }}>
-              <Notepad variant="32x32_4" />
-            </div>
-            <span>about.txt</span>
-          </div>
-        </Rnd>
+<Rnd
+  default={{ x: 20, y: 120, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={true}
+>
+  <DesktopIcon onOpen={() => openWindow('about')}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Notepad variant="32x32_4" />
+      </div>
+      <span>about.txt</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
 
         {/* Thumbnail 2: Recycle Bin */}
-        <Rnd 
-          default={{ x: 20, y: 20, width: 80, height: 80 }} 
-          bounds="window" 
-          enableResizing={false}>
-          <div 
-            onDoubleClick={() => openWindow('recycleBin')} 
-            style={desktopIconStyle}>
-            <div style={{ fontSize:'32px', marginBottom:'0' }}>
-              <Shell3232 variant="32x32_4" />
-            </div>
-            <span>
-              recycle_bin
-            </span>
-          </div>
-        </Rnd>
+<Rnd
+  default={{ x: 20, y: 20, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={true}
+>
+  <DesktopIcon onOpen={() => openWindow('recycleBin')}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Shell3232 variant="32x32_4" />
+      </div>
+      <span>recycle_bin</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
 
         {/* Thumbnail 3: Case Studies (projects) */}
-        <Rnd default={{ x: 20, y: 220, width: 80, height: 80 }} bounds="window" enableResizing={false}>
-          <div onDoubleClick={() => openWindow('projects', true)} style={desktopIconStyle}>
-            <div style={{ fontSize: '32px', marginBottom: '0' }}>
-              <Folder variant="32x32_4" />
-            </div>
-            <span>projects</span>
-          </div>
-        </Rnd>
+<Rnd
+  default={{ x: 20, y: 220, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={true}
+>
+  <DesktopIcon onOpen={() => openWindow('projects')}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Folder variant="32x32_4" />
+      </div>
+      <span>projects</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
 
         {/* Thumbnail 4: Medium Articles (medium.url) */}
-        <Rnd default={{ x: 20, y: 320, width: 80, height: 80 }} bounds="window" enableResizing={false}>
-          <div onDoubleClick={() => openExternalLink('https://medium.com/@perdanakurniawan25')} style={desktopIconStyle}>
-            <div style={{ fontSize: '32px', marginBottom: '0' }}>
-              <Globe variant="32x32_4" />
-            </div>
-            <span>medium.url</span>
-          </div>
-        </Rnd>
+<Rnd
+  default={{ x: 20, y: 320, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={true}
+>
+  <DesktopIcon
+    onOpen={() =>
+      openExternalLink('https://medium.com/@perdanakurniawan25')
+    }
+  >
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Globe variant="32x32_4" />
+      </div>
+      <span>medium.url</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
 
         {/* Thumbnail 5: Contact Me (contact.exe) */}
-        <Rnd default={{ x: 120, y: 20, width: 80, height: 80 }} bounds="window" enableResizing={false}>
-          <div onDoubleClick={() => openWindow('contact')} style={desktopIconStyle}>
-            <div style={{ fontSize: '32px', marginBottom: '0' }}>
-              <Mail variant="32x32_4" />
-            </div>
-            <span>contact.exe</span>
-          </div>
-        </Rnd>
+<Rnd
+  default={{ x: 120, y: 20, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={true}
+>
+  <DesktopIcon onOpen={() => openWindow('contact')}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Mail variant="32x32_4" />
+      </div>
+      <span>contact.exe</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
 
         {/* Thumbnail 6: Counter-Strike 1.6 (counter_strike.exe) */}
-        <Rnd default={{ x: 120, y: 120, width: 80, height: 80 }} bounds="window" enableResizing={false}>
-          <div onDoubleClick={() => openWindow('csGame')} style={desktopIconStyle}>
-            <div style={{ fontSize: '32px', marginBottom: '0' }}>
-              <Joy102 variant="32x32_4" />
-            </div>
-            <span>games.exe</span>
-          </div>
-        </Rnd> 
+<Rnd
+  default={{ x: 120, y: 120, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={true}
+>
+  <DesktopIcon onOpen={() => openWindow('csGame')}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Joy102 variant="32x32_4" />
+      </div>
+      <span>games.exe</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
 
         {/* Thumbnail 7: AI Messenger (ai_messenger.exe) */}
-        <Rnd default={{ x: 120, y: 220, width: 80, height: 80 }} bounds="window" enableResizing={false}>
-          <div onDoubleClick={() => openWindow('aiAssistant')} style={desktopIconStyle}>
-            <div style={{ fontSize: '32px', marginBottom: '0' }}>
-              <Computer variant="32x32_4" />
-            </div>
-            <span>ai_messenger</span>
-          </div>
-        </Rnd>
+<Rnd
+  default={{ x: 120, y: 220, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={true}
+>
+  <DesktopIcon onOpen={() => openWindow('aiAssistant')}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Computer variant="32x32_4" />
+      </div>
+      <span>ai_messenger</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
 
         {/* --- JENDELA MODAL UNTUK MASING-MASING APLIKASI --- */}
 
@@ -330,11 +529,11 @@ const openWindow = (name) => {
             icon={<Shell3232 variant="16x16_4" />}
             title="recycle_bin.exe"
             style={{
-              left:'50%',
-              top:'50%',
-              transform:'translate(-50%, -50%)',
-              width:'500px',
-              height:'350px'
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '500px',
+              height: '350px'
             }}
             titleBarOptions={
               <>
@@ -345,11 +544,80 @@ const openWindow = (name) => {
               </>
             }
           >
-
-            <RecycleBin />
-
+            <RecycleBin onOpenFile={openImageFile} />
           </Modal>
         )}
+
+
+        {/* --- JENDELA ImageViewer --- */}
+        {imageViewers.map((viewer) => (
+  <Modal
+    key={viewer.id}
+    id={`image-viewer-${viewer.id}`}
+    icon={<Wangimg129 variant="16x16_4" />}
+    title={viewer.file.name}
+    style={{
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+
+      width: `${viewer.width + 24}px`,
+      height: `${viewer.height + 60}px`,
+
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+
+      boxSizing: 'border-box',
+    }}
+    titleBarOptions={
+      <>
+        <Modal.Minimize />
+
+        <TitleBar.Close
+          onClick={() => closeImageViewer(viewer.id)}
+        />
+      </>
+    }
+  >
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#808080',
+
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+
+        padding: '12px',
+      }}
+    >
+      <img
+        src={viewer.file.imagePath}
+        alt={viewer.file.name}
+        onLoad={(e) =>
+          handleImageLoad(viewer.id, e)
+        }
+        style={{
+          display: 'block',
+
+          width: `${viewer.width}px`,
+          height: `${viewer.height}px`,
+
+          objectFit: 'contain',
+
+          maxWidth: '100%',
+          maxHeight: '100%',
+        }}
+      />
+    </div>
+  </Modal>
+))}
+
+
 
         {/* --- TASKBAR BAWAH BAWAAN REACT95 --- */}
         <TaskBar
