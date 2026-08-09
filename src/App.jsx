@@ -8,8 +8,10 @@ import CSGameModal from './components/CSGameModal';
 import ContactContent from './components/ContactContent';
 import RecycleBin from './components/RecycleBin';
 import AboutContent from './components/AboutContent';
+import AlertModal from './components/AlertModal';
+import CameraModal from './components/CameraModal';
 import { getAIResponse } from './services/aiService';
-import { Frame, TitleBar, Button, TaskBar, List, Modal } from '@react95/core';
+import { Frame, TitleBar, Button, TaskBar, List, Modal, } from '@react95/core';
 import { 
   Notepad,
   Notepad2,
@@ -243,6 +245,13 @@ const closeImageViewer = (viewerId) => {
   };
 };
 
+  //Notification allert send email
+  const [showContactAlert, setShowContactAlert] = useState(false);
+
+  // Fungsi Camera Contact
+  const [showCamera, setShowCamera] = useState(false);
+  const [cameraAttachment, setCameraAttachment] = useState(null);
+
   return (
     <>
       {/* CSS Reset untuk layar full screen dan background Windows XP */}
@@ -466,31 +475,87 @@ const closeImageViewer = (viewerId) => {
           </Modal>
         )}
 
-        {/* Jendela Contact */}
-        {windows.contact && (
-          <Modal
-            key="contact-window"
-            icon={<Mailnews14 variant="16x16_4" />}
-            title="Contact.exe"
-            style={{
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '500px',
-              height: '400px'
-            }}
-            titleBarOptions={
-              <>
-                <Modal.Minimize />
-                <TitleBar.Close
-                  onClick={() => toggleWindow('contact', false)}
-                />
-              </>
-            }
-          >
-            <ContactContent />
-          </Modal>
-        )}
+{/* Jendela Contact */}
+{windows.contact && (
+  <Modal
+    key="contact-window"
+    icon={<Mailnews14 variant="16x16_4" />}
+    title="Contact.exe"
+    style={{
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '800px',
+      height: '600px'
+    }}
+    titleBarOptions={
+      <>
+        <Modal.Minimize />
+
+        <TitleBar.Close
+          onClick={() => toggleWindow('contact', false)}
+        />
+      </>
+    }
+  >
+    <ContactContent
+      onSendSuccess={() => setShowContactAlert(true)}
+      onOpenCamera={() => setShowCamera(true)}
+      cameraAttachment={cameraAttachment}
+      onRemoveAttachment={() => setCameraAttachment(null)}
+    />
+  </Modal>
+)}
+
+{/* Jendela Contact Camera */}
+{showCamera && (
+  <Modal
+    key="camera-window"
+    icon={<Mailnews14 variant="16x16_4" />}
+    title="Camera.exe"
+    style={{
+      position: 'fixed',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '500px',
+      height: '450px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      boxSizing: 'border-box',
+    }}
+    titleBarOptions={
+      <TitleBar.Close
+        onClick={() => setShowCamera(false)}
+      />
+    }
+  >
+    <CameraModal
+      show={showCamera}
+      onClose={() => setShowCamera(false)}
+      onCapture={(file) => {
+        setCameraAttachment(file);
+        setShowCamera(false);
+      }}
+    />
+  </Modal>
+)}
+
+
+        {/* Jendela Contact Alert Message Sent */}
+      <AlertModal
+      show={showContactAlert}
+      title="Message Sent!"
+      message={
+        <>
+          Your message has been sent successfully.
+          <br />
+          Thanks for reaching out!
+        </>
+      }
+      onClose={() => setShowContactAlert(false)}
+      />
+
 
         {/* Jendela csGame */}
         {windows.csGame && (
