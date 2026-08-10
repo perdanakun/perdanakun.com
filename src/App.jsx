@@ -11,7 +11,7 @@ import AboutContent from './components/AboutContent';
 import AlertModal from './components/AlertModal';
 import CameraModal from './components/CameraModal';
 import { getAIResponse } from './services/aiService';
-import { Frame, TitleBar, Button, TaskBar, List, Modal, } from '@react95/core';
+import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
   Notepad,
   Notepad2,
@@ -20,6 +20,7 @@ import {
   Mail,
   Mailnews2,
   Mailnews14,
+  Mapi32801,
   Computer, 
   User, 
   PowerOff, 
@@ -36,6 +37,7 @@ import {
 } from '@react95/icons';
 import { useState, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
+import aiOpenSound from './assets/sounds/ai_assistant_open.wav';
 
 
 // Fungi baru DesktopIcon
@@ -76,6 +78,7 @@ function DesktopIcon({ children, onOpen }) {
 }
 
 function App() {
+  const { focus } = useModal();
 
 // Mengatur responsivenes dan tap di device selain PC
 const [isMobile, setIsMobile] = useState(
@@ -105,12 +108,38 @@ const [windows, setWindows] = useState({
   imageViewer: false,
 });
 
+
+  // Sound Effect
+  // AI Assistant Open Sound
+  useEffect(() => {
+  if (windows.aiAssistant) {
+    const audio = new Audio(aiOpenSound);
+    audio.volume = 0.5;
+    audio.play().catch(() => {
+      // Browser bisa memblokir autoplay dalam kondisi tertentu
+    });
+  }
+}, [windows.aiAssistant]);
+
+
   const toggleWindow = (name, value) => {
   setWindows(prev => ({
     ...prev,
     [name]: value
   }));
 };
+
+//restoreAI sphere AI assistant
+
+const restoreAI = () => {
+  setAiMinimized(false);
+
+  // kasih waktu React render kembali sebelum focus
+  setTimeout(() => {
+    focus('aiAssistant-window');
+  }, 0);
+};
+
 
 // Fungsi open klik thumbnail after minimize
 const openWindow = (name) => {
@@ -252,6 +281,7 @@ const closeImageViewer = (viewerId) => {
   const [showCamera, setShowCamera] = useState(false);
   const [cameraAttachment, setCameraAttachment] = useState(null);
 
+
   return (
     <>
       {/* CSS Reset untuk layar full screen dan background Windows XP */}
@@ -299,12 +329,14 @@ const closeImageViewer = (viewerId) => {
 
         {/* --- THUMBNAIL DESKTOP --- */}
 
+{/* --- THUMBNAIL AI SPHERE --- */}
+
         {/* Thumbnail 1: About (about.txt) */}
 <Rnd
   default={{ x: 20, y: 120, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
-  disableDragging={true}
+  disableDragging={false}
 >
   <DesktopIcon onOpen={() => openWindow('about')}>
     <div style={desktopIconStyle}>
@@ -321,7 +353,7 @@ const closeImageViewer = (viewerId) => {
   default={{ x: 20, y: 20, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
-  disableDragging={true}
+  disableDragging={false}
 >
   <DesktopIcon onOpen={() => openWindow('recycleBin')}>
     <div style={desktopIconStyle}>
@@ -338,7 +370,7 @@ const closeImageViewer = (viewerId) => {
   default={{ x: 20, y: 220, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
-  disableDragging={true}
+  disableDragging={false}
 >
   <DesktopIcon onOpen={() => openWindow('projects')}>
     <div style={desktopIconStyle}>
@@ -355,7 +387,7 @@ const closeImageViewer = (viewerId) => {
   default={{ x: 20, y: 320, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
-  disableDragging={true}
+  disableDragging={false}
 >
   <DesktopIcon
     onOpen={() =>
@@ -376,12 +408,12 @@ const closeImageViewer = (viewerId) => {
   default={{ x: 120, y: 20, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
-  disableDragging={true}
+  disableDragging={false}
 >
   <DesktopIcon onOpen={() => openWindow('contact')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Mailnews14 variant="32x32_4" />
+        <Mapi32801 variant="32x32_4" />
       </div>
       <span>Contact</span>
     </div>
@@ -393,7 +425,7 @@ const closeImageViewer = (viewerId) => {
   default={{ x: 120, y: 120, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
-  disableDragging={true}
+  disableDragging={false}
 >
   <DesktopIcon onOpen={() => openWindow('csGame')}>
     <div style={desktopIconStyle}>
@@ -410,7 +442,7 @@ const closeImageViewer = (viewerId) => {
   default={{ x: 120, y: 220, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
-  disableDragging={true}
+  disableDragging={false}
 >
   <DesktopIcon onOpen={() => openWindow('aiAssistant')}>
     <div style={desktopIconStyle}>
@@ -424,30 +456,43 @@ const closeImageViewer = (viewerId) => {
 
         {/* --- JENDELA MODAL UNTUK MASING-MASING APLIKASI --- */}
 
-        {/* --- JENDELA AI MESSENGER --- */}
-        {windows.aiAssistant && (
-          <Modal
-              key="aiAssistant-window"
-              icon={<Intl101 variant="16x16_4" />}
-              title="AI Assistant.exe"
-              style={{ 
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '400px',
-              minHeight: '300px',
-              maxHeight: '60%',
-              }}
-              titleBarOptions={
-            <>
-            <Modal.Minimize/> 
-            <TitleBar.Close onClick={() => toggleWindow('aiAssistant', false)} />
-          </>
-              }
-            >
-          <AiAssistantContentModal /> 
-            </Modal>
-          )}
+        {/* --- JENDELA AI MESSENGER MINIMIZE--- */}
+
+  
+
+
+{/* --- JENDELA AI MESSENGER --- */}
+{windows.aiAssistant && (
+  <Modal
+    id="aiAssistant-window"
+    icon={<Intl101 variant="16x16_4" />}
+    title="AI Assistant.exe"
+    style={{
+      position: 'fixed',
+      right: '0',
+      top: '0',
+      bottom: '28px',
+      width: '20%',
+      maxHeight: '100%',
+    }}
+    titleBarOptions={
+      <>
+        <Modal.Minimize />
+
+        <TitleBar.Close
+          onClick={() => toggleWindow('aiAssistant', false)}
+        />
+      </>
+    }
+  >
+    <AiAssistantContentModal />
+  </Modal>
+)}
+
+
+
+
+
 
         {/* --- JENDELA PROJECTS --- */}
         {windows.projects && (
@@ -479,7 +524,7 @@ const closeImageViewer = (viewerId) => {
 {windows.contact && (
   <Modal
     key="contact-window"
-    icon={<Mailnews14 variant="16x16_4" />}
+    icon={<Mapi32801 variant="16x16_4" />}
     title="Contact.exe"
     style={{
       left: '50%',
@@ -511,7 +556,7 @@ const closeImageViewer = (viewerId) => {
 {showCamera && (
   <Modal
     key="camera-window"
-    icon={<Mailnews14 variant="16x16_4" />}
+    icon={<Mapi32801 variant="16x16_4" />}
     title="Camera.exe"
     style={{
       position: 'fixed',
@@ -708,12 +753,12 @@ const closeImageViewer = (viewerId) => {
         <TaskBar
           list={
             <List style={{ width: '240px' }}>
-              <List.Item 
-                icon={<Intl101 variant="16x16_4" />} 
-                onClick={() => toggleWindow('aiAssistant', true)}
-              >
-                AI Messenger
-              </List.Item>
+<List.Item 
+  icon={<Intl101 variant="16x16_4" />} 
+  onClick={() => toggleWindow('aiAssistant', true)}
+>
+  AI Assistant
+</List.Item>
               <List.Divider />
               <List.Item 
                 icon={<Computer variant="16x16_4" />} 
@@ -728,7 +773,7 @@ const closeImageViewer = (viewerId) => {
                 Projects
               </List.Item>
               <List.Item 
-                icon={<Mailnews14 variant="16x16_4" />} 
+                icon={<Mapi32801 variant="16x16_4" />} 
                 onClick={() => toggleWindow('contact', true)}
               >
                 Contact Me
