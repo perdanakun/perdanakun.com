@@ -85,9 +85,18 @@ const [isMobile, setIsMobile] = useState(
   typeof window !== 'undefined' && window.innerWidth <= 600
 );
 
+const [isTablet, setIsTablet] = useState(
+  typeof window !== 'undefined' &&
+  window.innerWidth > 600 &&
+  window.innerWidth <= 1024
+);
+
 useEffect(() => {
   const handleResize = () => {
-    setIsMobile(window.innerWidth <= 600);
+    const width = window.innerWidth;
+
+    setIsMobile(width <= 600);
+    setIsTablet(width > 600 && width <= 1024);
   };
 
   window.addEventListener('resize', handleResize);
@@ -467,14 +476,60 @@ const closeImageViewer = (viewerId) => {
     id="aiAssistant-window"
     icon={<Intl101 variant="16x16_4" />}
     title="AI Assistant.exe"
-    style={{
-      position: 'fixed',
-      right: '0',
-      top: '0',
-      bottom: '28px',
-      width: '20%',
-      maxHeight: '100%',
-    }}
+    style={
+  isMobile
+    ? {
+        // SMARTPHONE
+        position: 'fixed',
+
+        left: '0',
+        top: '0',
+        right: '0',
+        bottom: '28px',
+
+        width: '100vw',
+        height: 'auto',
+
+        maxWidth: '100vw',
+        maxHeight: 'none',
+
+        transform: 'none',
+
+        boxSizing: 'border-box',
+      }
+    : isTablet
+    ? {
+        // IPAD / TABLET
+        position: 'fixed',
+
+        right: '0',
+        top: '0',
+        bottom: '28px',
+
+        width: '40%',
+        height: 'auto',
+
+        maxWidth: '90vw',
+        maxHeight: 'calc(100vh - 28px)',
+
+        boxSizing: 'border-box',
+      }
+    : {
+        // DESKTOP
+        position: 'fixed',
+
+        right: '0',
+        top: '0',
+        bottom: '28px',
+
+        width: '20%',
+        height: 'auto',
+
+        maxHeight: 'calc(100vh - 28px)',
+
+        boxSizing: 'border-box',
+      }
+}
     titleBarOptions={
       <>
         <Modal.Minimize />

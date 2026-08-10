@@ -1,11 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Frame, Button } from '@react95/core';
-import { Computer, Intl101 } from '@react95/icons';
+import { Intl101 } from '@react95/icons';
 import { createPortal } from 'react-dom';
 import { getAIResponse } from '../services/aiService'; // Sesuaikan path import
  import aiMessageSent from '../assets/sounds/ai_assistant_message_sent.wav';
 
 export default function AiAssistantContentModal() {
+
+const [isMobile, setIsMobile] = useState(
+  typeof window !== 'undefined' && window.innerWidth <= 600
+);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 600);
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
+
   const [showInfo, setShowInfo] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
@@ -121,14 +138,23 @@ useEffect(() => {
   return () => clearTimeout(timer);
 }, [showInfo]);
   return (
-<Modal.Content
+    <Modal.Content
   ref={containerRef}
   style={{
     display: 'flex',
     flexDirection: 'column',
+
+    width: '100%',
     height: '100%',
+    flex: 1,
+
+    minWidth: 0,
+    minHeight: 0,
+    maxWidth: '100%',
+
     padding: '4px',
-    maxHeight: '100%',
+
+    boxSizing: 'border-box',
     overflow: 'hidden',
   }}
 >
@@ -392,26 +418,74 @@ useEffect(() => {
 
   animation: rgbShift 6s infinite steps(1);
 }
+
+@keyframes rgbShift {
+  0%, 85% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  86% {
+    opacity: 0.7;
+    transform: translateX(-8px);
+  }
+
+  87% {
+    opacity: 0.4;
+    transform: translateX(8px);
+  }
+
+  88% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
       `}</style>
 
       {/* HEADER INFO AI */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '6px 10px',
-        backgroundColor: '#dfdfdf',
-        borderBottom: '1px solid #808080',
-        fontFamily: 'sans-serif',
-        fontSize: '11px',
-      }}>
-        <div style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ 
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
+    width: '100%',
+    minWidth: 0,
+    flexShrink: 0,
+
+    padding: '6px 10px',
+
+    backgroundColor: '#dfdfdf',
+    borderBottom: '1px solid #808080',
+
+    fontFamily: 'sans-serif',
+    fontSize: '11px',
+
+    boxSizing: 'border-box',
+  }}
+>
+
+<div
+  style={{
+    fontWeight: 'bold',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    minWidth: 0,
+  }}
+>
+               <span style={{ 
             width: '8px', height: '8px', 
             backgroundColor: '#008000',
             display: 'inline-block', borderRadius: '50%', flexShrink: 0,
             transform: 'translateY(3px)' 
-          }}></span>
+          }}>
+
+          </span>
           perdana.ai
         </div>
 
@@ -452,23 +526,33 @@ style={{
 {showInfo &&
   createPortal(
     <div
-      style={{
-        position: 'fixed',
-        top: `${infoPosition.top}px`,
-        left: `${infoPosition.left}px`,
-        width: '220px',
-        backgroundColor: '#ffffcc',
-        border: '1px solid #000000',
-        padding: '8px',
-        boxShadow: '2px 2px 0px rgba(0,0,0,0.5)',
-        textAlign: 'left',
-        color: '#000000',
-        lineHeight: '1.3',
-        zIndex: 99999,
-        fontFamily: 'sans-serif',
-        fontSize: '11px',
-        boxSizing: 'border-box',
-      }}
+style={{
+  position: 'fixed',
+
+  top: `${infoPosition.top}px`,
+
+  left: isMobile
+    ? '10px'
+    : `${infoPosition.left}px`,
+
+  width: isMobile
+    ? 'calc(100vw - 20px)'
+    : '220px',
+
+  maxWidth: 'calc(100vw - 20px)',
+
+  backgroundColor: '#ffffcc',
+  border: '1px solid #000000',
+  padding: '8px',
+  boxShadow: '2px 2px 0px rgba(0,0,0,0.5)',
+  textAlign: 'left',
+  color: '#000000',
+  lineHeight: '1.3',
+  zIndex: 99999,
+  fontFamily: 'sans-serif',
+  fontSize: '11px',
+  boxSizing: 'border-box',
+}}
     >
       <strong>perdana.ai is a LLM chatbot</strong>
 
@@ -505,7 +589,6 @@ style={{
     marginBottom: '6px',
   }}
 >
-
 
 
 {/* AREA ANIMASI MATA AI */}
@@ -606,6 +689,7 @@ style={{
   <div
     key={index}
     style={{
+      
       position: 'relative',
       alignSelf: chat.sender === 'user' ? 'flex-end' : 'flex-start',
       marginLeft: chat.sender === 'ai' ? '36px' : '0px',
@@ -710,7 +794,19 @@ style={{
       </div>
 
       {/* INPUT & FORM */}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '4px', flexShrink: 0, background: '#c0c0c0', marginTop: 'auto' }}>
+      <form
+  onSubmit={handleSubmit}
+  style={{
+    display: 'flex',
+    gap: '4px',
+    flexShrink: 0,
+    minWidth: 0,
+    width: '100%',
+    background: '#c0c0c0',
+    marginTop: 'auto',
+    boxSizing: 'border-box',
+  }}
+>
         <input
           ref={inputRef}
           type="text"
@@ -720,12 +816,31 @@ style={{
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           disabled={loading}
-          style={{
-            flex: 1, height: '48px', padding: '0 8px', border: '2px inset #ffffff',
-            backgroundColor: '#ffffff', fontSize: '12px', outline: 'none', color: '#000000', fontFamily: 'sans-serif'
-          }}
-        />
-        <Button type="submit" disabled={loading}>Send</Button>
+style={{
+    flex: 1,
+    minWidth: 0,
+    width: '100%',
+    height: '48px',
+    padding: '0 8px',
+    border: '2px inset #ffffff',
+    backgroundColor: '#ffffff',
+    fontSize: isMobile ? '14px' : '12px',
+    outline: 'none',
+    color: '#000000',
+    fontFamily: 'sans-serif',
+    boxSizing: 'border-box',
+  }}
+/>
+<Button
+  type="submit"
+  disabled={loading}
+  style={{
+    flexShrink: 0,
+    minWidth: isMobile ? '52px' : 'auto',
+  }}
+>
+  Send
+</Button>
       </form>
 
     </Modal.Content>
