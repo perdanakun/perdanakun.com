@@ -5,6 +5,7 @@ import closeIcon from '../assets/close.svg';
 import messageSentSound from '../assets/sounds/message_sent.wav';
 
 export default function ContactContent({
+  isMobile,
   onSendSuccess,
   onOpenCamera,
   cameraAttachment,
@@ -76,6 +77,17 @@ useEffect(() => {
   const isFormValid =
     from.trim() !== '' &&
     message.trim() !== '';
+
+ // RESPONSIVE LABEL
+const labelStyle = {
+  width: isMobile ? 55 : 70,
+  minWidth: isMobile ? 55 : 70,
+  flexShrink: 0,
+  fontSize: 12,
+  color: '#000',
+};
+
+
 
 // ================= HELPER BASE SEND EMAIL =================
 const fileToBase64 = (file) => {
@@ -274,121 +286,131 @@ const handleSend = async () => {
         </div>
 
 
-        {/* ================= TO + ATTACHMENT + CAMERA + SEND ================= */}
+{/* ================= TO + ATTACHMENT + CAMERA + SEND ================= */}
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-
-          <label style={labelStyle}>
-            To:
-          </label>
-
-
-          {/* ================= TO ================= */}
-
-          <input
-            disabled
-            value="Perdana Kurniawan Arta"
-            style={{
-              ...inputStyle,
-              background: '#c5c4c4',
-              color: '#555'
-            }}
-          />
-
-
-{/* ================= FILE INPUT ================= */}
-
-<input
-  ref={fileInputRef}
-  type="file"
-  accept="image/*,.pdf,.doc,.docx,.txt"
-  onChange={handleFileSelect}
+<div
   style={{
-    display: 'none'
-  }}
-/>
- {/* ================= ATTACHMENT BUTTON ================= */}
-
-<Button
-  type="button"
-  onClick={() => fileInputRef.current?.click()}
-  style={{
-    width: 32,
-    height: 28,
-    minWidth: 32,
-    padding: 0,
-    marginLeft: 6,
+    ...rowStyle,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    width: '100%',
+    minWidth: 0,
   }}
-  title="Attach file"
 >
-  📎
-</Button>
+  {/* TO LABEL */}
 
+  <label style={labelStyle}>
+    To:
+  </label>
 
-          {/* ================= CAMERA ================= */}
+  {/* TO INPUT */}
 
-          <Button
-            onClick={onOpenCamera}
-            style={{
-              width: 32,
-              height: 28,
-              minWidth: 32,
-              padding: 0,
-              marginLeft: 4,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            title="Take photo"
-          >
-            📷
-          </Button>
+  <input
+    disabled
+    value="Perdana Kurniawan Arta"
+    style={{
+      ...inputStyle,
 
+      flex: 1,
+      minWidth: 0,
 
-          {/* ================= SEND ================= */}
+      background: '#c5c4c4',
+      color: '#555',
+      boxSizing: 'border-box',
+    }}
+  />
 
-          <div
-            style={{
-              marginLeft: 4,
-              display: 'inline-flex'
-            }}
-          >
+  {/* FILE INPUT */}
 
-            <Button
-              disabled={!isFormValid}
-              onClick={
-                isFormValid
-                  ? handleSend
-                  : undefined
-              }
-              style={{
-                width: 120,
-                height: 28,
-                color: isFormValid
-                  ? '#000'
-                  : '#808080',
-                textShadow: isFormValid
-                  ? 'none'
-                  : '1px 1px 0 #fff',
-                pointerEvents: isFormValid
-                  ? 'auto'
-                  : 'none'
-              }}
-            >
-              Send
-            </Button>
+  <input
+    ref={fileInputRef}
+    type="file"
+    accept="image/*,.pdf,.doc,.docx,.txt"
+    onChange={handleFileSelect}
+    style={{
+      display: 'none',
+    }}
+  />
 
-          </div>
+  {/* ATTACHMENT */}
 
-        </div>
+  <Button
+    type="button"
+    onClick={() => fileInputRef.current?.click()}
+    style={{
+      width: 32,
+      height: 28,
+      minWidth: 32,
+      padding: 0,
+      marginLeft: 6,
+
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      flexShrink: 0,
+    }}
+    title="Attach file"
+  >
+    📎
+  </Button>
+
+  {/* CAMERA */}
+
+  <Button
+    type="button"
+    onClick={onOpenCamera}
+    style={{
+      width: 32,
+      height: 28,
+      minWidth: 32,
+      padding: 0,
+      marginLeft: 4,
+
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      flexShrink: 0,
+    }}
+    title="Take photo"
+  >
+    📷
+  </Button>
+
+  {/* SEND */}
+
+  <Button
+    type="button"
+    disabled={!isFormValid}
+    onClick={isFormValid ? handleSend : undefined}
+    style={{
+      width: 90,
+      minWidth: 90,
+      height: 28,
+
+      padding: 0,
+      marginLeft: 4,
+
+      color: isFormValid
+        ? '#000'
+        : '#808080',
+
+      textShadow: isFormValid
+        ? 'none'
+        : '1px 1px 0 #fff',
+
+      pointerEvents: isFormValid
+        ? 'auto'
+        : 'none',
+
+      flexShrink: 0,
+    }}
+  >
+    Send
+  </Button>
+</div>
+
 
 
         {/* ================= MESSAGE ================= */}
@@ -610,16 +632,14 @@ const handleSend = async () => {
 
 /* ================= STYLES ================= */
 
+
 const rowStyle = {
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  width: '100%',
+  minWidth: 0,
 };
 
-const labelStyle = {
-  width: 70,
-  fontSize: 12,
-  color: '#000'
-};
 
 const inputStyle = {
   flex: 1,

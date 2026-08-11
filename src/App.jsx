@@ -315,6 +315,16 @@ const closeImageViewer = (viewerId) => {
               text-align: left !important;
             }
 
+        
+         /* Aturan ukraun input smartphone, supaya ga nge zoom */
+            @media (max-width: 600px) {
+            input,
+            textarea,
+            select {
+              font-size: 16px !important;
+            }
+          }
+
 
          /* Aturan scrollbar tipis dan mungil */
          div::-webkit-scrollbar {
@@ -576,17 +586,29 @@ const closeImageViewer = (viewerId) => {
         )}
 
 {/* Jendela Contact */}
+
+
 {windows.contact && (
   <Modal
     key="contact-window"
     icon={<Mapi32801 variant="16x16_4" />}
     title="Contact.exe"
     style={{
+      position: 'fixed',
+
       left: '50%',
       top: '50%',
       transform: 'translate(-50%, -50%)',
+
+      // Ukuran normal desktop
       width: '800px',
-      height: '600px'
+      height: '600px',
+
+      // Responsive
+      maxWidth: 'calc(100vw - 20px)',
+      maxHeight: 'calc(100vh - 50px)',
+
+      boxSizing: 'border-box',
     }}
     titleBarOptions={
       <>
@@ -599,6 +621,7 @@ const closeImageViewer = (viewerId) => {
     }
   >
     <ContactContent
+      isMobile={isMobile}
       onSendSuccess={() => setShowContactAlert(true)}
       onOpenCamera={() => setShowCamera(true)}
       cameraAttachment={cameraAttachment}
