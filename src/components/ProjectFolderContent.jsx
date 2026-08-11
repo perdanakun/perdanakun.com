@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FileText, Folder, FolderOpen } from '@react95/icons';
 
-export default function ProjectFolderContent() {
+export default function ProjectFolderContent({ isTouchDevice }) {
   const [currentFolder, setCurrentFolder] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+  
+
+  // Untuk mendeteksi double-tap di smartphone / tablet
+  const lastTapRef = useRef({
+    type: null,
+    id: null,
+    time: 0,
+  });
+
+  const DOUBLE_TAP_DELAY = 300;
 
   // =========================
   // PROJECT DATA
@@ -20,19 +30,19 @@ export default function ProjectFolderContent() {
         {
           id: 101,
           name: 'github.url',
-          link: 'https://github.com/perdanakun/perdanakun.com'
+          link: 'https://github.com/perdanakun/perdanakun.com',
         },
         {
           id: 102,
           name: 'Notion_Case_Study.url',
-          link: 'https://app.notion.com/p/Design-in-Code-Personal-Portfolio-as-an-Interactive-Desktop-System-3ae3e6c8962380dd941def5566e614c4?source=copy_link'
+          link: 'https://app.notion.com/p/Design-in-Code-Personal-Portfolio-as-an-Interactive-Desktop-System-3ae3e6c8962380dd941def5566e614c4?source=copy_link',
         },
         {
           id: 103,
           name: 'perdanakun.com',
-          link: 'https://www.perdanakun.com/'
-        }
-      ]
+          link: 'https://www.perdanakun.com/',
+        },
+      ],
     },
 
     {
@@ -41,7 +51,7 @@ export default function ProjectFolderContent() {
       iconType: 'folder',
       isLocked: true,
       message: 'This project has not been created yet.',
-      files: []
+      files: [],
     },
 
     {
@@ -50,8 +60,8 @@ export default function ProjectFolderContent() {
       iconType: 'folder',
       isLocked: true,
       message: 'This project has not been created yet.',
-      files: []
-    }
+      files: [],
+    },
   ];
 
   // =========================
@@ -70,13 +80,21 @@ export default function ProjectFolderContent() {
   };
 
   // =========================
+  // OPEN EXTERNAL LINK
+  // =========================
+
+  const openExternalLink = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  // =========================
   // FOLDER
   // =========================
 
   const handleFolderClick = (project) => {
     setSelectedItem({
       type: 'folder',
-      id: project.id
+      id: project.id,
     });
   };
 
@@ -97,12 +115,65 @@ export default function ProjectFolderContent() {
   const handleFileClick = (file) => {
     setSelectedItem({
       type: 'file',
-      id: file.id
+      id: file.id,
     });
   };
 
   const handleFileDoubleClick = (file) => {
-    window.open(file.link, '_blank', 'noopener,noreferrer');
+    openExternalLink(file.link);
+  };
+
+  // =========================
+  // TOUCH / DOUBLE TAP
+  // =========================
+
+  const handleTouchEnd = (type, item, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const now = Date.now();
+
+    const sameItem =
+      lastTapRef.current.type === type &&
+      lastTapRef.current.id === item.id;
+
+    const isDoubleTap =
+      sameItem &&
+      now - lastTapRef.current.time < DOUBLE_TAP_DELAY;
+
+    if (isDoubleTap) {
+      // Reset supaya triple tap tidak ikut membuka berkali-kali
+      lastTapRef.current = {
+        type: null,
+        id: null,
+        time: 0,
+      };
+
+      if (type === 'folder') {
+        handleFolderDoubleClick(item);
+      }
+
+      if (type === 'file') {
+        handleFileDoubleClick(item);
+      }
+
+      return;
+    }
+
+    // First tap
+    lastTapRef.current = {
+      type,
+      id: item.id,
+      time: now,
+    };
+
+    if (type === 'folder') {
+      handleFolderClick(item);
+    }
+
+    if (type === 'file') {
+      handleFileClick(item);
+    }
   };
 
   // =========================
@@ -112,6 +183,12 @@ export default function ProjectFolderContent() {
   const handleBack = () => {
     setCurrentFolder(null);
     setSelectedItem(null);
+
+    lastTapRef.current = {
+      type: null,
+      id: null,
+      time: 0,
+    };
   };
 
   // =========================
@@ -132,7 +209,7 @@ export default function ProjectFolderContent() {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        fontFamily: 'MS Sans Serif, sans-serif'
+        fontFamily: 'MS Sans Serif, sans-serif',
       }}
     >
       {/* =========================
@@ -147,15 +224,21 @@ export default function ProjectFolderContent() {
           backgroundColor: '#c0c0c0',
           borderBottom: '1px solid #808080',
           fontSize: '11px',
-          userSelect: 'none'
+          userSelect: 'none',
         }}
       >
         {currentFolder ? (
           <span
             onClick={handleBack}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleBack();
+            }}
             style={{
               cursor: 'pointer',
-              padding: '1px 4px'
+              padding: '1px 4px',
+              touchAction: 'manipulation',
             }}
           >
             ← Back
@@ -164,7 +247,7 @@ export default function ProjectFolderContent() {
           <>
             <span
               style={{
-                padding: '1px 4px'
+                padding: '1px 4px',
               }}
             >
               File
@@ -172,7 +255,7 @@ export default function ProjectFolderContent() {
 
             <span
               style={{
-                padding: '1px 4px'
+                padding: '1px 4px',
               }}
             >
               New
@@ -196,7 +279,10 @@ export default function ProjectFolderContent() {
           boxShadow:
             'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
 
-          margin: '2px'
+          margin: '2px',
+
+          // Penting untuk touch device
+          touchAction: 'pan-y',
         }}
       >
         <div
@@ -206,7 +292,7 @@ export default function ProjectFolderContent() {
             gridAutoRows: '90px',
             gap: '8px',
             alignItems: 'start',
-            padding: '4px'
+            padding: '4px',
           }}
         >
           {/* =========================
@@ -220,44 +306,70 @@ export default function ProjectFolderContent() {
                 selectedItem?.id === project.id;
 
               return (
-                <div
-                  key={project.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleFolderClick(project);
-                  }}
-                  onDoubleClick={(e) => {
-                    e.stopPropagation();
-                    handleFolderDoubleClick(project);
-                  }}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
 
-                    width: '120px',
+<div
+  key={project.id}
 
-                    cursor: project.isLocked
-                      ? 'not-allowed'
-                      : 'pointer',
+  onClick={(e) => {
+    e.stopPropagation();
 
-                    userSelect: 'none',
+    // PC: klik pertama hanya select
+    if (!isTouchDevice) {
+      handleFolderClick(project);
+    }
+  }}
 
-                    padding: '4px',
+  onDoubleClick={(e) => {
+    e.stopPropagation();
 
-                    textAlign: 'center',
+    // PC: double click = buka
+    if (!isTouchDevice) {
+      handleFolderDoubleClick(project);
+    }
+  }}
 
-                    boxSizing: 'border-box',
+  onPointerUp={(e) => {
+    // Smartphone + iPad: 1 tap = buka
+    if (
+      isTouchDevice &&
+      (e.pointerType === 'touch' || e.pointerType === 'pen')
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
 
-                    backgroundColor: isSelected
-                      ? '#000080'
-                      : 'transparent',
+      handleFolderDoubleClick(project);
+    }
+  }}
 
-                    color: isSelected
-                      ? 'white'
-                      : 'black'
-                  }}
-                >
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '120px',
+
+    cursor: project.isLocked
+      ? 'not-allowed'
+      : 'pointer',
+
+    userSelect: 'none',
+    padding: '4px',
+    textAlign: 'center',
+    boxSizing: 'border-box',
+
+    backgroundColor: isSelected
+      ? '#000080'
+      : 'transparent',
+
+    color: isSelected
+      ? 'white'
+      : 'black',
+
+    touchAction: 'manipulation',
+  }}
+>
+
+
+
                   {/* FOLDER ICON */}
 
                   <div
@@ -270,7 +382,9 @@ export default function ProjectFolderContent() {
 
                       filter: project.isLocked
                         ? 'grayscale(100%)'
-                        : 'none'
+                        : 'none',
+
+                      pointerEvents: 'none',
                     }}
                   >
                     {renderIcon(project.iconType)}
@@ -290,7 +404,9 @@ export default function ProjectFolderContent() {
 
                       wordBreak: 'normal',
 
-                      overflowWrap: 'break-word'
+                      overflowWrap: 'break-word',
+
+                      pointerEvents: 'none',
                     }}
                   >
                     {project.name}
@@ -310,49 +426,78 @@ export default function ProjectFolderContent() {
                 selectedItem?.id === file.id;
 
               return (
-                <div
-                  key={file.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleFileClick(file);
-                  }}
-                  onDoubleClick={(e) => {
-                    e.stopPropagation();
-                    handleFileDoubleClick(file);
-                  }}
-                  style={{
-                    display: 'flex',
 
-                    flexDirection: 'column',
+<div
+  key={file.id}
 
-                    alignItems: 'center',
+  onClick={(e) => {
+    e.stopPropagation();
 
-                    width: '120px',
+    // PC: klik pertama hanya select
+    if (!isTouchDevice) {
+      handleFileClick(file);
+    }
+  }}
 
-                    cursor: 'pointer',
+  onDoubleClick={(e) => {
+    e.stopPropagation();
 
-                    userSelect: 'none',
+    // PC: double click = buka link
+    if (!isTouchDevice) {
+      handleFileDoubleClick(file);
+    }
+  }}
 
-                    padding: '4px',
+  onPointerUp={(e) => {
+    // Smartphone + iPad: 1 tap = buka link
+    if (
+      isTouchDevice &&
+      (e.pointerType === 'touch' || e.pointerType === 'pen')
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
 
-                    textAlign: 'center',
+      handleFileDoubleClick(file);
+    }
+  }}
 
-                    boxSizing: 'border-box',
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
 
-                    backgroundColor: isSelected
-                      ? '#000080'
-                      : 'transparent',
+    width: '120px',
 
-                    color: isSelected
-                      ? 'white'
-                      : 'black'
-                  }}
-                >
+    cursor: 'pointer',
+
+    userSelect: 'none',
+
+    padding: '4px',
+
+    textAlign: 'center',
+
+    boxSizing: 'border-box',
+
+    backgroundColor: isSelected
+      ? '#000080'
+      : 'transparent',
+
+    color: isSelected
+      ? 'white'
+      : 'black',
+
+    touchAction: 'manipulation',
+  }}
+>
+
+
+
                   {/* FILE ICON */}
 
                   <div
                     style={{
-                      marginBottom: '4px'
+                      marginBottom: '4px',
+                      pointerEvents: 'none',
                     }}
                   >
                     <FileText variant="32x32_4" />
@@ -372,7 +517,9 @@ export default function ProjectFolderContent() {
 
                       wordBreak: 'normal',
 
-                      overflowWrap: 'break-word'
+                      overflowWrap: 'break-word',
+
+                      pointerEvents: 'none',
                     }}
                   >
                     {file.name}
@@ -406,7 +553,7 @@ export default function ProjectFolderContent() {
 
           marginTop: '2px',
 
-          height: '20px'
+          height: '20px',
         }}
       >
         {!currentFolder
@@ -416,3 +563,4 @@ export default function ProjectFolderContent() {
     </div>
   );
 }
+
