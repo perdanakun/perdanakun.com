@@ -10,7 +10,9 @@ import RecycleBin from './components/RecycleBin';
 import AboutContent from './components/AboutContent';
 import AlertModal from './components/AlertModal';
 import CameraModal from './components/CameraModal';
-import { getAIResponse } from './services/aiService';
+import AiAssistant from "./components/AiAssistant";
+import AiAssistantSphere from "./components/AiAssistantSphere";
+import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
   Notepad,
@@ -77,6 +79,7 @@ function DesktopIcon({ children, onOpen, isTouchDevice }) {
 
 
 function App() {
+
   const { focus } = useModal();
 
 // Mengatur responsivenes dan tap di device selain PC
@@ -116,6 +119,10 @@ const [windows, setWindows] = useState({
   imageViewer: false,
 });
 
+// AI Assistant v2
+const [aiAssistantV2Visible, setAiAssistantV2Visible] = useState(false);
+
+const [aiSphereVisible, setAiSphereVisible] = useState(true);
 
   // Sound Effect
   // AI Assistant Open Sound
@@ -137,15 +144,15 @@ const [windows, setWindows] = useState({
   }));
 };
 
-//restoreAI sphere AI assistant
+//restore minimize AIsphere AI assistant
+const minimizeAI = () => {
+  setAiAssistantV2Visible(false);
+  setAiSphereVisible(true);
+};
 
-const restoreAI = () => {
-  setAiMinimized(false);
-
-  // kasih waktu React render kembali sebelum focus
-  setTimeout(() => {
-    focus('aiAssistant-window');
-  }, 0);
+const openAiAssistantV2 = () => {
+  setAiSphereVisible(false);
+  setAiAssistantV2Visible(true);
 };
 
 
@@ -355,9 +362,12 @@ const closeImageViewer = (viewerId) => {
 
   {/* THUMBNAIL DESKTOP */}
 
-        {/* --- THUMBNAIL DESKTOP --- */}
-
 {/* --- THUMBNAIL AI SPHERE --- */}
+{aiSphereVisible && (
+  <AiAssistantSphere
+    onClick={openAiAssistantV2}
+  />
+)}
 
 {/* About */}
 <Rnd
@@ -507,7 +517,28 @@ const closeImageViewer = (viewerId) => {
 
         {/* --- JENDELA AI MESSENGER MINIMIZE--- */}
 
-  
+  {/* --- JENDELA AI ASSISTANT v2 --- */}
+  {aiAssistantV2Visible && (
+  <AiAssistant
+    onMinimize={() => {
+      setAiAssistantV2Visible(false);
+      setAiSphereVisible(true);
+    }}
+
+    onClose={() => {
+      setAiAssistantV2Visible(false);
+      setAiSphereVisible(true);
+    }}
+
+    onMaximize={() => {
+      // AiAssistant menangani maximize internal
+    }}
+
+    onRestore={() => {
+      // AiAssistant menangani restore internal
+    }}
+  />
+)}
 
 
 {/* --- JENDELA AI MESSENGER --- */}
