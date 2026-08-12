@@ -110,27 +110,37 @@ const fileToBase64 = (file) => {
   });
 };
 
-  // ================= SEND + SOUND =================
+// ================= SEND + SOUND =================
 const handleSend = async () => {
   if (!isFormValid) {
     return;
   }
 
   try {
-    // 1. Tentukan attachment yang akan dikirim
-    const attachment = fileAttachment || cameraAttachment;
+    // 1. Kumpulkan semua attachment
+    const filesToSend = [];
 
-    // 2. Siapkan data attachment
-    let attachmentData = null;
-
-    if (attachment) {
-      const base64 = await fileToBase64(attachment);
-
-      attachmentData = {
-        filename: attachment.name || 'camera-photo.jpg',
-        content: base64,
-      };
+    if (fileAttachment) {
+      filesToSend.push(fileAttachment);
     }
+
+    if (cameraAttachment) {
+      filesToSend.push(cameraAttachment);
+    }
+
+    // 2. Convert SEMUA attachment ke Base64
+    const attachments = [];
+
+    for (const file of filesToSend) {
+      const base64 = await fileToBase64(file);
+
+      attachments.push({
+        filename: file.name || 'attachment',
+        content: base64,
+      });
+    }
+
+    console.log('Attachments to send:', attachments);
 
     // 3. Kirim ke Vercel API
     const response = await fetch('/api/send-email', {
@@ -142,12 +152,14 @@ const handleSend = async () => {
         from,
         subject,
         message,
-        attachment: attachmentData,
+        attachments,
       }),
     });
 
-    // 4. Ambil response dari backend
+    // 4. Ambil response backend
     const result = await response.json();
+
+    console.log('API response:', result);
 
     // 5. Kalau gagal, jangan anggap email terkirim
     if (!response.ok || !result.success) {
@@ -156,14 +168,14 @@ const handleSend = async () => {
       );
     }
 
-    // 6. EMAIL BERHASIL → baru sound
+    // 6. EMAIL BERHASIL → sound
     const audio = new Audio(messageSentSound);
 
     audio.currentTime = 0;
 
     audio.play().catch(() => {});
 
-    // 7. EMAIL BERHASIL → baru tampilkan alert
+    // 7. EMAIL BERHASIL → alert
     if (onSendSuccess) {
       onSendSuccess();
     }
