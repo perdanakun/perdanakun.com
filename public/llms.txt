@@ -1,0 +1,28 @@
+# Perdana Kurniawan Arta | Portofolio
+
+> Perdana Kurniawan Arta (Perdanakun) adalah seorang Visual Designer dan Design Engineer asal Indonesia. Fokus utama pekerjaannya meliputi desain ikon (iconography), sistem desain (design systems), UI/UX, desain interaksi, serta pengembangan frontend melalui kode pemrograman.
+
+## Identitas Profesional
+- Nama Lengkap: Perdana Kurniawan Arta
+- Nama Panggilan/Alias: Perdanakun
+- Peran: Visual Designer & Design Engineer
+- Website Resmi: https://perdanakun.com/
+
+## Jejaring Sosial & Profil Resmi
+- LinkedIn: https://www.linkedin.com/in/perdanakun
+- GitHub: https://github.com/perdanakun
+- Medium: https://medium.com/@perdanakurniawan25
+- Instagram: https://www.instagram.com/perdanakun/
+
+## Keahlian Utama
+- Desain Visual
+- Desain Ikon (Iconography)
+- Sistem Desain (Design Systems)
+- Desain Antarmuka (UI Design)
+- Desain Pengalaman Pengguna (UX Design)
+- Desain Interaksi
+- Pengembangan Frontend
+- Design Engineering (Rekayasa Desain)
+
+## Tentang Portofolio
+Situs portofolio resmi milik Perdana Kurniawan Arta. Situs ini dirancang sebagai aplikasi web interaktif dengan estetika antarmuka klasik, yang menampilkan karya-karya desain, sistem desain, serta eksperimen pemrograman dalam pengembangan antarmuka web modern.

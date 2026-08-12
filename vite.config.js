@@ -9,13 +9,17 @@ export default defineConfig({
       targets: [
         {
           src: 'public/sitemap.xml',
-          dest: '' 
+          dest: ''
+        },
+        {
+          src: 'public/llms.txt',
+          dest: ''
         }
       ]
     })
   ],
   build: {
-    cssMinify: 'esbuild',
+    cssMinify: 'esbuild', 
     emptyOutDir: true,
   },
 })
