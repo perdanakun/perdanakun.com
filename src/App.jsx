@@ -9,6 +9,8 @@ import ContactContent from './components/ContactContent';
 import RecycleBin from './components/RecycleBin';
 import AboutContent from './components/AboutContent';
 import AlertModal from './components/AlertModal';
+import AlertModalFailed from './components/AlertModalFailed';
+import AlertModalEmailFile from './components/AlertModalEmailFile';
 import CameraModal from './components/CameraModal';
 import AiAssistant from "./components/AiAssistant";
 import AiAssistantSphere from "./components/AiAssistantSphere";
@@ -42,21 +44,27 @@ import { Rnd } from 'react-rnd';
 import aiOpenSound from './assets/sounds/ai_assistant_open.wav';
 
 
-// Fungi baru DesktopIcon
-function DesktopIcon({ children, onOpen, isTouchDevice }) {
+// Fungi baru klik and tap DesktopIcon
+function DesktopIcon({ children, onOpen }) {
   const handleDoubleClick = (e) => {
-    if (isTouchDevice) return;
+    if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+      return;
+    }
 
     e.preventDefault();
     e.stopPropagation();
+
     onOpen();
   };
 
   const handlePointerUp = (e) => {
-    // Smartphone + iPad
-    if (isTouchDevice && (e.pointerType === 'touch' || e.pointerType === 'pen')) {
+    if (
+      e.pointerType === 'touch' ||
+      e.pointerType === 'pen'
+    ) {
       e.preventDefault();
       e.stopPropagation();
+
       onOpen();
     }
   };
@@ -77,7 +85,6 @@ function DesktopIcon({ children, onOpen, isTouchDevice }) {
 }
 
 
-
 function App() {
 
   const { focus } = useModal();
@@ -93,13 +100,21 @@ const [isTablet, setIsTablet] = useState(
   window.innerWidth <= 1024
 );
 
+const [isTouchDevice, setIsTouchDevice] = useState(false);
+
 useEffect(() => {
   const handleResize = () => {
     const width = window.innerWidth;
 
     setIsMobile(width <= 600);
     setIsTablet(width > 600 && width <= 1024);
+
+    setIsTouchDevice(
+      window.matchMedia('(pointer: coarse)').matches
+    );
   };
+
+  handleResize();
 
   window.addEventListener('resize', handleResize);
 
@@ -252,50 +267,44 @@ const closeImageViewer = (viewerId) => {
     );
   };
 
-  // mengatur Responsive Modal window
-  const getResponsiveModalStyle = ({
-  width = 600,
-  height = 400,
-  mobileHeight = 'calc(100dvh - 70px)',
-} = {}) => {
-  if (isMobile) {
-    return {
-      left: '5px',
-      top: '5px',
-      transform: 'none',
-
-      width: 'calc(100vw - 10px)',
-      maxWidth: 'calc(100vw - 10px)',
-
-      height: mobileHeight,
-      maxHeight: 'calc(100dvh - 70px)',
-
-      boxSizing: 'border-box',
-    };
-  }
-
-  return {
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-
-    width: `${width}px`,
-    height: `${height}px`,
-
-    maxWidth: '90vw',
-    maxHeight: '90vh',
-
-    boxSizing: 'border-box',
-  };
-};
 
   //Notification allert send email
   const [showContactAlert, setShowContactAlert] = useState(false);
-
+const [showContactErrorAlert, setShowContactErrorAlert] = useState(false);
   // Fungsi Camera Contact
   const [showCamera, setShowCamera] = useState(false);
   const [cameraAttachment, setCameraAttachment] = useState(null);
 
+  // Notification attachment too large
+const [showAttachmentAlert, setShowAttachmentAlert] = useState(false);
+const [attachmentAlertMessage, setAttachmentAlertMessage] = useState('');
+
+const formatFileSize = (bytes) => {
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${Math.round(bytes / 1024)} KB`;
+  }
+
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+
+const handleAttachmentTooLarge = (file) => {
+  setAttachmentAlertMessage(
+    <>
+      <strong>{file.name}</strong> is too large.
+      <br />
+      File size: <strong>{formatFileSize(file.size)}</strong>
+      <br />
+      Maximum attachment size is <strong>1.5 MB</strong> per file.
+    </>
+  );
+
+  setShowAttachmentAlert(true);
+};
 
   return (
     <>
@@ -303,8 +312,8 @@ const closeImageViewer = (viewerId) => {
       <style>
         {`
           html, body, #root {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -323,13 +332,13 @@ const closeImageViewer = (viewerId) => {
 
         
          /* Aturan ukraun input smartphone, supaya ga nge zoom */
-            @media (max-width: 600px) {
-            input,
-            textarea,
-            select {
-              font-size: 16px !important;
-            }
-          }
+@media (max-width: 600px) {
+  .contact-input {
+    font-size: 16px !important;
+    transform: scale(0.75);
+    transform-origin: left center;
+  }
+}
 
 
          /* Aturan scrollbar tipis dan mungil */
@@ -353,8 +362,8 @@ const closeImageViewer = (viewerId) => {
 <div
   style={{
     position: 'relative',
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
+    height: '100%',
     overflow: 'hidden',
   }}
 >
@@ -376,10 +385,9 @@ const closeImageViewer = (viewerId) => {
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon
-    isTouchDevice={isMobile || isTablet}
-    onOpen={() => openWindow('about')}
-  >
+<DesktopIcon
+  onOpen={() => openWindow('about')}
+>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Computer variant="32x32_4" />
@@ -396,10 +404,9 @@ const closeImageViewer = (viewerId) => {
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon
-    isTouchDevice={isMobile || isTablet}
-    onOpen={() => openWindow('recycleBin')}
-  >
+<DesktopIcon
+  onOpen={() => openWindow('recycleBin')}
+>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <RecycleFull variant="32x32_4" />
@@ -416,10 +423,9 @@ const closeImageViewer = (viewerId) => {
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon
-    isTouchDevice={isMobile || isTablet}
-    onOpen={() => openWindow('projects')}
-  >
+<DesktopIcon
+  onOpen={() => openWindow('projects')}
+>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Folder variant="32x32_4" />
@@ -436,12 +442,11 @@ const closeImageViewer = (viewerId) => {
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon
-    isTouchDevice={isMobile || isTablet}
-    onOpen={() =>
-      openExternalLink('https://medium.com/@perdanakurniawan25')
-    }
-  >
+<DesktopIcon
+  onOpen={() =>
+    openExternalLink('https://medium.com/@perdanakurniawan25')
+  }
+>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Notepad2 variant="32x32_4" />
@@ -459,7 +464,6 @@ const closeImageViewer = (viewerId) => {
   disableDragging={false}
 >
   <DesktopIcon
-    isTouchDevice={isMobile || isTablet}
     onOpen={() => openWindow('contact')}
   >
     <div style={desktopIconStyle}>
@@ -479,7 +483,6 @@ const closeImageViewer = (viewerId) => {
   disableDragging={false}
 >
   <DesktopIcon
-    isTouchDevice={isMobile || isTablet}
     onOpen={() => openWindow('csGame')}
   >
     <div style={desktopIconStyle}>
@@ -499,7 +502,6 @@ const closeImageViewer = (viewerId) => {
   disableDragging={false}
 >
   <DesktopIcon
-    isTouchDevice={isMobile || isTablet}
     onOpen={() => openWindow('aiAssistant')}
   >
     <div style={desktopIconStyle}>
@@ -653,7 +655,9 @@ const closeImageViewer = (viewerId) => {
       </>
     }
   >
-    <ProjectFolderContent isTouchDevice={isMobile || isTablet} />
+   <ProjectFolderContent
+  isTouchDevice={isTouchDevice}
+/>
   </Modal>
 )}
 
@@ -695,9 +699,11 @@ const closeImageViewer = (viewerId) => {
     <ContactContent
       isMobile={isMobile}
       onSendSuccess={() => setShowContactAlert(true)}
+      onSendError={() => setShowContactErrorAlert(true)}
       onOpenCamera={() => setShowCamera(true)}
       cameraAttachment={cameraAttachment}
       onRemoveAttachment={() => setCameraAttachment(null)}
+      onAttachmentTooLarge={handleAttachmentTooLarge}
     />
   </Modal>
 )}
@@ -751,6 +757,28 @@ const closeImageViewer = (viewerId) => {
       onClose={() => setShowContactAlert(false)}
       />
 
+      {/* Jendela Contact Alert Attachment Too Large */}
+
+      {/* Jendela Contact Alert Send Error */}
+      <AlertModalFailed
+        show={showContactErrorAlert}
+        title="Message Failed"
+        message={
+          <>
+            Sorry, your message could not be sent.
+            <br />
+            Please try again.
+          </>
+        }
+        onClose={() => setShowContactErrorAlert(false)}
+      />
+
+<AlertModalEmailFile
+  show={showAttachmentAlert}
+  title="Attachment Too Large"
+  message={attachmentAlertMessage}
+  onClose={() => setShowAttachmentAlert(false)}
+/>
 
 {/* Jendela csGame */}
 {windows.csGame && (

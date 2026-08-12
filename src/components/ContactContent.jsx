@@ -4,12 +4,16 @@ import { Wangimg128, Files } from '@react95/icons';
 import closeIcon from '../assets/close.svg';
 import messageSentSound from '../assets/sounds/message_sent.wav';
 
+
+
 export default function ContactContent({
   isMobile,
   onSendSuccess,
+  onSendError,
   onOpenCamera,
   cameraAttachment,
-  onRemoveAttachment
+  onRemoveAttachment,
+  onAttachmentTooLarge
 }) {
   // ================= STATE =================
 
@@ -19,12 +23,42 @@ export default function ContactContent({
   const [fromFocused, setFromFocused] = useState(false);
   const [messageFocused, setMessageFocused] = useState(false);
 
-  // ================= FILE ATTACHMENT =================
+// ================= FILE ATTACHMENT =================
 
 const fileInputRef = useRef(null);
 
 const [fileAttachment, setFileAttachment] = useState(null);
 const [fileAttachmentUrl, setFileAttachmentUrl] = useState(null);
+
+// ================= FILE SIZE SETTINGS =================
+
+const MAX_FILE_SIZE = 1.5 * 1024 * 1024; // 1.5 MB
+
+
+// ================= HELPER FILE SIZE =================
+
+const formatFileSize = (bytes) => {
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${Math.round(bytes / 1024)} KB`;
+  }
+
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+
+// ================= FILE TOO LARGE ALERT =================
+
+const showFileTooLargeAlert = (file) => {
+  if (onAttachmentTooLarge) {
+    onAttachmentTooLarge(file);
+  }
+};
+
+// ================= FILE SELECT =================
 
 const handleFileSelect = (e) => {
   const file = e.target.files?.[0];
@@ -32,6 +66,19 @@ const handleFileSelect = (e) => {
   if (!file) {
     return;
   }
+
+  // ================= CHECK FILE SIZE =================
+
+  if (file.size > MAX_FILE_SIZE) {
+    showFileTooLargeAlert(file);
+
+    // Memungkinkan memilih file yang sama lagi
+    e.target.value = '';
+
+    return;
+  }
+
+  // ================= SAVE FILE =================
 
   setFileAttachment(file);
 
@@ -53,7 +100,7 @@ const handleRemoveFileAttachment = () => {
 };
 
 
-  // ================= CAMERA ATTACHMENT =================
+// ================= CAMERA ATTACHMENT =================
 
 const [attachmentUrl, setAttachmentUrl] = useState(null);
 
@@ -62,6 +109,23 @@ useEffect(() => {
     setAttachmentUrl(null);
     return;
   }
+
+  // ================= CHECK CAMERA FILE SIZE =================
+
+  if (cameraAttachment.size > MAX_FILE_SIZE) {
+    showFileTooLargeAlert(cameraAttachment);
+
+    // Hapus camera attachment dari parent
+    if (onRemoveAttachment) {
+      onRemoveAttachment();
+    }
+
+    setAttachmentUrl(null);
+
+    return;
+  }
+
+  // ================= CREATE CAMERA PREVIEW URL =================
 
   const url = URL.createObjectURL(cameraAttachment);
 
@@ -193,17 +257,19 @@ const handleSend = async () => {
       onRemoveAttachment();
     }
 
-  } catch (error) {
-    console.error('Send email error:', error);
+    } catch (error) {
+      console.error('Send email error:', error);
 
-    alert(
-      'Sorry, your message could not be sent. Please try again.'
-    );
-  }
+      if (onSendError) {
+        onSendError();
+      }
+    }
 };
 
 
   return (
+
+    
     <Modal.Content
       style={{
         position: 'relative',
@@ -466,18 +532,40 @@ const handleSend = async () => {
   }}
 >
 
+
 <Frame
   bgColor="#c0c0c0"
   boxShadow="$in"
   style={{
     display: 'flex',
     flexDirection: 'column',
-    gap: 4,
-    padding: 6,
+gap: '0',
+padding: '0 6px',
     width: '100%',
     boxSizing: 'border-box'
   }}
 >
+
+{/* FILE INFO */}
+{!fileAttachment && !cameraAttachment && (
+  <div
+    style={{
+      height: 28,
+      boxSizing: 'border-box',
+      display: 'flex',
+      alignItems: 'center',
+
+      fontFamily: 'MS Sans Serif, sans-serif',
+      fontSize: 10,
+      color: '#555',
+
+      padding: '0 0 0 0',
+      lineHeight: '12px',
+    }}
+  >
+    Accepted: Images, PDF, DOC, DOCX, TXT — max 1.5 MB per file
+  </div>
+)}
 
 
 {/* ================= FILE ATTACHMENT ================= */}
@@ -487,6 +575,10 @@ const handleSend = async () => {
     style={{
       display: 'flex',
       alignItems: 'center',
+
+      height: 28,
+      boxSizing: 'border-box',
+
       width: '100%',
       minWidth: 0,
       gap: 6
@@ -506,24 +598,36 @@ const handleSend = async () => {
     >
       <Files variant="16x16_4" />
 
-      <a
-        href={fileAttachmentUrl || '#'}
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Open file"
-        style={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          color: '#0000ee',
-          textDecoration: 'underline',
-          fontFamily: 'MS Sans Serif, sans-serif',
-          fontSize: 11,
-          cursor: 'pointer'
-        }}
-      >
-        {fileAttachment.name}
-      </a>
+<a
+  href={fileAttachmentUrl || '#'}
+  target="_blank"
+  rel="noopener noreferrer"
+  title="Open file"
+  style={{
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    color: '#0000ee',
+    textDecoration: 'underline',
+    fontFamily: 'MS Sans Serif, sans-serif',
+    fontSize: 11,
+    cursor: 'pointer',
+    minWidth: 0,
+  }}
+>
+  {fileAttachment.name}
+</a>
+
+<span
+  style={{
+    flexShrink: 0,
+    color: '#666',
+    fontFamily: 'MS Sans Serif, sans-serif',
+    fontSize: 10,
+  }}
+>
+  ({formatFileSize(fileAttachment.size)})
+</span>
     </div>
 
     {/* REMOVE FILE */}
@@ -565,6 +669,10 @@ const handleSend = async () => {
     style={{
       display: 'flex',
       alignItems: 'center',
+
+      height: 28,
+      boxSizing: 'border-box',
+
       width: '100%',
       minWidth: 0,
       gap: 6
@@ -572,36 +680,48 @@ const handleSend = async () => {
   >
 
     {/* CAMERA INFO */}
-    <div
-      style={{
-        flex: 1,
-        minWidth: 0,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 6,
-        overflow: 'hidden'
-      }}
-    >
+<div
+  style={{
+    flex: 1,
+    minWidth: 0,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+    overflow: 'hidden',
+  }}
+>
       <Wangimg128 variant="16x16_4" />
+<a
+  href={attachmentUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  title="Open photo"
+  style={{
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    color: '#0000ee',
+    textDecoration: 'underline',
+    fontFamily: 'MS Sans Serif, sans-serif',
+    fontSize: 11,
+    cursor: 'pointer',
+    minWidth: 0,
+  }}
+>
+  {cameraAttachment.name || 'Camera photo'}
+</a>
 
-      <a
-        href={attachmentUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Open photo"
-        style={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          color: '#0000ee',
-          textDecoration: 'underline',
-          fontFamily: 'MS Sans Serif, sans-serif',
-          fontSize: 11,
-          cursor: 'pointer'
-        }}
-      >
-        {cameraAttachment.name || 'Camera photo'}
-      </a>
+<span
+  style={{
+    flexShrink: 0,
+    color: '#666',
+    fontFamily: 'MS Sans Serif, sans-serif',
+    fontSize: 10,
+  }}
+>
+  ({formatFileSize(cameraAttachment.size)})
+</span>
+
     </div>
 
     {/* REMOVE CAMERA */}
