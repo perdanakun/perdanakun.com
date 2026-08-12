@@ -2,12 +2,83 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/perdana_computer.ico" />
+
+    <!-- 1. Browser Tab Title (Short & Aesthetic) -->
+    <title>@perdanakun's Computer | Design in Code</title>
+
+    <!-- 2. Primary SEO & Rich Titles (For Google & AI Crawlers) -->
+    <meta name="title" content="Perdana Kurniawan Arta | Visual Designer → Design Engineering | UX · Design Systems · Front-End" />
+    
+    <meta
+      name="description"
+      content="Perdana Kurniawan Arta (Perdanakun) adalah visual designer Indonesia yang berfokus pada iconography dan design systems, serta mengeksplorasi UI/UX, interaction design, frontend, dan design engineering melalui code."
+    />
+
+    <meta name="author" content="Perdana Kurniawan Arta" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Perdana's Computer</title>
+
+    <link rel="canonical" href="https://perdanakun.com/" />
+    <link rel="icon" type="image/x-icon" href="/perdana_computer.ico" />
+
+    <!-- Open Graph (This is what LinkedIn/Facebook/AI scrapers pull as the title) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://perdanakun.com/" />
+    <meta
+      property="og:title"
+      content="Perdana Kurniawan Arta | Visual Designer → Design Engineering | UX · Design Systems · Front-End"
+    />
+    <meta
+      property="og:description"
+      content="Perdana Kurniawan Arta (Perdanakun) adalah visual designer Indonesia yang mengeksplorasi UI/UX, interaction design, design systems, frontend, dan design engineering melalui code."
+    />
+    <meta property="og:site_name" content="Perdana's Computer" />
+    <meta property="og:image" content="https://perdanakun.com/og-image.png" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Perdana Kurniawan Arta | Visual Designer → Design Engineering | UX · Design Systems · Front-End"
+    />
+    <meta
+      name="twitter:description"
+      content="Perdana Kurniawan Arta (Perdanakun) adalah visual designer Indonesia yang mengeksplorasi UI/UX, interaction design, design systems, frontend, dan design engineering melalui code."
+    />
+    <meta name="twitter:image" content="https://perdanakun.com/og-image.png" />
+
+    <!-- Person / Personal Entity Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Perdana Kurniawan Arta",
+        "alternateName": "Perdanakun",
+        "url": "https://perdanakun.com/",
+        "jobTitle": "Visual Designer",
+        "description": "Indonesian visual designer specializing in iconography and design systems, exploring UI/UX, interaction design, frontend development, and design engineering through code.",
+        "sameAs": [
+          "https://www.linkedin.com/in/perdanakun"
+        ],
+        "knowsAbout": [
+          "Visual Design",
+          "Iconography",
+          "Icon Design",
+          "Design Systems",
+          "UI Design",
+          "UX Design",
+          "Interaction Design",
+          "Frontend Development",
+          "Design Engineering"
+        ]
+      }
+    </script>
   </head>
+
   <body>
+    <!-- This root container is required for React to mount your app -->
     <div id="root"></div>
+
+    <!-- This script connects Vite to your React entry point -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

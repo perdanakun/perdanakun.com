@@ -522,6 +522,63 @@ const handleAttachmentTooLarge = (file) => {
   {/* --- JENDELA AI ASSISTANT v2 --- */}
   {aiAssistantV2Visible && (
   <AiAssistant
+    isMobile={isMobile}
+    isTablet={isTablet}
+    isTouchDevice={isTouchDevice}
+
+    style={
+      isMobile
+        ? {
+            // SMARTPHONE
+            position: 'fixed',
+            left: '0',
+            top: '0',
+            right: '0',
+            bottom: '28px',
+
+            width: '100vw',
+            height: 'auto',
+
+            maxWidth: '100vw',
+            maxHeight: 'none',
+
+            transform: 'none',
+
+            boxSizing: 'border-box',
+          }
+        : isTablet
+        ? {
+            // TABLET
+            position: 'fixed',
+            right: '0',
+            top: '0',
+            bottom: '28px',
+
+            width: '40%',
+            height: 'auto',
+
+            maxWidth: '90vw',
+            maxHeight: 'calc(100vh - 28px)',
+
+            boxSizing: 'border-box',
+          }
+        : {
+            // DESKTOP
+            position: 'fixed',
+            right: '0',
+            top: '0',
+            bottom: '28px',
+
+            width: '20%',
+            height: 'auto',
+
+            maxWidth: 'none',
+            maxHeight: 'calc(100vh - 28px)',
+
+            boxSizing: 'border-box',
+          }
+    }
+
     onMinimize={() => {
       setAiAssistantV2Visible(false);
       setAiSphereVisible(true);
