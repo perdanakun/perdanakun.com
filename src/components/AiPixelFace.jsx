@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import aiAssistantV2OpenSound from '../assets/sounds/ai_assistantv2_open.wav';
 
-function AiAssistantSphere({
-  onClick,
+export default function AiPixelFace({
+  size = 90,
   state = 'idle',
 }) {
   const [blink, setBlink] = useState(false);
@@ -14,41 +13,9 @@ function AiAssistantSphere({
   const isListening = state === 'listening';
   const isSpeaking = state === 'speaking';
 
-  /*
-   * =========================================
-   * OPEN SOUND
-   * =========================================
-   */
-
-  const playOpenSound = () => {
-    const audio = new Audio(aiAssistantV2OpenSound);
-
-    audio.volume = 0.5;
-    audio.currentTime = 0;
-
-    audio.play().catch((error) => {
-      console.log('AI Assistant V2 sound blocked:', error);
-    });
-  };
-
-  /*
-   * =========================================
-   * RANDOM PIXEL BLINK
-   *
-   * 3 frame blink:
-   *
-   * OPEN
-   *   █    █
-   *
-   * HALF
-   *   ▬    ▬
-   *
-   * CLOSED
-   *   ━    ━
-   *
-   * OPEN
-   * =========================================
-   */
+  // =========================================
+  // RANDOM BLINK
+  // =========================================
 
   useEffect(() => {
     let blinkTimer;
@@ -82,11 +49,9 @@ function AiAssistantSphere({
     };
   }, []);
 
-  /*
-   * =========================================
-   * RANDOM EYE TRACKING
-   * =========================================
-   */
+  // =========================================
+  // RANDOM EYE TRACKING
+  // =========================================
 
   useEffect(() => {
     let timer;
@@ -95,10 +60,6 @@ function AiAssistantSphere({
       const delay = 1800 + Math.random() * 3200;
 
       timer = setTimeout(() => {
-        /*
-         * Thinking / listening / speaking
-         * memiliki behavior sendiri.
-         */
         if (!isThinking && !isListening && !isSpeaking) {
           const directions = [
             'center',
@@ -127,11 +88,9 @@ function AiAssistantSphere({
     return () => clearTimeout(timer);
   }, [isThinking, isListening, isSpeaking]);
 
-  /*
-   * =========================================
-   * CRT GLITCH
-   * =========================================
-   */
+  // =========================================
+  // CRT GLITCH
+  // =========================================
 
   useEffect(() => {
     let timer;
@@ -158,11 +117,9 @@ function AiAssistantSphere({
     };
   }, []);
 
-  /*
-   * =========================================
-   * SPEAKING EYE FRAME
-   * =========================================
-   */
+  // =========================================
+  // SPEAKING EYE FRAME
+  // =========================================
 
   useEffect(() => {
     if (!isSpeaking) return;
@@ -173,12 +130,6 @@ function AiAssistantSphere({
 
     return () => clearInterval(interval);
   }, [isSpeaking]);
-
-  /*
-   * =========================================
-   * COMPUTED EYE CLASS
-   * =========================================
-   */
 
   const eyeClassName = `
     pixel-ai-eyes
@@ -192,11 +143,11 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        RETRO AI COLOR SYSTEM
+        ROOT COLORS
         =========================================
         */
 
-        :root {
+        .pixel-face-root {
           --crt-black: #020805;
           --crt-dark: #07130f;
           --crt-dark-2: #0b1d15;
@@ -209,40 +160,25 @@ function AiAssistantSphere({
           --thinking: #ffd83d;
           --listening: #3de7ff;
           --speaking: #ff4d4d;
-        }
 
+          position: relative;
 
-        /*
-        =========================================
-        PIXEL AI CONTAINER
-        =========================================
-        */
+          width: ${size}px;
+          height: ${size}px;
 
-        .pixel-ai {
-          position: fixed;
-
-          right: 24px;
-          bottom: 80px;
-
-          width: 76px;
-          height: 76px;
-
-          z-index: 9999;
-
-          cursor: pointer;
-          user-select: none;
+          flex-shrink: 0;
 
           image-rendering: pixelated;
 
           transform-origin: center bottom;
 
           animation:
-            pixelFloat
+            pixelFaceFloat
             4s
             steps(4)
             infinite;
 
-          -webkit-tap-highlight-color: transparent;
+          user-select: none;
         }
 
 
@@ -252,16 +188,11 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai-body {
+        .pixel-face-body {
           position: absolute;
-
           inset: 0;
 
           background: #c0c0c0;
-
-          /*
-           * Stepped CRT hardware silhouette
-           */
 
           clip-path: polygon(
             9px 0,
@@ -278,7 +209,6 @@ function AiAssistantSphere({
             calc(100% - 4px) calc(100% - 3px),
             calc(100% - 9px) calc(100% - 3px),
 
-            9px calc(100% - 3px),
             9px calc(100% - 3px),
             4px calc(100% - 3px),
             4px calc(100% - 8px),
@@ -298,13 +228,12 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        OUTER BLACK FRAME
+        FRAME
         =========================================
         */
 
-        .pixel-ai-frame {
+        .pixel-face-frame {
           position: absolute;
-
           inset: 3px;
 
           background: #101010;
@@ -325,7 +254,6 @@ function AiAssistantSphere({
             calc(100% - 7px) calc(100% - 3px),
 
             7px calc(100% - 3px),
-            7px calc(100% - 3px),
             3px calc(100% - 3px),
             3px calc(100% - 7px),
 
@@ -341,53 +269,18 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        HARDWARE HIGHLIGHT
-        =========================================
-        */
-
-        .pixel-ai-highlight {
-          position: absolute;
-
-          top: 4px;
-          left: 9px;
-
-          width: 29px;
-          height: 3px;
-
-          background: #fff;
-
-          z-index: 60;
-        }
-
-        .pixel-ai-highlight::after {
-          content: "";
-
-          position: absolute;
-
-          left: -4px;
-          top: 3px;
-
-          width: 3px;
-          height: 10px;
-
-          background: #fff;
-        }
-
-
-        /*
-        =========================================
         SCREEN
         =========================================
         */
 
-        .pixel-ai-screen {
+        .pixel-face-screen {
           position: absolute;
 
-          left: 9px;
-          top: 10px;
+          left: 12%;
+          top: 13%;
 
-          width: 58px;
-          height: 51px;
+          width: 76%;
+          height: 67%;
 
           overflow: hidden;
 
@@ -407,15 +300,14 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        CRT SCANLINES
+        SCANLINES
         =========================================
         */
 
-        .pixel-ai-screen::before {
+        .pixel-face-screen::before {
           content: "";
 
           position: absolute;
-
           inset: 0;
 
           pointer-events: none;
@@ -437,15 +329,14 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        CRT VIGNETTE
+        VIGNETTE
         =========================================
         */
 
-        .pixel-ai-screen::after {
+        .pixel-face-screen::after {
           content: "";
 
           position: absolute;
-
           inset: 0;
 
           pointer-events: none;
@@ -465,13 +356,12 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        CRT FACE
+        FACE
         =========================================
         */
 
-        .pixel-ai-face {
+        .pixel-face-face {
           position: absolute;
-
           inset: 0;
 
           display: flex;
@@ -481,7 +371,7 @@ function AiAssistantSphere({
           align-items: center;
           justify-content: center;
 
-          gap: 7px;
+          gap: ${Math.max(4, size * 0.08)}px;
 
           z-index: 10;
 
@@ -504,23 +394,12 @@ function AiAssistantSphere({
           display: flex;
 
           align-items: center;
-
           justify-content: center;
 
-          gap: 14px;
+          gap: ${Math.max(8, size * 0.15)}px;
 
-          transform:
-            translate(0, 0);
-
-          transition: none;
+          transform: translate(0, 0);
         }
-
-
-        /*
-        =========================================
-        EYE TRACKING
-        =========================================
-        */
 
         .pixel-ai-eyes.eye-left {
           transform: translateX(-3px);
@@ -537,15 +416,15 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        PIXEL EYE
+        PIXEL EYES
         =========================================
         */
 
         .pixel-ai-eye {
           position: relative;
 
-          width: 10px;
-          height: 18px;
+          width: ${Math.max(7, size * 0.11)}px;
+          height: ${Math.max(13, size * 0.20)}px;
 
           background: var(--crt-green-bright);
 
@@ -575,13 +454,6 @@ function AiAssistantSphere({
             0 0 4px rgba(62,255,137,0.6);
         }
 
-
-        /*
-        =========================================
-        EYE HIGHLIGHT
-        =========================================
-        */
-
         .pixel-ai-eye::before {
           content: "";
 
@@ -601,7 +473,7 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        BLINK FRAME 1
+        BLINK
         =========================================
         */
 
@@ -617,13 +489,6 @@ function AiAssistantSphere({
             0 0 0 1px var(--crt-green),
             0 0 4px rgba(62,255,137,0.6);
         }
-
-
-        /*
-        =========================================
-        BLINK FRAME 2
-        =========================================
-        */
 
         .pixel-ai-eyes.blink-frame-2 .pixel-ai-eye {
           width: 13px;
@@ -645,7 +510,7 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai.thinking .pixel-ai-eyes {
+        .pixel-face-root.thinking .pixel-ai-eyes {
           animation:
             pixelThinkEyes
             800ms
@@ -653,14 +518,13 @@ function AiAssistantSphere({
             infinite;
         }
 
-        .pixel-ai.thinking .pixel-ai-eye {
+        .pixel-face-root.thinking .pixel-ai-eye {
           background: #fff1a8;
 
           box-shadow:
             0 0 0 1px var(--thinking),
             0 0 5px rgba(255,216,61,0.75);
         }
-
 
         @keyframes pixelThinkEyes {
           0% {
@@ -687,7 +551,7 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai.thinking .pixel-ai-mouth {
+        .pixel-face-root.thinking .pixel-ai-mouth {
           width: 5px;
           height: 5px;
 
@@ -727,7 +591,7 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai.listening .pixel-ai-screen {
+        .pixel-face-root.listening .pixel-face-screen {
           background: #061812;
 
           box-shadow:
@@ -736,8 +600,7 @@ function AiAssistantSphere({
             0 0 0 1px #36d77c;
         }
 
-
-        .pixel-ai.listening .pixel-ai-eyes {
+        .pixel-face-root.listening .pixel-ai-eyes {
           animation:
             listeningEyes
             700ms
@@ -745,8 +608,7 @@ function AiAssistantSphere({
             infinite alternate;
         }
 
-
-        .pixel-ai.listening .pixel-ai-eye {
+        .pixel-face-root.listening .pixel-ai-eye {
           width: 12px;
           height: 20px;
 
@@ -756,7 +618,6 @@ function AiAssistantSphere({
             0 0 0 1px var(--listening),
             0 0 6px rgba(61,231,255,0.8);
         }
-
 
         @keyframes listeningEyes {
           0% {
@@ -771,11 +632,11 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        LISTENING MOUTH / RADAR
+        LISTENING MOUTH
         =========================================
         */
 
-        .pixel-ai.listening .pixel-ai-mouth {
+        .pixel-face-root.listening .pixel-ai-mouth {
           width: 7px;
           height: 7px;
 
@@ -811,7 +672,7 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai.speaking .pixel-ai-mouth {
+        .pixel-face-root.speaking .pixel-ai-mouth {
           animation:
             pixelTalk
             180ms
@@ -819,8 +680,7 @@ function AiAssistantSphere({
             infinite;
         }
 
-
-        .pixel-ai.speaking .pixel-ai-eyes {
+        .pixel-face-root.speaking .pixel-ai-eyes {
           animation:
             speakingEyes
             500ms
@@ -828,13 +688,11 @@ function AiAssistantSphere({
             infinite;
         }
 
-
-        .pixel-ai.speaking .pixel-ai-eye {
+        .pixel-face-root.speaking .pixel-ai-eye {
           box-shadow:
             0 0 0 1px var(--speaking),
             0 0 5px rgba(255,77,77,0.7);
         }
-
 
         @keyframes speakingEyes {
           0%,
@@ -846,7 +704,6 @@ function AiAssistantSphere({
             transform: translateY(-1px);
           }
         }
-
 
         @keyframes pixelTalk {
           0% {
@@ -878,7 +735,7 @@ function AiAssistantSphere({
         */
 
         .pixel-ai-mouth {
-          width: 14px;
+          width: ${Math.max(10, size * 0.16)}px;
           height: 3px;
 
           background: var(--crt-green-bright);
@@ -912,7 +769,7 @@ function AiAssistantSphere({
 
         /*
         =========================================
-        CRT GLITCH
+        GLITCH
         =========================================
         */
 
@@ -941,7 +798,6 @@ function AiAssistantSphere({
           pointer-events: none;
         }
 
-
         .pixel-ai-glitch.active {
           opacity: 0.8;
 
@@ -952,59 +808,42 @@ function AiAssistantSphere({
             infinite;
         }
 
-
         @keyframes pixelGlitch {
           0% {
             top: 8px;
-
-            transform:
-              translateX(-3px)
-              scaleX(1.1);
+            transform: translateX(-3px) scaleX(1.1);
           }
 
           25% {
             top: 17px;
-
-            transform:
-              translateX(4px)
-              scaleX(0.85);
+            transform: translateX(4px) scaleX(0.85);
           }
 
           50% {
             top: 28px;
-
-            transform:
-              translateX(-5px)
-              scaleX(1.2);
+            transform: translateX(-5px) scaleX(1.2);
           }
 
           75% {
             top: 37px;
-
-            transform:
-              translateX(3px)
-              scaleX(0.9);
+            transform: translateX(3px) scaleX(0.9);
           }
 
           100% {
             top: 45px;
-
-            transform:
-              translateX(-2px)
-              scaleX(1);
+            transform: translateX(-2px) scaleX(1);
           }
         }
 
 
         /*
         =========================================
-        PIXEL NOISE
+        NOISE
         =========================================
         */
 
         .pixel-ai-noise {
           position: absolute;
-
           inset: 0;
 
           z-index: 35;
@@ -1028,36 +867,29 @@ function AiAssistantSphere({
             infinite;
         }
 
-
-        .pixel-ai.thinking .pixel-ai-noise {
+        .pixel-face-root.thinking .pixel-ai-noise {
           opacity: 0.18;
         }
 
-
-        .pixel-ai.listening .pixel-ai-noise {
+        .pixel-face-root.listening .pixel-ai-noise {
           opacity: 0.14;
         }
 
-
-        .pixel-ai.speaking .pixel-ai-noise {
+        .pixel-face-root.speaking .pixel-ai-noise {
           opacity: 0.17;
         }
 
-
         @keyframes pixelNoise {
           0% {
-            transform:
-              translate(0, 0);
+            transform: translate(0, 0);
           }
 
           50% {
-            transform:
-              translate(2px, -1px);
+            transform: translate(2px, -1px);
           }
 
           100% {
-            transform:
-              translate(-1px, 2px);
+            transform: translate(-1px, 2px);
           }
         }
 
@@ -1071,8 +903,8 @@ function AiAssistantSphere({
         .pixel-ai-led {
           position: absolute;
 
-          right: 7px;
-          bottom: 7px;
+          right: 8%;
+          bottom: 8%;
 
           width: 5px;
           height: 5px;
@@ -1095,7 +927,7 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai.thinking .pixel-ai-led {
+        .pixel-face-root.thinking .pixel-ai-led {
           background: var(--thinking);
 
           box-shadow:
@@ -1108,7 +940,6 @@ function AiAssistantSphere({
             steps(2)
             infinite alternate;
         }
-
 
         @keyframes ledThinking {
           from {
@@ -1127,7 +958,7 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai.listening .pixel-ai-led {
+        .pixel-face-root.listening .pixel-ai-led {
           background: var(--listening);
 
           box-shadow:
@@ -1140,7 +971,6 @@ function AiAssistantSphere({
             steps(2)
             infinite alternate;
         }
-
 
         @keyframes ledListening {
           from {
@@ -1159,7 +989,7 @@ function AiAssistantSphere({
         =========================================
         */
 
-        .pixel-ai.speaking .pixel-ai-led {
+        .pixel-face-root.speaking .pixel-ai-led {
           background: var(--speaking);
 
           box-shadow:
@@ -1172,7 +1002,6 @@ function AiAssistantSphere({
             steps(2)
             infinite alternate;
         }
-
 
         @keyframes ledSpeaking {
           from {
@@ -1191,127 +1020,22 @@ function AiAssistantSphere({
         =========================================
         */
 
-        @keyframes pixelFloat {
+        @keyframes pixelFaceFloat {
           0%,
           100% {
-            transform:
-              translateY(0);
+            transform: translateY(0);
           }
 
           25% {
-            transform:
-              translateY(-1px);
+            transform: translateY(-1px);
           }
 
           50% {
-            transform:
-              translateY(-3px);
+            transform: translateY(-3px);
           }
 
           75% {
-            transform:
-              translateY(-1px);
-          }
-        }
-
-
-        /*
-        =========================================
-        HOVER
-        =========================================
-        */
-
-        .pixel-ai:hover {
-          animation:
-            pixelHover
-            300ms
-            steps(3)
-            forwards;
-        }
-
-
-        .pixel-ai:hover .pixel-ai-screen {
-          box-shadow:
-            inset 3px 3px 0 #020604,
-            inset -2px -2px 0 #263c32,
-            0 0 0 1px rgba(62,255,137,0.6);
-        }
-
-
-        @keyframes pixelHover {
-          0% {
-            transform:
-              translateY(0);
-          }
-
-          33% {
-            transform:
-              translateY(-3px);
-          }
-
-          66% {
-            transform:
-              translateY(-5px);
-          }
-
-          100% {
-            transform:
-              translateY(-3px);
-          }
-        }
-
-
-        /*
-        =========================================
-        CLICK
-        =========================================
-        */
-
-        .pixel-ai:active {
-          transform:
-            translate(
-              3px,
-              3px
-            );
-
-          animation: none;
-        }
-
-
-        /*
-        =========================================
-        MOBILE
-        =========================================
-        */
-
-        @media (max-width: 600px) {
-          .pixel-ai {
-            right: 16px;
-            bottom: 60px;
-
-            width: 68px;
-            height: 68px;
-          }
-
-          .pixel-ai-screen {
-            left: 8px;
-            top: 9px;
-
-            width: 52px;
-            height: 46px;
-          }
-
-          .pixel-ai-eyes {
-            gap: 12px;
-          }
-
-          .pixel-ai-eye {
-            width: 9px;
-            height: 16px;
-          }
-
-          .pixel-ai-mouth {
-            width: 12px;
+            transform: translateY(-1px);
           }
         }
 
@@ -1323,10 +1047,10 @@ function AiAssistantSphere({
         */
 
         @media (prefers-reduced-motion: reduce) {
-          .pixel-ai,
-          .pixel-ai *,
-          .pixel-ai::before,
-          .pixel-ai::after {
+          .pixel-face-root,
+          .pixel-face-root *,
+          .pixel-face-root::before,
+          .pixel-face-root::after {
             animation-duration: 0.001ms !important;
             animation-iteration-count: 1 !important;
           }
@@ -1334,44 +1058,28 @@ function AiAssistantSphere({
 
       `}</style>
 
-
       <div
         className={`
-          pixel-ai
+          pixel-face-root
           ${isThinking ? 'thinking' : ''}
           ${isListening ? 'listening' : ''}
           ${isSpeaking ? 'speaking' : ''}
         `}
-        onClick={() => {
-          playOpenSound();
-          onClick?.();
-        }}
-        role="button"
-        tabIndex={0}
-        aria-label="Open AI Assistant"
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-
-            playOpenSound();
-            onClick?.();
-          }
-        }}
       >
 
         {/* =====================================
-            OUTER RETRO CASE
+            RETRO CASE
         ====================================== */}
 
-        <div className="pixel-ai-body">
+        <div className="pixel-face-body">
 
-          {/* BLACK FRAME */}
+          {/* FRAME */}
 
-          <div className="pixel-ai-frame">
+          <div className="pixel-face-frame">
 
             {/* CRT SCREEN */}
 
-            <div className="pixel-ai-screen">
+            <div className="pixel-face-screen">
 
               {/* GLITCH */}
 
@@ -1388,18 +1096,14 @@ function AiAssistantSphere({
 
               {/* FACE */}
 
-              <div className="pixel-ai-face">
+              <div className="pixel-face-face">
 
                 {/* EYES */}
 
                 <div className={eyeClassName}>
-
                   <div className="pixel-ai-eye" />
-
                   <div className="pixel-ai-eye" />
-
                 </div>
-
 
                 {/* MOUTH */}
 
@@ -1411,12 +1115,6 @@ function AiAssistantSphere({
 
           </div>
 
-
-          {/* HARDWARE HIGHLIGHT */}
-
-          <div className="pixel-ai-highlight" />
-
-
           {/* POWER LED */}
 
           <div className="pixel-ai-led" />
@@ -1427,5 +1125,3 @@ function AiAssistantSphere({
     </>
   );
 }
-
-export default AiAssistantSphere;

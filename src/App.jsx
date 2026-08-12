@@ -332,13 +332,13 @@ const handleAttachmentTooLarge = (file) => {
 
         
          /* Aturan ukraun input smartphone, supaya ga nge zoom */
-@media (max-width: 600px) {
-  .contact-input {
-    font-size: 16px !important;
-    transform: scale(0.75);
-    transform-origin: left center;
-  }
-}
+        @media (max-width: 600px) {
+          .contact-input {
+            font-size: 16px !important;
+            transform: scale(0.75);
+            transform-origin: left center;
+          }
+        }
 
 
          /* Aturan scrollbar tipis dan mungil */

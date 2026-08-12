@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Frame, Button, TitleBar  } from '@react95/core';
-import { Intl101 } from '@react95/icons';
-import { getAIResponse } from "../services/aiService";
+import { Frame, Button, TitleBar } from '@react95/core';
+import { getAIResponse } from '../services/aiService';
+import AiPixelFace from './AiPixelFace';
 
 import aiMessageSent from '../assets/sounds/ai_assistant_message_sent.wav';
-
 
 export default function AiAssistant({
   style = {},
@@ -13,7 +12,6 @@ export default function AiAssistant({
   onMaximize,
   onRestore,
 }) {
-
   // =========================================
   // RESPONSIVE
   // =========================================
@@ -34,7 +32,6 @@ export default function AiAssistant({
     };
   }, []);
 
-
   // =========================================
   // WINDOW STATE
   // =========================================
@@ -52,7 +49,6 @@ export default function AiAssistant({
     boxSizing: 'border-box',
   });
 
-
   // =========================================
   // INFO
   // =========================================
@@ -66,7 +62,6 @@ export default function AiAssistant({
     left: 0,
   });
 
-
   // =========================================
   // CHAT STATE
   // =========================================
@@ -79,7 +74,6 @@ export default function AiAssistant({
   const containerRef = useRef(null);
   const inputRef = useRef(null);
   const chatScrollRef = useRef(null);
-
 
   // =========================================
   // AUTO SCROLL
@@ -96,7 +90,6 @@ export default function AiAssistant({
         scrollContainer.clientHeight;
     });
   }, [chatHistory, loading]);
-
 
   // =========================================
   // PLACEHOLDER
@@ -128,7 +121,6 @@ export default function AiAssistant({
     return () => clearInterval(interval);
   }, []);
 
-
   // =========================================
   // SEND MESSAGE
   // =========================================
@@ -142,7 +134,10 @@ export default function AiAssistant({
 
     setPrompt('');
 
-    // Sound
+    // =========================================
+    // SOUND
+    // =========================================
+
     const audio = new Audio(aiMessageSent);
 
     audio.volume = 0.5;
@@ -151,8 +146,10 @@ export default function AiAssistant({
       // Browser dapat memblokir audio
     });
 
+    // =========================================
+    // USER MESSAGE
+    // =========================================
 
-    // User message
     setChatHistory((prev) => [
       ...prev,
       {
@@ -161,15 +158,21 @@ export default function AiAssistant({
       },
     ]);
 
-    setLoading(true);
+    // =========================================
+    // AI THINKING
+    // =========================================
 
+setTimeout(() => {
+  setLoading(true);
+}, 500);
 
-    // AI response
+    // =========================================
+    // AI RESPONSE
+    // =========================================
+
     getAIResponse(userMessage)
       .then((response) => {
-
         setTimeout(() => {
-
           setChatHistory((prev) => [
             ...prev,
             {
@@ -181,12 +184,10 @@ export default function AiAssistant({
           ]);
 
           setLoading(false);
-
         }, 800);
       })
-
+      
       .catch((error) => {
-
         console.error(
           'Gagal memanggil AI:',
           error
@@ -196,33 +197,26 @@ export default function AiAssistant({
           ...prev,
           {
             sender: 'ai',
-            text:
-              'Terjadi kesalahan sistem pada AI.',
+            text: 'Terjadi kesalahan sistem pada AI.',
           },
         ]);
 
         setLoading(false);
       })
-
       .finally(() => {
-
         setTimeout(() => {
-
           if (inputRef.current) {
             inputRef.current.focus();
           }
-
         }, 850);
       });
   };
-
 
   // =========================================
   // INFO AUTO CLOSE
   // =========================================
 
   useEffect(() => {
-
     if (!showInfo) return;
 
     const timer = setTimeout(() => {
@@ -230,18 +224,14 @@ export default function AiAssistant({
     }, 2000);
 
     return () => clearTimeout(timer);
-
   }, [showInfo]);
-
 
   // =========================================
   // WINDOW MAXIMIZE
   // =========================================
 
   const handleMaximize = () => {
-
     if (isMaximized) {
-
       setIsMaximized(false);
 
       if (onRestore) {
@@ -251,8 +241,6 @@ export default function AiAssistant({
       return;
     }
 
-
-    // Simpan style normal sebelum maximize
     setNormalWindowStyle(style);
 
     setIsMaximized(true);
@@ -261,7 +249,6 @@ export default function AiAssistant({
       onMaximize();
     }
   };
-
 
   // =========================================
   // WINDOW STYLE
@@ -291,18 +278,15 @@ export default function AiAssistant({
         ...style,
       };
 
-
   // =========================================
   // INFO BUTTON POSITION
   // =========================================
 
   const handleInfoClick = () => {
-
     if (
       !showInfo &&
       infoButtonRef.current
     ) {
-
       const rect =
         infoButtonRef.current.getBoundingClientRect();
 
@@ -315,9 +299,8 @@ export default function AiAssistant({
     setShowInfo(!showInfo);
   };
 
-
   // =========================================
-  // CUSTOM WINDOW
+  // RENDER
   // =========================================
 
   return (
@@ -326,7 +309,7 @@ export default function AiAssistant({
 
         /* =========================================
            WINDOW
-           ========================================= */
+        ========================================= */
 
         .ai-custom-window {
           z-index: 9999;
@@ -343,7 +326,7 @@ export default function AiAssistant({
 
         /* =========================================
            CUSTOM TITLE BAR
-           ========================================= */
+        ========================================= */
 
         .ai-custom-titlebar {
           display: flex;
@@ -351,7 +334,6 @@ export default function AiAssistant({
           align-items: center;
 
           width: 100%;
-
           min-height: 22px;
 
           box-sizing: border-box;
@@ -367,9 +349,7 @@ export default function AiAssistant({
           color: white;
 
           font-family: sans-serif;
-
           font-size: 11px;
-
           font-weight: bold;
 
           user-select: none;
@@ -378,130 +358,11 @@ export default function AiAssistant({
         }
 
 
-        .ai-titlebar-left {
-          display: flex;
-
-          align-items: center;
-
-          gap: 4px;
-
-          min-width: 0;
-
-          flex: 1;
-
-          overflow: hidden;
-        }
-
-
-        .ai-titlebar-icon {
-          width: 16px;
-          height: 16px;
-
-          flex-shrink: 0;
-
-          image-rendering: pixelated;
-        }
-
-.ai-titlebar-title {
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-
-/* TITLE BAR BUTTONS */
-
-.ai-titlebar-buttons {
-  display: flex;
-
-  align-items: center;
-
-  gap: 2px;
-
-  flex-shrink: 0;
-
-  height: 100%;
-}
-
-
-.ai-titlebar-button {
-  width: 18px;
-  height: 18px;
-
-  min-width: 18px;
-  min-height: 18px;
-
-  max-width: 18px;
-  max-height: 18px;
-
-  padding: 1px;
-
-  margin: 0;
-
-  box-sizing: border-box;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  border: 1px solid #ffffff;
-
-  border-right-color: #000000;
-  border-bottom-color: #000000;
-
-  background: #c0c0c0;
-
-  cursor: pointer;
-}
-
-
-.ai-titlebar-button:active {
-  border: 1px solid #000000;
-
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-}
-
-
-.ai-titlebar-button img {
-  width: 12px;
-  height: 12px;
-
-  display: block;
-
-  image-rendering: pixelated;
-
-  pointer-events: none;
-}
-          box-shadow:
-            inset 1px 1px 0 #000000,
-            inset -1px -1px 0 #ffffff;
-        }
-
-
-        .ai-titlebar-button img {
-          width: 12px;
-          height: 12px;
-
-          display: block;
-
-          image-rendering: pixelated;
-
-          pointer-events: none;
-        }
-
-
         /* =========================================
-           CHAT HISTORY ANIMATION
-           ========================================= */
+           CHAT MESSAGE ANIMATION
+        ========================================= */
 
         @keyframes chatMessageUp {
-
           from {
             opacity: 0;
 
@@ -517,9 +378,7 @@ export default function AiAssistant({
 
             transform-origin: bottom;
           }
-
         }
-
 
         .chat-message-animate {
           animation:
@@ -530,93 +389,10 @@ export default function AiAssistant({
 
 
         /* =========================================
-           AI FACE
-           ========================================= */
-
-        @keyframes aiBlinkLeft {
-
-          0%,
-          42%,
-          46%,
-          100% {
-            transform: scaleY(1);
-          }
-
-          44% {
-            transform: scaleY(0.08);
-          }
-
-        }
-
-
-        @keyframes aiBlinkRight {
-
-          0%,
-          57%,
-          61%,
-          100% {
-            transform: scaleY(1);
-          }
-
-          59% {
-            transform: scaleY(0.08);
-          }
-
-        }
-
-
-        .ai-eye-left {
-          animation:
-            aiBlinkLeft
-            3.2s
-            infinite
-            ease-in-out;
-
-          transform-origin: center;
-        }
-
-
-        .ai-eye-right {
-          animation:
-            aiBlinkRight
-            3.2s
-            infinite
-            ease-in-out;
-
-          transform-origin: center;
-        }
-
-
-        .ai-eye-left,
-        .ai-eye-right {
-
-          box-shadow:
-            0 0 4px rgba(255,255,255,0.8),
-            0 0 10px rgba(255,255,255,0.45),
-            0 0 18px rgba(255,255,255,0.2);
-
-          filter: brightness(1.05);
-        }
-
-
-        .ai-face-line,
-        .ai-face-mouth {
-
-          box-shadow:
-            0 0 4px rgba(255,255,255,0.8),
-            0 0 10px rgba(255,255,255,0.45),
-            0 0 16px rgba(255,255,255,0.2);
-
-          filter: brightness(1.05);
-        }
-
-
-        /* =========================================
-           CRT
-           ========================================= */
+           CRT CONTAINER
+        ========================================= */
 
         .ai-container-glow {
-
           position: relative;
 
           overflow: hidden;
@@ -636,7 +412,6 @@ export default function AiAssistant({
 
 
         @keyframes crtFlicker {
-
           0%,
           100% {
             opacity: 1;
@@ -645,16 +420,14 @@ export default function AiAssistant({
           50% {
             opacity: 0.98;
           }
-
         }
 
 
         /* =========================================
            SCANLINES
-           ========================================= */
+        ========================================= */
 
         .ai-container-glow::before {
-
           content: "";
 
           position: absolute;
@@ -664,10 +437,18 @@ export default function AiAssistant({
           background:
             repeating-linear-gradient(
               to bottom,
-              rgba(255,255,255,0.035) 0px,
-              rgba(255,255,255,0.035) 1px,
-              rgba(0,0,0,0.12) 2px,
-              rgba(0,0,0,0.12) 4px
+
+              rgba(255,255,255,0.035)
+                0px,
+
+              rgba(255,255,255,0.035)
+                1px,
+
+              rgba(0,0,0,0.12)
+                2px,
+
+              rgba(0,0,0,0.12)
+                4px
             );
 
           pointer-events: none;
@@ -678,10 +459,9 @@ export default function AiAssistant({
 
         /* =========================================
            CRT TEAR
-           ========================================= */
+        ========================================= */
 
         .ai-container-glow::after {
-
           content: "";
 
           position: absolute;
@@ -697,10 +477,18 @@ export default function AiAssistant({
           background:
             linear-gradient(
               to right,
+
               transparent 0%,
-              rgba(255,255,255,0.05) 20%,
-              rgba(255,255,255,0.15) 50%,
-              rgba(255,255,255,0.04) 80%,
+
+              rgba(255,255,255,0.05)
+                20%,
+
+              rgba(255,255,255,0.15)
+                50%,
+
+              rgba(255,255,255,0.04)
+                80%,
+
               transparent 100%
             );
 
@@ -718,7 +506,6 @@ export default function AiAssistant({
 
 
         @keyframes crtTear {
-
           0%,
           82% {
             top: -20px;
@@ -783,16 +570,14 @@ export default function AiAssistant({
 
             transform: translateX(0);
           }
-
         }
 
 
         /* =========================================
            RGB GLITCH
-           ========================================= */
+        ========================================= */
 
         .crt-rgb-glitch {
-
           position: absolute;
 
           left: -10%;
@@ -814,9 +599,13 @@ export default function AiAssistant({
           background:
             linear-gradient(
               90deg,
+
               rgba(255,0,0,0.25),
+
               transparent 30%,
+
               transparent 70%,
+
               rgba(0,100,255,0.25)
             );
 
@@ -829,7 +618,6 @@ export default function AiAssistant({
 
 
         @keyframes rgbShift {
-
           0%,
           85% {
             opacity: 0;
@@ -858,13 +646,12 @@ export default function AiAssistant({
           100% {
             opacity: 0;
           }
-
         }
 
 
         /* =========================================
            SCROLLBAR
-           ========================================= */
+        ========================================= */
 
         .ai-chat-scroll::-webkit-scrollbar {
           width: 3px;
@@ -876,6 +663,7 @@ export default function AiAssistant({
 
         .ai-chat-scroll::-webkit-scrollbar-thumb {
           background: #ffffff;
+
           border-radius: 4px;
         }
 
@@ -885,22 +673,89 @@ export default function AiAssistant({
 
 
         /* =========================================
-           MOBILE
-           ========================================= */
+           AI PIXEL AVATAR
+        ========================================= */
 
-@media (max-width: 600px) {
-  .ai-titlebar-button img {
-    width: 12px;
-    height: 12px;
-  }
-}
+        .ai-chat-avatar {
+          position: absolute;
+
+          left: -34px;
+
+          top: 4px;
+
+          width: 24px;
+          height: 24px;
+
+          display: flex;
+
+          align-items: center;
+          justify-content: center;
+
+          background: #f2f2f2;
+
+          flex-shrink: 0;
+
+          margin: 0;
+          padding: 0;
+
+          box-sizing: border-box;
+
+          overflow: hidden;
+        }
+
+
+        .ai-chat-avatar > div {
+          flex-shrink: 0;
+        }
+
+
+        /* =========================================
+           AI THINKING AVATAR
+        ========================================= */
+
+        .ai-loading-avatar {
+          position: absolute;
+
+          left: -34px;
+
+          top: 4px;
+
+          width: 24px;
+          height: 24px;
+
+          display: flex;
+
+          align-items: center;
+          justify-content: center;
+
+          background: #f2f2f2;
+
+          overflow: hidden;
+
+          box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+          .ai-chat-avatar,
+          .ai-loading-avatar {
+            left: -32px;
+
+            width: 22px;
+            height: 22px;
+          }
+        }
 
       `}</style>
 
 
       {/* =========================================
           AI WINDOW
-          ========================================= */}
+      ========================================= */}
 
       <Frame
         className="ai-custom-window"
@@ -930,45 +785,53 @@ export default function AiAssistant({
         }}
       >
 
-
         {/* =========================================
             CUSTOM TITLE BAR
-            ========================================= */}
-{/* =========================================
-    CUSTOM TITLE BAR
-    ========================================= */}
+        ========================================= */}
 
-<TitleBar
-  className="ai-custom-titlebar"
-  title="AI Assistant.exe"
-  icon={<Intl101 variant="16x16_4" />}
->
-  <TitleBar.OptionsBox>
-    <TitleBar.Help onClick={handleInfoClick} />
+        <TitleBar
+          className="ai-custom-titlebar"
+          title="AI Assistant.exe"
+        >
+          <TitleBar.OptionsBox>
 
-    <TitleBar.Minimize
-      onClick={() => {
-        if (onMinimize) onMinimize();
-      }}
-    />
+            <TitleBar.Help
+              onClick={handleInfoClick}
+            />
 
-    {isMaximized ? (
-      <TitleBar.Restore onClick={handleMaximize} />
-    ) : (
-      <TitleBar.Maximize onClick={handleMaximize} />
-    )}
+            <TitleBar.Minimize
+              onClick={() => {
+                if (onMinimize) {
+                  onMinimize();
+                }
+              }}
+            />
 
-    <TitleBar.Close
-      onClick={() => {
-        if (onClose) onClose();
-      }}
-    />
-  </TitleBar.OptionsBox>
-</TitleBar>
+            {isMaximized ? (
+              <TitleBar.Restore
+                onClick={handleMaximize}
+              />
+            ) : (
+              <TitleBar.Maximize
+                onClick={handleMaximize}
+              />
+            )}
+
+            <TitleBar.Close
+              onClick={() => {
+                if (onClose) {
+                  onClose();
+                }
+              }}
+            />
+
+          </TitleBar.OptionsBox>
+        </TitleBar>
+
 
         {/* =========================================
             INFO POPUP
-            ========================================= */}
+        ========================================= */}
 
         {showInfo && (
           <div
@@ -1014,7 +877,6 @@ export default function AiAssistant({
               boxSizing: 'border-box',
             }}
           >
-
             <strong>
               perdana.ai is a LLM chatbot
             </strong>
@@ -1032,14 +894,13 @@ export default function AiAssistant({
               Please double-check important
               information.
             </div>
-
           </div>
         )}
 
 
         {/* =========================================
             AI CONTENT
-            ========================================= */}
+        ========================================= */}
 
         <div
           style={{
@@ -1065,10 +926,9 @@ export default function AiAssistant({
           }}
         >
 
-
           {/* =========================================
               HEADER INFO
-              ========================================= */}
+          ========================================= */}
 
           <div
             style={{
@@ -1112,7 +972,6 @@ export default function AiAssistant({
                 minWidth: 0,
               }}
             >
-
               <span
                 style={{
                   width: '8px',
@@ -1135,7 +994,6 @@ export default function AiAssistant({
               />
 
               perdana.ai
-
             </div>
 
 
@@ -1144,7 +1002,6 @@ export default function AiAssistant({
                 position: 'relative',
               }}
             >
-
               <Button
                 ref={infoButtonRef}
                 onClick={handleInfoClick}
@@ -1175,7 +1032,6 @@ export default function AiAssistant({
               >
                 i
               </Button>
-
             </div>
 
           </div>
@@ -1183,7 +1039,7 @@ export default function AiAssistant({
 
           {/* =========================================
               CHAT AREA
-              ========================================= */}
+          ========================================= */}
 
           <div
             ref={chatScrollRef}
@@ -1214,10 +1070,9 @@ export default function AiAssistant({
             }}
           >
 
-
             {/* =========================================
                 EMPTY AI FACE
-                ========================================= */}
+            ========================================= */}
 
             {chatHistory.length === 0 && (
               <div
@@ -1262,97 +1117,22 @@ export default function AiAssistant({
                 />
 
 
-                {/* AI FACE */}
+                {/* =================================
+                    SAME AI CHARACTER
+                ================================= */}
 
-                <div
-                  style={{
-                    display: 'flex',
-
-                    flexDirection:
-                      'column',
-
-                    alignItems:
-                      'center',
-
-                    justifyContent:
-                      'center',
-
-                    gap: '14px',
-                  }}
-                >
-
-                  {/* EYES */}
-
-                  <div
-                    style={{
-                      display: 'flex',
-
-                      alignItems:
-                        'center',
-
-                      justifyContent:
-                        'center',
-
-                      gap: '24px',
-                    }}
-                  >
-
-                    {/* LEFT */}
-
-                    <div
-                      className="ai-eye-left"
-                      style={{
-                        width: '20px',
-
-                        height: '38px',
-
-                        backgroundColor:
-                          '#f8f5f4',
-
-                        borderRadius:
-                          '7px',
-                      }}
-                    />
-
-
-                    {/* RIGHT */}
-
-                    <div
-                      className="ai-eye-right"
-                      style={{
-                        width: '20px',
-
-                        height: '38px',
-
-                        backgroundColor:
-                          '#f8f5f4',
-
-                        borderRadius:
-                          '7px',
-                      }}
-                    />
-
-                  </div>
-
-
-                  {/* MOUTH */}
-
-                  <div
-                    className="ai-face-mouth"
-                    style={{
-                      width: '24px',
-
-                      height: '7px',
-
-                      backgroundColor:
-                        '#f8f5f4',
-
-                      borderRadius:
-                        '5px',
-                    }}
-                  />
-
-                </div>
+                <AiPixelFace
+                  size={
+                    isMobile
+                      ? 100
+                      : 140
+                  }
+                  state={
+                    loading
+                      ? 'thinking'
+                      : 'idle'
+                  }
+                />
 
               </div>
             )}
@@ -1360,16 +1140,18 @@ export default function AiAssistant({
 
             {/* =========================================
                 CHAT MESSAGES
-                ========================================= */}
+            ========================================= */}
 
             {chatHistory.map(
               (chat, index) => (
-
-                <div
-                  key={index}
-                  className="chat-message-animate"
+<div
+  key={index}
+  className={
+    chat.sender === 'user'
+      ? 'chat-message-animate'
+      : ''
+  }
                   style={{
-
                     position:
                       'relative',
 
@@ -1429,51 +1211,21 @@ export default function AiAssistant({
                   }}
                 >
 
-                  {/* AI ICON */}
+                  {/* =================================
+                      AI PIXEL FACE AVATAR
+                  ================================= */}
 
                   {chat.sender === 'ai' && (
-                    <Frame
-                      variant="well"
-                      style={{
-                        position:
-                          'absolute',
-
-                        left: '-34px',
-
-                        top: '4px',
-
-                        width: '24px',
-
-                        height: '24px',
-
-                        display: 'flex',
-
-                        alignItems:
-                          'center',
-
-                        justifyContent:
-                          'center',
-
-                        backgroundColor:
-                          '#f2f2f2',
-
-                        flexShrink: 0,
-
-                        margin: 0,
-
-                        padding: 0,
-
-                        boxSizing:
-                          'border-box',
-                      }}
+                    <div
+                      className="ai-chat-avatar"
                     >
-
-                      <Intl101
-                        variant="32x32_4"
+                      <AiPixelFace
+                        size={24}
+                        state="idle"
                       />
-
-                    </Frame>
+                    </div>
                   )}
+
 
                   {chat.text}
 
@@ -1483,8 +1235,8 @@ export default function AiAssistant({
 
 
             {/* =========================================
-                LOADING
-                ========================================= */}
+                LOADING / THINKING
+            ========================================= */}
 
             {loading && (
               <div
@@ -1530,47 +1282,19 @@ export default function AiAssistant({
                 }}
               >
 
-                <Frame
-                  variant="well"
-                  style={{
-                    position:
-                      'absolute',
+                {/* =================================
+                    THINKING PIXEL FACE
+                ================================= */}
 
-                    left: '-34px',
-
-                    top: '4px',
-
-                    width: '24px',
-
-                    height: '24px',
-
-                    display: 'flex',
-
-                    alignItems:
-                      'center',
-
-                    justifyContent:
-                      'center',
-
-                    backgroundColor:
-                      '#f2f2f2',
-
-                    flexShrink: 0,
-
-                    margin: 0,
-
-                    padding: 0,
-
-                    boxSizing:
-                      'border-box',
-                  }}
+                <div
+                  className="ai-loading-avatar"
                 >
-
-                  <Intl101
-                    variant="32x32_4"
+                  <AiPixelFace
+                    size={24}
+                    state="thinking"
                   />
+                </div>
 
-                </Frame>
 
                 is typing...
 
@@ -1582,7 +1306,7 @@ export default function AiAssistant({
 
           {/* =========================================
               INPUT
-              ========================================= */}
+          ========================================= */}
 
           <form
             onSubmit={handleSubmit}
@@ -1609,6 +1333,7 @@ export default function AiAssistant({
             <input
               ref={inputRef}
               type="text"
+
               placeholder={
                 isFocused
                   ? ''
@@ -1616,19 +1341,25 @@ export default function AiAssistant({
                       placeholderIndex
                     ]
               }
+
               value={prompt}
+
               onChange={(e) =>
                 setPrompt(
                   e.target.value
                 )
               }
+
               onFocus={() =>
                 setIsFocused(true)
               }
+
               onBlur={() =>
                 setIsFocused(false)
               }
+
               disabled={loading}
+
               style={{
                 flex: 1,
 
