@@ -1,10 +1,15 @@
 import '@react95/core/GlobalStyle';
 import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
-import winBackground from './assets/images/win_background.jpg';
+import '@fontsource/open-sans/400.css';
+import '@fontsource/open-sans/500.css';
+import '@fontsource/open-sans/600.css';
+import '@fontsource/open-sans/700.css';
+import winBackground from './assets/images/win_background2.jpg';
 import AiAssistantContentModal from './components/AiAssistantContentModal';
 import ProjectFolderContent from './components/ProjectFolderContent';
 import CSGameModal from './components/CSGameModal';
+import FlappyGame from './components/FlappyGame';
 import ContactContent from './components/ContactContent';
 import RecycleBin from './components/RecycleBin';
 import AboutContent from './components/AboutContent';
@@ -84,10 +89,279 @@ function DesktopIcon({ children, onOpen }) {
   );
 }
 
+// Drag resize window mobile
+function ResizableModal({
+  isMobile,
+  isTablet = false,
+
+  // =========================
+  // POSITION LOCK
+  // =========================
+  lockPosition = false,
+
+  // =========================
+  // SMARTPHONE
+  // =========================
+  minHeightRatio = 0.5,
+  mobileWidth = '100vw',
+  mobileLockBottom = true,
+
+  // =========================
+  // TABLET
+  // =========================
+  tabletWidth = 'auto',
+  tabletHeight = 'auto',
+  tabletTop = 'auto',
+  tabletLeft = 'auto',
+  tabletRight = 'auto',
+  tabletBottom = 'auto',
+  tabletTransform = 'none',
+
+  // =========================
+  // DESKTOP
+  // =========================
+  desktopWidth = 'auto',
+  desktopHeight = 'auto',
+  desktopTop = 'auto',
+  desktopLeft = 'auto',
+  desktopRight = 'auto',
+  desktopBottom = 'auto',
+  desktopTransform = 'none',
+
+  children,
+  titleBarOptions,
+  ...props
+}) {
+
+  const TASKBAR_HEIGHT = 28;
+
+  const getMaxHeight = () => {
+    return window.innerHeight - TASKBAR_HEIGHT;
+  };
+
+  const getMinHeight = () => {
+    return window.innerHeight * minHeightRatio;
+  };
+
+  const [height, setHeight] = useState(() => getMaxHeight());
+
+  const resizeRef = useRef(null);
+
+  const startResize = (e) => {
+    if (!isMobile) return;
+
+    const titleBar = e.target.closest('.draggable');
+
+    if (!titleBar) {
+      return;
+    }
+
+    if (e.target.closest('button')) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    resizeRef.current = {
+      startY: e.clientY,
+      startHeight: height,
+    };
+
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'ns-resize';
+
+    window.addEventListener('pointermove', handleResize);
+    window.addEventListener('pointerup', stopResize);
+  };
+
+  const handleResize = (e) => {
+    if (!resizeRef.current) return;
+
+    const {
+      startY,
+      startHeight,
+    } = resizeRef.current;
+
+    const deltaY = e.clientY - startY;
+
+    const newHeight = startHeight - deltaY;
+
+    const minHeight = getMinHeight();
+    const maxHeight = getMaxHeight();
+
+    const clampedHeight = Math.max(
+      minHeight,
+      Math.min(maxHeight, newHeight)
+    );
+
+    setHeight(clampedHeight);
+  };
+
+  const stopResize = () => {
+    resizeRef.current = null;
+
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
+
+    window.removeEventListener(
+      'pointermove',
+      handleResize
+    );
+
+    window.removeEventListener(
+      'pointerup',
+      stopResize
+    );
+  };
+
+  useEffect(() => {
+    return () => {
+      stopResize();
+    };
+  }, []);
+
+  // =========================
+// LOCK DRAG TABLET / DESKTOP
+// =========================
+
+  const preventDrag = (e) => {
+  if (!lockPosition) return;
+
+  const titleBar = e.target.closest('.draggable');
+
+  if (!titleBar) return;
+
+  if (e.target.closest('button')) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+};
+
+  /*
+   * =====================================
+   * SMARTPHONE
+   * TETAP SEPERTI PUNYA KAMU
+   * =====================================
+   */
+  if (isMobile) {
+    return (
+      <Modal
+        {...props}
+        titleBarOptions={titleBarOptions}
+        onPointerDownCapture={startResize}
+        style={{
+          position: 'fixed',
+
+          top: 'auto',
+          left: 0,
+          right: 0,
+
+          bottom: mobileLockBottom
+            ? `${TASKBAR_HEIGHT}px`
+            : 0,
+
+          width: mobileWidth,
+          height: `${height}px`,
+
+          maxWidth: '100vw',
+
+          maxHeight: mobileLockBottom
+            ? `calc(100vh - ${TASKBAR_HEIGHT}px)`
+            : '100vh',
+
+          transform: 'none',
+          margin: 0,
+
+          boxSizing: 'border-box',
+        }}
+      >
+        {children}
+      </Modal>
+    );
+  }
+
+
+
+  
+  /*
+   * =====================================
+   * TABLET
+   * UKURAN/POSISI NANTI PER WINDOW
+   * =====================================
+   */
+  
+  if (isTablet) {
+  return (
+    <Modal
+      {...props}
+      titleBarOptions={titleBarOptions}
+
+      // =========================
+      // LOCK DRAG SESUAI WINDOW
+      // =========================
+      onPointerDownCapture={preventDrag}
+
+      style={{
+        position: 'fixed',
+
+        top: tabletTop,
+        left: tabletLeft,
+        right: tabletRight,
+        bottom: tabletBottom,
+
+        width: tabletWidth,
+        height: tabletHeight,
+
+        transform: tabletTransform,
+
+        boxSizing: 'border-box',
+      }}
+    >
+      {children}
+    </Modal>
+  );
+}
+
+  /*
+   * =====================================
+   * DESKTOP
+   * UKURAN/POSISI NANTI PER WINDOW
+   * =====================================
+   */
+return (
+  <Modal
+    {...props}
+    titleBarOptions={titleBarOptions}
+
+    // =========================
+    // LOCK DRAG SESUAI WINDOW
+    // =========================
+    onPointerDownCapture={preventDrag}
+
+    style={{
+      position: 'fixed',
+
+      top: desktopTop,
+      left: desktopLeft,
+      right: desktopRight,
+      bottom: desktopBottom,
+
+      width: desktopWidth,
+      height: desktopHeight,
+
+      transform: desktopTransform,
+
+      boxSizing: 'border-box',
+    }}
+  >
+    {children}
+  </Modal>
+);
+}
+
 
 function App() {
-
-  const { focus } = useModal();
 
 // Mengatur responsivenes dan tap di device selain PC
 const [isMobile, setIsMobile] = useState(
@@ -235,37 +509,37 @@ const closeImageViewer = (viewerId) => {
 };
 
   // Fungsi menghitung ukuran window untuk mendapat rasio asli
-    const handleImageLoad = (viewerId, e) => {
-    const img = e.currentTarget;
+const handleImageLoad = (viewerId, e) => {
+  const img = e.currentTarget;
 
-    const naturalWidth = img.naturalWidth;
-    const naturalHeight = img.naturalHeight;
+  const naturalWidth = img.naturalWidth;
+  const naturalHeight = img.naturalHeight;
 
-    // Maksimal 40% dari desktop
-    const maxWidth = window.innerWidth * 0.4;
-    const maxHeight = window.innerHeight * 0.4;
+  // Maksimal 70% layar
+  const maxWidth = window.innerWidth * 0.8;
+  const maxHeight = window.innerHeight * 0.8;
 
-    const scale = Math.min(
-      1,
-      maxWidth / naturalWidth,
-      maxHeight / naturalHeight
-    );
+  const scale = Math.min(
+    1,
+    maxWidth / naturalWidth,
+    maxHeight / naturalHeight
+  );
 
-    const width = Math.round(naturalWidth * scale);
-    const height = Math.round(naturalHeight * scale);
+  const width = Math.round(naturalWidth * scale);
+  const height = Math.round(naturalHeight * scale);
 
-    setImageViewers(prev =>
-      prev.map(viewer =>
-        viewer.id === viewerId
-          ? {
-              ...viewer,
-              width,
-              height,
-            }
-          : viewer
-      )
-    );
-  };
+  setImageViewers(prev =>
+    prev.map(viewer =>
+      viewer.id === viewerId
+        ? {
+            ...viewer,
+            width,
+            height,
+          }
+        : viewer
+    )
+  );
+};
 
 
   //Notification allert send email
@@ -317,11 +591,15 @@ const handleAttachmentTooLarge = (file) => {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-image: url(${winBackground});
+
+            background-image: url(${winBackground}); /*ganti background-color: #008080;*/
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
 
+            .content-font {
+  font-family: 'Open Sans', sans-serif !important;
+}
             .draggable {
               justify-content: flex-start !important;
             }
@@ -372,11 +650,11 @@ const handleAttachmentTooLarge = (file) => {
   {/* THUMBNAIL DESKTOP */}
 
 {/* --- THUMBNAIL AI SPHERE --- */}
-{aiSphereVisible && (
+{/*aiSphereVisible && (
   <AiAssistantSphere
     onClick={openAiAssistantV2}
   />
-)}
+)/*}
 
 {/* About */}
 <Rnd
@@ -520,7 +798,7 @@ const handleAttachmentTooLarge = (file) => {
         {/* --- JENDELA AI MESSENGER MINIMIZE--- */}
 
   {/* --- JENDELA AI ASSISTANT v2 --- */}
-  {aiAssistantV2Visible && (
+  {/* aiAssistantV2Visible && (
   <AiAssistant
     isMobile={isMobile}
     isTablet={isTablet}
@@ -599,79 +877,65 @@ const handleAttachmentTooLarge = (file) => {
   />
 )}
 
-
 {/* --- JENDELA AI MESSENGER --- */}
 {windows.aiAssistant && (
-  <Modal
+  <ResizableModal
     id="aiAssistant-window"
+
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    minHeightRatio={0.5}
+
+    // =========================
+    // SMARTPHONE
+    // TETAP / TIDAK DIUBAH
+    // =========================
+    mobileWidth="100vw"
+
+    // =========================
+    // TABLET
+    // LOCK KANAN
+    // MINUS TASKBAR
+    // MAX WIDTH 30%
+    // =========================
+    tabletWidth="50%"
+    tabletHeight="auto"
+    tabletTop="0"
+    tabletLeft="auto"
+    tabletRight="0"
+    tabletBottom="28px"
+
+    // =========================
+    // DESKTOP
+    // LOCK KANAN
+    // MINUS TASKBAR
+    // MAX WIDTH 30%
+    // =========================
+    desktopWidth="20%"
+    desktopHeight="auto"
+    desktopTop="0"
+    desktopLeft="auto"
+    desktopRight="0"
+    desktopBottom="28px"
+
     icon={<Intl101 variant="16x16_4" />}
     title="AI Assistant.exe"
-    style={
-  isMobile
-    ? {
-        // SMARTPHONE
-        position: 'fixed',
 
-        left: '0',
-        top: '0',
-        right: '0',
-        bottom: '28px',
-
-        width: '100vw',
-        height: 'auto',
-
-        maxWidth: '100vw',
-        maxHeight: 'none',
-
-        transform: 'none',
-
-        boxSizing: 'border-box',
-      }
-    : isTablet
-    ? {
-        // IPAD / TABLET
-        position: 'fixed',
-
-        right: '0',
-        top: '0',
-        bottom: '28px',
-
-        width: '40%',
-        height: 'auto',
-
-        maxWidth: '90vw',
-        maxHeight: 'calc(100vh - 28px)',
-
-        boxSizing: 'border-box',
-      }
-    : {
-        // DESKTOP
-        position: 'fixed',
-
-        right: '0',
-        top: '0',
-        bottom: '28px',
-
-        width: '20%',
-        height: 'auto',
-
-        maxHeight: 'calc(100vh - 28px)',
-
-        boxSizing: 'border-box',
-      }
-}
     titleBarOptions={
       <>
         <Modal.Minimize />
 
         <TitleBar.Close
-          onClick={() => toggleWindow('aiAssistant', false)}
+          onClick={() =>
+            toggleWindow('aiAssistant', false)
+          }
         />
       </>
     }
   >
     <AiAssistantContentModal />
-  </Modal>
+  </ResizableModal>
 )}
 
 
@@ -681,27 +945,42 @@ const handleAttachmentTooLarge = (file) => {
 
 {/* --- JENDELA PROJECTS --- */}
 {windows.projects && (
-  <Modal
-    key={windows.projects ? 'projects-open' : 'projects-close'}
+  <ResizableModal
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    // LOCK WINDOW
+    lockPosition={true}
+
+    minHeightRatio={0.5}
+
+    // =========================
+    // TABLET
+    // FULLSCREEN - TASKBAR
+    // =========================
+    tabletWidth="100vw"
+    tabletHeight="auto"
+    tabletTop="0"
+    tabletLeft="0"
+    tabletRight="auto"
+    tabletBottom="28px"
+    tabletTransform="none"
+
+    // =========================
+    // DESKTOP
+    // FULLSCREEN - TASKBAR
+    // =========================
+    desktopWidth="100vw"
+    desktopHeight="auto"
+    desktopTop="0"
+    desktopLeft="0"
+    desktopRight="auto"
+    desktopBottom="28px"
+    desktopTransform="none"
+
     icon={<Folder variant="16x16_4" />}
     title="Project Explorer"
-    style={{
-      position: 'fixed',
 
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-
-      // Ukuran normal desktop
-      width: '700px',
-      height: '500px',
-
-      // Responsive
-      maxWidth: 'calc(100vw - 30px)',
-      maxHeight: 'calc(100vh - 50%)',
-
-      boxSizing: 'border-box',
-    }}
     titleBarOptions={
       <>
         <Modal.Minimize />
@@ -712,37 +991,46 @@ const handleAttachmentTooLarge = (file) => {
       </>
     }
   >
-   <ProjectFolderContent
-  isTouchDevice={isTouchDevice}
-/>
-  </Modal>
+    <ProjectFolderContent
+      isTouchDevice={isTouchDevice}
+    />
+  </ResizableModal>
 )}
 
+
 {/* Jendela Contact */}
-
-
 {windows.contact && (
-  <Modal
-    key="contact-window"
+  <ResizableModal
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    // =========================
+    // TABLET
+    // CENTER
+    // =========================
+    tabletWidth="70%"
+    tabletHeight="50%"
+    tabletTop="50%"
+    tabletLeft="50%"
+    tabletRight="auto"
+    tabletBottom="auto"
+    tabletTransform="translate(-50%, -50%)"
+
+    // =========================
+    // DESKTOP
+    // CENTER
+    // =========================
+    desktopWidth="40%"
+    desktopHeight="60%"
+    desktopTop="50%"
+    desktopLeft="50%"
+    desktopRight="auto"
+    desktopBottom="auto"
+    desktopTransform="translate(-50%, -50%)"
+
     icon={<Mapi32801 variant="16x16_4" />}
     title="Contact.exe"
-    style={{
-      position: 'fixed',
 
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-
-      // Ukuran normal desktop
-      width: '800px',
-      height: '600px',
-
-      // Responsive
-      maxWidth: 'calc(100vw - 30px)',
-      maxHeight: 'calc(100vh - 30%)',
-
-      boxSizing: 'border-box',
-    }}
     titleBarOptions={
       <>
         <Modal.Minimize />
@@ -762,7 +1050,7 @@ const handleAttachmentTooLarge = (file) => {
       onRemoveAttachment={() => setCameraAttachment(null)}
       onAttachmentTooLarge={handleAttachmentTooLarge}
     />
-  </Modal>
+  </ResizableModal>
 )}
 
 {/* Jendela Contact Camera */}
@@ -836,7 +1124,6 @@ const handleAttachmentTooLarge = (file) => {
   message={attachmentAlertMessage}
   onClose={() => setShowAttachmentAlert(false)}
 />
-
 {/* Jendela csGame */}
 {windows.csGame && (
   <Modal
@@ -846,34 +1133,74 @@ const handleAttachmentTooLarge = (file) => {
     style={{
       position: 'fixed',
 
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
+      ...(isMobile
+        ? {
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: '28px',
 
-      // Ukuran normal desktop
-      width: '640px',
-      height: '480px',
+            width: '100vw',
+            height: 'auto',
 
-      // Responsive
-      maxWidth: 'calc(100vw - 30px)',
-      maxHeight: 'calc(100vh - 0%)',
+            maxWidth: '100vw',
+            maxHeight: 'calc(100vh - 28px)',
+
+            transform: 'none',
+            margin: 0,
+          }
+
+        : isTablet
+        ? {
+            top: 0,
+            left: 0,
+
+            width: '100vw',
+            height: 'auto',
+
+            bottom: '28px',
+
+            maxWidth: '100vw',
+            maxHeight: 'calc(100vh - 28px)',
+
+            transform: 'none',
+            margin: 0,
+          }
+
+        : {
+            top: 0,
+            left: 0,
+
+            width: '100vw',
+            height: 'auto',
+
+            bottom: '28px',
+
+            maxWidth: '100vw',
+            maxHeight: 'calc(100vh - 28px)',
+
+            transform: 'none',
+            margin: 0,
+          }),
 
       boxSizing: 'border-box',
     }}
+
     titleBarOptions={
       <>
         <Modal.Minimize />
 
         <TitleBar.Close
-          onClick={() => toggleWindow('csGame', false)}
+          onClick={() =>
+            toggleWindow('csGame', false)
+          }
         />
       </>
     }
   >
-    <CSGameModal />
+    <FlappyGame />
   </Modal>
 )}
-
 
 {/* Jendela About */}
 {windows.about && (
@@ -884,20 +1211,65 @@ const handleAttachmentTooLarge = (file) => {
     style={{
       position: 'fixed',
 
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
+      // =====================================
+      // SMARTPHONE
+      // FULLSCREEN - TASKBAR
+      // =====================================
+      ...(isMobile
+        ? {
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: '28px',
 
-      // Ukuran normal desktop
-      width: '600px',
-      height: '400px',
+            width: '100vw',
+            height: 'auto',
 
-      // Responsive
-      maxWidth: 'calc(100vw - 20px)',
-      maxHeight: 'calc(100vh - 50px)',
+            maxWidth: '100vw',
+            maxHeight: 'calc(100vh - 28px)',
+
+            transform: 'none',
+            margin: 0,
+          }
+
+        // =====================================
+        // TABLET
+        // CENTER
+        // =====================================
+        : isTablet
+        ? {
+            left: '50%',
+            top: '50%',
+
+            width: '70vw',
+            height: '50vh',
+
+            maxWidth: '90vw',
+            maxHeight: 'calc(100vh - 40px)',
+
+            transform: 'translate(-50%, -50%)',
+          }
+
+        // =====================================
+        // DESKTOP
+        // UKURAN NORMAL
+        // =====================================
+        : {
+            left: '50%',
+            top: '50%',
+
+            width: '30%',
+            height: '50%',
+
+            maxWidth: 'calc(100vw - 20px)',
+            maxHeight: 'calc(100vh - 50px)',
+
+            transform: 'translate(-50%, -50%)',
+          }),
 
       boxSizing: 'border-box',
     }}
+
     titleBarOptions={
       <>
         <Modal.Minimize />
@@ -912,30 +1284,41 @@ const handleAttachmentTooLarge = (file) => {
   </Modal>
 )}
 
-
 {/* --- JENDELA RECYCLE BIN --- */}
 {windows.recycleBin && (
-  <Modal
-    key="recycleBin-window"
+  <ResizableModal
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    // =========================
+    // TABLET
+    // LEBIH KE KIRI + ATAS
+    // DARI PROJECTS
+    // =========================
+    tabletWidth="60%"
+    tabletHeight="30%"
+    tabletTop="35%"
+    tabletLeft="35%"
+    tabletRight="auto"
+    tabletBottom="auto"
+    tabletTransform="translate(-50%, -50%)"
+
+    // =========================
+    // DESKTOP
+    // LEBIH KE KIRI + ATAS
+    // DARI PROJECTS
+    // =========================
+    desktopWidth="30%"
+    desktopHeight="45%"
+    desktopTop="35%"
+    desktopLeft="35%"
+    desktopRight="auto"
+    desktopBottom="auto"
+    desktopTransform="translate(-50%, -50%)"
+
     icon={<RecycleFull variant="16x16_4" />}
     title="Recycle Bin"
-    style={{
-      position: 'fixed',
 
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-
-      // Ukuran normal desktop
-      width: '500px',
-      height: '350px',
-
-      // Responsive
-      maxWidth: 'calc(100vw - 20px)',
-      maxHeight: 'calc(100vh - 50px)',
-
-      boxSizing: 'border-box',
-    }}
     titleBarOptions={
       <>
         <Modal.Minimize />
@@ -946,33 +1329,56 @@ const handleAttachmentTooLarge = (file) => {
       </>
     }
   >
-    <RecycleBin onOpenFile={openImageFile} />
-  </Modal>
+    <RecycleBin
+  onOpenFile={openImageFile}
+  isTouchDevice={isTouchDevice}
+/>
+  </ResizableModal>
 )}
 
 
-
-
-        {/* --- JENDELA ImageViewer --- */}
-        {imageViewers.map((viewer) => (
-  <Modal
+{/* --- JENDELA IMAGE VIEWER --- */}
+{imageViewers.map((viewer) => (
+  <ResizableModal
     key={viewer.id}
     id={`image-viewer-${viewer.id}`}
+
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    // =========================
+    // SMARTPHONE
+    // LEBAR FULLSCREEN
+    // =========================
+    mobileWidth="100vw"
+
+    // =========================
+    // TABLET
+    // MENGIKUTI UKURAN FOTO
+    // =========================
+    tabletWidth={`${viewer.width + 24}px`}
+    tabletHeight={`${viewer.height + 60}px`}
+    tabletTop="50%"
+    tabletLeft="50%"
+    tabletRight="auto"
+    tabletBottom="auto"
+    tabletTransform="translate(-50%, -50%)"
+
+    // =========================
+    // DESKTOP
+    // MENGIKUTI UKURAN FOTO
+    // =========================
+    desktopWidth={`${viewer.width + 24}px`}
+    desktopHeight={`${viewer.height + 60}px`}
+    desktopTop="50%"
+    desktopLeft="50%"
+    desktopRight="auto"
+    desktopBottom="auto"
+    desktopTransform="translate(-50%, -50%)"
+
     icon={<Wangimg128 variant="16x16_4" />}
     title={viewer.file.name}
-    style={{
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
 
-      width: `${viewer.width + 24}px`,
-      height: `${viewer.height + 60}px`,
-
-      maxWidth: '90vw',
-      maxHeight: '90vh',
-
-      boxSizing: 'border-box',
-    }}
     titleBarOptions={
       <>
         <Modal.Minimize />
@@ -1018,7 +1424,7 @@ const handleAttachmentTooLarge = (file) => {
         }}
       />
     </div>
-  </Modal>
+  </ResizableModal>
 ))}
 
 

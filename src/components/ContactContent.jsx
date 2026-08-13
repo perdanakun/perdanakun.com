@@ -335,7 +335,7 @@ const handleSend = async () => {
           placeholder={
             fromFocused
               ? ''
-              : 'your.email@address.com — where can I reach you?'
+              : 'Your Email adress'
           }
           style={inputStyle}
         />
@@ -363,130 +363,159 @@ const handleSend = async () => {
 
         </div>
 
-
 {/* ================= TO + ATTACHMENT + CAMERA + SEND ================= */}
 
 <div
   style={{
-    ...rowStyle,
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: isMobile ? 'column' : 'row',
+    alignItems: isMobile ? 'stretch' : 'center',
     width: '100%',
     minWidth: 0,
+    gap: isMobile ? 6 : 0,
   }}
 >
-  {/* TO LABEL */}
+  {/* ================= TO ================= */}
 
-  <label style={labelStyle}>
-    To:
-  </label>
-
-  {/* TO INPUT */}
-
-  <input
-    disabled
-    value="Perdana Kurniawan Arta"
+  <div
     style={{
-      ...inputStyle,
-
+      ...rowStyle,
       flex: 1,
       minWidth: 0,
-
-      background: '#c5c4c4',
-      color: '#555',
-      boxSizing: 'border-box',
-    }}
-  />
-
-  {/* FILE INPUT */}
-
-  <input
-    ref={fileInputRef}
-    type="file"
-    accept="image/*,.pdf,.doc,.docx,.txt"
-    onChange={handleFileSelect}
-    style={{
-      display: 'none',
-    }}
-  />
-
-  {/* ATTACHMENT */}
-
-  <Button
-    type="button"
-    onClick={() => fileInputRef.current?.click()}
-    style={{
-      width: 32,
-      height: 28,
-      minWidth: 32,
-      padding: 0,
-      marginLeft: 6,
-
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-
-      flexShrink: 0,
-    }}
-    title="Attach file"
-  >
-    📎
-  </Button>
-
-  {/* CAMERA */}
-
-  <Button
-    type="button"
-    onClick={onOpenCamera}
-    style={{
-      width: 32,
-      height: 28,
-      minWidth: 32,
-      padding: 0,
-      marginLeft: 4,
-
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-
-      flexShrink: 0,
-    }}
-    title="Take photo"
-  >
-    📷
-  </Button>
-
-  {/* SEND */}
-
-  <Button
-    type="button"
-    disabled={!isFormValid}
-    onClick={isFormValid ? handleSend : undefined}
-    style={{
-      width: 90,
-      minWidth: 90,
-      height: 28,
-
-      padding: 0,
-      marginLeft: 4,
-
-      color: isFormValid
-        ? '#000'
-        : '#808080',
-
-      textShadow: isFormValid
-        ? 'none'
-        : '1px 1px 0 #fff',
-
-      pointerEvents: isFormValid
-        ? 'auto'
-        : 'none',
-
-      flexShrink: 0,
+      width: '100%',
     }}
   >
-    Send
-  </Button>
+
+    <label style={labelStyle}>
+      To:
+    </label>
+
+    <input
+      disabled
+      value="Perdana Kurniawan Arta"
+      style={{
+        ...inputStyle,
+
+        flex: 1,
+        minWidth: 0,
+
+        background: '#c5c4c4',
+        color: '#555',
+        boxSizing: 'border-box',
+      }}
+    />
+
+  </div>
+
+
+{/* ================= ACTION BUTTONS ================= */}
+
+<div
+  style={{
+    display: isMobile ? 'none' : 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: 'auto',
+    marginTop: 0,
+    paddingTop: 0,
+  }}
+>
+
+    {/* FILE INPUT */}
+
+    <input
+      ref={fileInputRef}
+      type="file"
+      accept="image/*,.pdf,.doc,.docx,.txt"
+      onChange={handleFileSelect}
+      style={{
+        display: 'none',
+      }}
+    />
+
+
+    {/* ATTACHMENT */}
+
+    <Button
+      type="button"
+      onClick={() => fileInputRef.current?.click()}
+      style={{
+        width: 32,
+        height: 28,
+        minWidth: 32,
+        padding: 0,
+        marginLeft: isMobile ? 0 : 6,
+
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        flexShrink: 0,
+      }}
+      title="Attach file"
+    >
+      📎
+    </Button>
+
+
+    {/* CAMERA */}
+
+    <Button
+      type="button"
+      onClick={onOpenCamera}
+      style={{
+        width: 32,
+        height: 28,
+        minWidth: 32,
+        padding: 0,
+        marginLeft: 4,
+
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        flexShrink: 0,
+      }}
+      title="Take photo"
+    >
+      📷
+    </Button>
+
+
+    {/* SEND */}
+
+    <Button
+      type="button"
+      disabled={!isFormValid}
+      onClick={isFormValid ? handleSend : undefined}
+      style={{
+        width: 90,
+        minWidth: 90,
+        height: 28,
+
+        padding: 0,
+        marginLeft: 4,
+
+        color: isFormValid
+          ? '#000'
+          : '#808080',
+
+        textShadow: isFormValid
+          ? 'none'
+          : '1px 1px 0 #fff',
+
+        pointerEvents: isFormValid
+          ? 'auto'
+          : 'none',
+
+        flexShrink: 0,
+      }}
+    >
+      Send
+    </Button>
+
+  </div>
+
 </div>
 
 
@@ -500,7 +529,7 @@ const handleSend = async () => {
   placeholder={
     messageFocused
       ? ''
-      : 'Take a moment to write something... I’d love to hear your thoughts, stories, ideas, or just a simple hello.'
+      : 'Write your message here...'
   }
   style={{
     flex: 1,
@@ -756,6 +785,124 @@ padding: '0 6px',
 )}
 </Frame>
 </div>
+
+{/* ================= MOBILE ACTION BUTTONS ================= */}
+
+{isMobile && (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      width: '100%',
+      height: 28,
+      marginTop: -4,
+      marginBottom: 0,
+      gap: 4,
+      boxSizing: 'border-box',
+    }}
+  >
+
+    {/* FILE INPUT */}
+
+    <input
+      ref={fileInputRef}
+      type="file"
+      accept="image/*,.pdf,.doc,.docx,.txt"
+      onChange={handleFileSelect}
+      style={{
+        display: 'none',
+      }}
+    />
+
+
+    {/* ATTACHMENT */}
+
+    <Button
+      type="button"
+      onClick={() => fileInputRef.current?.click()}
+      style={{
+        width: 32,
+        minWidth: 32,
+        height: 28,
+
+        padding: 0,
+        margin: 0,
+
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        flexShrink: 0,
+      }}
+      title="Attach file"
+    >
+      📎
+    </Button>
+
+
+    {/* CAMERA */}
+
+    <Button
+      type="button"
+      onClick={onOpenCamera}
+      style={{
+        width: 32,
+        minWidth: 32,
+        height: 28,
+
+        padding: 0,
+        margin: 0,
+
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        flexShrink: 0,
+      }}
+      title="Take photo"
+    >
+      📷
+    </Button>
+
+
+    {/* SEND */}
+
+    <Button
+      type="button"
+      disabled={!isFormValid}
+      onClick={isFormValid ? handleSend : undefined}
+      style={{
+        flex: 1,
+        minWidth: 0,
+        height: 28,
+
+        padding: 0,
+        margin: 0,
+
+        color: isFormValid
+          ? '#000'
+          : '#808080',
+
+        textShadow: isFormValid
+          ? 'none'
+          : '1px 1px 0 #fff',
+
+        pointerEvents: isFormValid
+          ? 'auto'
+          : 'none',
+
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        boxSizing: 'border-box',
+      }}
+    >
+      Send
+    </Button>
+
+  </div>
+)}
       </Frame>
     </Modal.Content>
   );

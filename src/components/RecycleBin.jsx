@@ -1,27 +1,36 @@
 import React, { useState } from 'react';
 import { Wangimg128 } from '@react95/icons';
 
-import imgNimu from '../assets/images/img_nimu.jpg';
-import imgMiyu from '../assets/images/img_miyu.jpg';
+import imgNimu from '../assets/images/img_nimu_new.jpeg';
+import imgMiyu from '../assets/images/img_miyu_new.jpg';
+import imgCelsi from '../assets/images/img_celsi.jpeg';
 
-export default function RecycleBin({ onOpenFile }) {
+export default function RecycleBin({
+  onOpenFile,
+  isTouchDevice,
+}) {
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const files = [
-    {
-      id: 1,
-      name: 'nimu.jpg',
-      imagePath: imgNimu
-    },
-    {
-      id: 2,
-      name: 'miyu.jpg',
-      imagePath: imgMiyu
-    },
-  ];
+ const files = [
+  {
+    id: 1,
+    name: 'nimu.jpeg',
+    imagePath: imgNimu,
+  },
+  {
+    id: 2,
+    name: 'miyu.jpg',
+    imagePath: imgMiyu,
+  },
+  {
+    id: 3,
+    name: 'celsi.jpeg',
+    imagePath: imgCelsi,
+  },
+];
 
   // =========================
-  // SINGLE CLICK
+  // SINGLE CLICK / SELECT
   // =========================
 
   const handleFileClick = (file) => {
@@ -29,7 +38,7 @@ export default function RecycleBin({ onOpenFile }) {
   };
 
   // =========================
-  // DOUBLE CLICK
+  // OPEN FILE
   // =========================
 
   const handleFileDoubleClick = (file) => {
@@ -114,6 +123,9 @@ export default function RecycleBin({ onOpenFile }) {
             'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
 
           margin: '2px',
+
+          // Touch device
+          touchAction: 'pan-y',
         }}
       >
 
@@ -143,16 +155,48 @@ export default function RecycleBin({ onOpenFile }) {
               <div
                 key={file.id}
 
-                // Single click
+                // =========================
+                // PC: SINGLE CLICK = SELECT
+                // =========================
+
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleFileClick(file);
+
+                  if (!isTouchDevice) {
+                    handleFileClick(file);
+                  }
                 }}
 
-                // Double click
+                // =========================
+                // PC: DOUBLE CLICK = OPEN
+                // =========================
+
                 onDoubleClick={(e) => {
                   e.stopPropagation();
-                  handleFileDoubleClick(file);
+
+                  if (!isTouchDevice) {
+                    handleFileDoubleClick(file);
+                  }
+                }}
+
+                // =========================
+                // SMARTPHONE + TABLET
+                // 1 TAP = OPEN
+                // =========================
+
+                onPointerUp={(e) => {
+                  if (
+                    isTouchDevice &&
+                    (
+                      e.pointerType === 'touch' ||
+                      e.pointerType === 'pen'
+                    )
+                  ) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    handleFileDoubleClick(file);
+                  }
                 }}
 
                 style={{
@@ -181,6 +225,8 @@ export default function RecycleBin({ onOpenFile }) {
                   color: isSelected
                     ? 'white'
                     : 'black',
+
+                  touchAction: 'manipulation',
                 }}
               >
 
@@ -191,6 +237,8 @@ export default function RecycleBin({ onOpenFile }) {
                 <div
                   style={{
                     marginBottom: '4px',
+
+                    pointerEvents: 'none',
                   }}
                 >
                   <Wangimg128
@@ -216,6 +264,8 @@ export default function RecycleBin({ onOpenFile }) {
                     wordBreak: 'normal',
 
                     overflowWrap: 'break-word',
+
+                    pointerEvents: 'none',
                   }}
                 >
                   {file.name}
