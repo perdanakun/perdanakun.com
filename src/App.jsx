@@ -6,6 +6,13 @@ import '@fontsource/open-sans/500.css';
 import '@fontsource/open-sans/600.css';
 import '@fontsource/open-sans/700.css';
 import winBackground from './assets/images/win_background2.jpg';
+import winDawn from './assets/images/1dawn.png';
+import winMorning from './assets/images/2morning.png';
+import winMidday from './assets/images/3midday.png';
+import winAfternoon from './assets/images/4afternoon.png';
+import winSunset from './assets/images/5sunset.png';
+import winBlueHour from './assets/images/6bluehour.png';
+import winNight from './assets/images/7night.png';
 import AiAssistantContentModal from './components/AiAssistantContentModal';
 import ProjectFolderContent from './components/ProjectFolderContent';
 import CSGameModal from './components/CSGameModal';
@@ -364,6 +371,63 @@ return (
 
 function App() {
 
+    // ==========================================
+  // DYNAMIC WALLPAPER - based on user
+  // ==========================================
+const getBackgroundByTime = () => {
+  const now = new Date();
+
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+
+  const time = hour + minute / 60;
+
+  if (time >= 5 && time < 7) {
+    return winDawn;
+  }
+
+  if (time >= 7 && time < 11) {
+    return winMorning;
+  }
+
+  if (time >= 11 && time < 15) {
+    return winMidday;
+  }
+
+  if (time >= 15 && time < 17) {
+    return winAfternoon;
+  }
+
+  if (time >= 17 && time < 18.5) {
+    return winSunset;
+  }
+
+  if (time >= 18.5 && time < 21) {
+    return winBlueHour;
+  }
+
+  return winNight;
+};
+
+  const [currentBackground, setCurrentBackground] = useState(
+    getBackgroundByTime()
+  );
+
+  // Check waktu setiap 1 menit
+  useEffect(() => {
+    const updateBackground = () => {
+      setCurrentBackground(getBackgroundByTime());
+    };
+
+    updateBackground();
+
+    const interval = setInterval(() => {
+      updateBackground();
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
 // Mengatur responsivenes dan tap di device selain PC
 const [isMobile, setIsMobile] = useState(
   typeof window !== 'undefined' && window.innerWidth <= 600
@@ -593,7 +657,9 @@ const handleAttachmentTooLarge = (file) => {
             padding: 0;
             overflow: hidden;
 
-            background-image: url(${winBackground}); /*ganti background-color: #008080;*/
+            background-image: url(${currentBackground});
+
+           /* background-image: url(${winBackground}); ganti background-color: #008080;*/
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
