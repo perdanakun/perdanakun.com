@@ -19,6 +19,7 @@ import AlertModalEmailFile from './components/AlertModalEmailFile';
 import CameraModal from './components/CameraModal';
 import AiAssistant from "./components/AiAssistant";
 import AiAssistantSphere from "./components/AiAssistantSphere";
+import ImageViewer from './components/ImageViewer';
 import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
@@ -600,6 +601,18 @@ const handleAttachmentTooLarge = (file) => {
             .content-font {
   font-family: 'Open Sans', sans-serif !important;
 }
+
+.portfolio-identity {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
             .draggable {
               justify-content: flex-start !important;
             }
@@ -637,7 +650,8 @@ const handleAttachmentTooLarge = (file) => {
       </style>
 
       {/* --- CONTAINER DESKTOP UTAMA --- */}
-<div
+<main
+  aria-label="Perdana's Computer — portfolio of Perdana Kurniawan Arta"
   style={{
     position: 'relative',
     width: '100%',
@@ -645,6 +659,24 @@ const handleAttachmentTooLarge = (file) => {
     overflow: 'hidden',
   }}
 >
+  <header
+  className="portfolio-identity"
+  aria-label="Perdana Kurniawan Arta"
+>
+  <h1>Perdana Kurniawan Arta</h1>
+
+  <p>
+    Also known as <strong>Perdanakun</strong>.
+  </p>
+
+  <p>
+    Visual Designer and Design Lead exploring Product Design and
+    Design Engineering through UX, Design Systems, Front-End,
+    and design-in-code practice.
+  </p>
+</header>
+
+  
   {/* <DynamicXPBackground /> */}
 
   {/* THUMBNAIL DESKTOP */}
@@ -939,10 +971,6 @@ const handleAttachmentTooLarge = (file) => {
 )}
 
 
-
-
-
-
 {/* --- JENDELA PROJECTS --- */}
 {windows.projects && (
   <ResizableModal
@@ -950,33 +978,33 @@ const handleAttachmentTooLarge = (file) => {
     isTablet={isTablet}
 
     // LOCK WINDOW
-    lockPosition={true}
+    lockPosition={false}
 
     minHeightRatio={0.5}
 
     // =========================
     // TABLET
-    // FULLSCREEN - TASKBAR
+    // CENTER SCREEN
     // =========================
-    tabletWidth="100vw"
-    tabletHeight="auto"
-    tabletTop="0"
-    tabletLeft="0"
+    tabletWidth="70%"
+    tabletHeight="60%"
+    tabletTop="50%"
+    tabletLeft="50%"
     tabletRight="auto"
-    tabletBottom="28px"
-    tabletTransform="none"
+    tabletBottom="auto"
+    tabletTransform="translate(-50%, -50%)"
 
     // =========================
     // DESKTOP
-    // FULLSCREEN - TASKBAR
+    // CENTER SCREEN
     // =========================
-    desktopWidth="100vw"
-    desktopHeight="auto"
-    desktopTop="0"
-    desktopLeft="0"
+    desktopWidth="50%"
+    desktopHeight="70%"
+    desktopTop="50%"
+    desktopLeft="50%"
     desktopRight="auto"
-    desktopBottom="28px"
-    desktopTransform="none"
+    desktopBottom="auto"
+    desktopTransform="translate(-50%, -50%)"
 
     icon={<Folder variant="16x16_4" />}
     title="Project Explorer"
@@ -1335,8 +1363,6 @@ const handleAttachmentTooLarge = (file) => {
 />
   </ResizableModal>
 )}
-
-
 {/* --- JENDELA IMAGE VIEWER --- */}
 {imageViewers.map((viewer) => (
   <ResizableModal
@@ -1346,18 +1372,13 @@ const handleAttachmentTooLarge = (file) => {
     isMobile={isMobile}
     isTablet={isTablet}
 
-    // =========================
-    // SMARTPHONE
-    // LEBAR FULLSCREEN
-    // =========================
     mobileWidth="100vw"
 
     // =========================
     // TABLET
-    // MENGIKUTI UKURAN FOTO
     // =========================
-    tabletWidth={`${viewer.width + 24}px`}
-    tabletHeight={`${viewer.height + 60}px`}
+    tabletWidth={`${viewer.width + 28}px`}
+    tabletHeight={`${viewer.height + 90}px`}
     tabletTop="50%"
     tabletLeft="50%"
     tabletRight="auto"
@@ -1366,10 +1387,9 @@ const handleAttachmentTooLarge = (file) => {
 
     // =========================
     // DESKTOP
-    // MENGIKUTI UKURAN FOTO
     // =========================
-    desktopWidth={`${viewer.width + 24}px`}
-    desktopHeight={`${viewer.height + 60}px`}
+    desktopWidth={`${viewer.width + 28}px`}
+    desktopHeight={`${viewer.height + 90}px`}
     desktopTop="50%"
     desktopLeft="50%"
     desktopRight="auto"
@@ -1389,41 +1409,10 @@ const handleAttachmentTooLarge = (file) => {
       </>
     }
   >
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#808080',
-
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        overflow: 'hidden',
-        boxSizing: 'border-box',
-
-        padding: '12px',
-      }}
-    >
-      <img
-        src={viewer.file.imagePath}
-        alt={viewer.file.name}
-        onLoad={(e) =>
-          handleImageLoad(viewer.id, e)
-        }
-        style={{
-          display: 'block',
-
-          width: `${viewer.width}px`,
-          height: `${viewer.height}px`,
-
-          objectFit: 'contain',
-
-          maxWidth: '100%',
-          maxHeight: '100%',
-        }}
-      />
-    </div>
+    <ImageViewer
+      viewer={viewer}
+      onImageLoad={handleImageLoad}
+    />
   </ResizableModal>
 ))}
 
@@ -1475,7 +1464,7 @@ const handleAttachmentTooLarge = (file) => {
           }
         />
 
-      </div>
+      </main>
     </>
   );
 }

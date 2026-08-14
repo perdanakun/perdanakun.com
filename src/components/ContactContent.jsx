@@ -280,26 +280,76 @@ const handleSend = async () => {
         background: '#c0c0c0'
       }}
     >
+{/* =========================
+    MENU BAR
+========================= */}
+<div
+  style={{
+    display: 'flex',
+    gap: '6px',
+    padding: '2px 6px',
+    backgroundColor: '#c0c0c0',
+    borderBottom: '1px solid #808080',
+    fontSize: '11px',
+    userSelect: 'none',
+  }}
+>
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>F</u>ile
+  </span>
 
-      {/* ================= MENU BAR ================= */}
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>E</u>dit
+  </span>
 
-      <div
-        style={{
-          display: 'flex',
-          gap: 16,
-          padding: '6px 10px',
-          borderBottom: '1px solid #808080',
-          background: '#c0c0c0',
-          fontSize: 12
-        }}
-      >
-        <span>File</span>
-        <span>Edit</span>
-        <span>View</span>
-        <span>Insert</span>
-        <span>Format</span>
-        <span>Tools</span>
-      </div>
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>V</u>iew
+  </span>
+
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>I</u>nsert
+  </span>
+
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    F<u>o</u>rmat
+  </span>
+
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>T</u>ools
+  </span>
+
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>H</u>elp
+  </span>
+</div>
 
 
       {/* ================= MAIL BODY ================= */}
@@ -309,7 +359,7 @@ const handleSend = async () => {
         boxShadow="$in"
         style={{
           flex: 1,
-          margin: 6,
+          margin: 2,
           padding: 10,
           display: 'flex',
           flexDirection: 'column',

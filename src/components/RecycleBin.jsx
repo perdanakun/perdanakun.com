@@ -62,47 +62,53 @@ export default function RecycleBin({
         fontFamily: 'MS Sans Serif, sans-serif',
       }}
     >
+{/* =========================
+    MENU BAR
+========================= */}
 
-      {/* =========================
-          MENU BAR
-      ========================= */}
+<div
+  style={{
+    display: 'flex',
+    gap: '6px',
+    padding: '2px 6px',
+    backgroundColor: '#c0c0c0',
+    borderBottom: '1px solid #808080',
+    fontSize: '11px',
+    userSelect: 'none',
+  }}
+>
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>F</u>ile
+  </span>
 
-      <div
-        style={{
-          display: 'flex',
-          gap: '12px',
-          padding: '2px 6px',
-          backgroundColor: '#c0c0c0',
-          borderBottom: '1px solid #808080',
-          fontSize: '11px',
-          userSelect: 'none',
-        }}
-      >
-        <span
-          style={{
-            padding: '1px 4px',
-          }}
-        >
-          File
-        </span>
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>E</u>dit
+  </span>
 
-        <span
-          style={{
-            padding: '1px 4px',
-          }}
-        >
-          Edit
-        </span>
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>V</u>iew
+  </span>
 
-        <span
-          style={{
-            padding: '1px 4px',
-          }}
-        >
-          View
-        </span>
-      </div>
-
+  <span
+    style={{
+      padding: '1px 4px',
+    }}
+  >
+    <u>H</u>elp
+  </span>
+</div>
 
       {/* =========================
           EXPLORER AREA
