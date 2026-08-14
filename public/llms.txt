@@ -1,12 +1,3 @@
-Iya. Kalau basisnya **positioning yang benar-benar dideklarasikan di `index.html`**, `llms.txt` kamu sekarang sedikit terlalu cepat memosisikan diri sebagai **“Visual Designer & Design Engineer”** seolah-olah dua-duanya sudah merupakan identitas utama yang setara.
-
-Padahal dari HTML, positioning yang lebih presisi adalah:
-
-**Perdana Kurniawan Arta → Visual Designer / Design Lead → Product Design → Design Engineering**
-
-Dan akar keahliannya adalah **visual systems, iconography, illustration**, sementara product/design engineering adalah arah pengembangan yang sedang diperluas.
-
-Aku akan bikin `llms.txt`-nya lebih faithful terhadap HTML, sehingga LLM tidak salah membaca kamu sebagai pure frontend engineer atau pure product designer.
 
 # Perdana Kurniawan Arta | Visual Designer → Product Design & Design Engineering
 
