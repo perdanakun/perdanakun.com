@@ -1,7 +1,7 @@
+
 # Windows 95 Portfolio — Exploring Design in Code
 
-<img width="1920" height="1040" alt="perdanakun com-win95portfolio" src="https://github.com/user-attachments/assets/0cf1b0b5-fd15-4ccb-b5c4-62eca79a687f" />
-
+<img width="1907" height="954" alt="perdanakun com-win95-portfolio-design-engineering" src="https://github.com/user-attachments/assets/036a1303-914f-4f09-bf05-b3c6234c6c6d" />
 <p align="center">
   <a href="https://perdanakun.com">
     <strong>🌐 Live Website</strong>
