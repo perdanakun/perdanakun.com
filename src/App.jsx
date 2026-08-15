@@ -27,6 +27,7 @@ import CameraModal from './components/CameraModal';
 import AiAssistant from "./components/AiAssistant";
 import AiAssistantSphere from "./components/AiAssistantSphere";
 import ImageViewer from './components/ImageViewer';
+import PerdanaInstaller from './components/installer/PerdanaInstaller';
 import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
@@ -371,49 +372,29 @@ return (
 
 function App() {
 
-    // ==========================================
-  // DYNAMIC WALLPAPER - based on user
+ // ==========================================
+  // DYNAMIC WALLPAPER - DINONAKTIFKAN
   // ==========================================
-const getBackgroundByTime = () => {
-  const now = new Date();
 
-  const hour = now.getHours();
-  const minute = now.getMinutes();
+  // const getBackgroundByTime = () => {
+  //   const now = new Date();
+  //   const hour = now.getHours();
+  //   const minute = now.getMinutes();
+  //   const time = hour + minute / 60;
+  //   if (time >= 5 && time < 7) { return winDawn; }
+  //   if (time >= 7 && time < 11) { return winMorning; }
+  //   if (time >= 11 && time < 15) { return winMidday; }
+  //   if (time >= 15 && time < 17) { return winAfternoon; }
+  //   if (time >= 17 && time < 18.5) { return winSunset; }
+  //   if (time >= 18.5 && time < 21) { return winBlueHour; }
+  //   return winNight;
+  // };
 
-  const time = hour + minute / 60;
+  // Set ke satu gambar statis saja (ubah 'winNight' )
+  const [currentBackground, setCurrentBackground] = useState(winBackground);
 
-  if (time >= 5 && time < 7) {
-    return winDawn;
-  }
-
-  if (time >= 7 && time < 11) {
-    return winMorning;
-  }
-
-  if (time >= 11 && time < 15) {
-    return winMidday;
-  }
-
-  if (time >= 15 && time < 17) {
-    return winAfternoon;
-  }
-
-  if (time >= 17 && time < 18.5) {
-    return winSunset;
-  }
-
-  if (time >= 18.5 && time < 21) {
-    return winBlueHour;
-  }
-
-  return winNight;
-};
-
-  const [currentBackground, setCurrentBackground] = useState(
-    getBackgroundByTime()
-  );
-
-  // Check waktu setiap 1 menit
+  // useEffect untuk interval waktu 
+  /*
   useEffect(() => {
     const updateBackground = () => {
       setCurrentBackground(getBackgroundByTime());
@@ -427,6 +408,9 @@ const getBackgroundByTime = () => {
 
     return () => clearInterval(interval);
   }, []);
+  */
+
+  // ==========================================
 
 // Mengatur responsivenes dan tap di device selain PC
 const [isMobile, setIsMobile] = useState(
@@ -472,6 +456,10 @@ const [windows, setWindows] = useState({
   recycleBin: false,
   imageViewer: false,
 });
+
+// Perdana PC Installer
+
+const [installerVisible, setInstallerVisible] = useState(false);
 
 // AI Assistant v2
 const [aiAssistantV2Visible, setAiAssistantV2Visible] = useState(false);
@@ -762,7 +750,7 @@ const handleAttachmentTooLarge = (file) => {
   disableDragging={false}
 >
 <DesktopIcon
-  onOpen={() => openWindow('about')}
+  onOpen={() => setInstallerVisible(true)}
 >
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
@@ -972,6 +960,18 @@ const handleAttachmentTooLarge = (file) => {
     onRestore={() => {
       // AiAssistant menangani restore internal
     }}
+  />
+)} 
+
+INI ENDING KODE INACTIVE*/}
+
+{/* --- JENDELA ABOUT PERDANA KURNIAWAN ARTA --- */}
+{installerVisible && (
+  <PerdanaInstaller
+    isMobile={isMobile}
+    isTablet={isTablet}
+    onClose={() => setInstallerVisible(false)}
+    onFinish={() => setInstallerVisible(false)}
   />
 )}
 

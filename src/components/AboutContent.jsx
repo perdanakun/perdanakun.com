@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from '@react95/core';
-import perdanaImage from '../assets/images/perdana.png';
+import perdanaImage from '../assets/images/img_nimu.jpg';
 
 export default function AboutContent() {
   const [page, setPage] = useState(1);
