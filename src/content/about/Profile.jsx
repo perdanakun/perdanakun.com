@@ -1,39 +1,113 @@
 export default function Profile() {
+  const paragraphStyle = {
+    margin: '0 0 16px',
+  };
+
+  const boldStyle = {
+    fontWeight: 700,
+  };
+
+  const linkStyle = {
+    color: '#000080',
+    textDecoration: 'underline',
+  };
+
   return (
-    <section aria-labelledby="profile-heading">
-      <h2 id="profile-heading">Profile</h2>
+    <section
+      aria-label="Profile"
+      style={{
+        display: 'block',
+        fontFamily: '"MS Sans Serif", sans-serif',
+        fontSize: 12,
+        lineHeight: '18px',
+        fontWeight: 400,
+        color: '#000000',
+      }}
+    >
+      {/* ==================================
+          INTRODUCTION
+      ================================== */}
 
-      <p>
-        Perdana Kurniawan Arta is a visual designer and design lead
-        from Indonesia, with a background in visual systems,
-        iconography, illustration, and visual communication design.
+      <p style={paragraphStyle}>
+        Perdana Kurniawan Arta is a visual designer from Indonesia
+        specializing in visual systems, iconography, illustration,
+        and visual communication.
       </p>
 
-      <p>
-        Over the past decade, he has worked across more than 3,000
-        design projects for founders, startups, and businesses
-        worldwide, developing visual systems that are clear,
-        consistent, and scalable across digital and physical
-        products.
+
+      {/* ==================================
+          EXPERIENCE
+      ================================== */}
+
+      <p style={paragraphStyle}>
+        With{' '}
+        <strong style={boldStyle}>
+          10+ years of experience
+        </strong>
+        , he has worked across more than{' '}
+        <strong style={boldStyle}>
+          3,000 design projects
+        </strong>{' '}
+        for founders, startups, and businesses worldwide,
+        creating visual systems that are clear, consistent, and
+        scalable across digital and physical products.
       </p>
 
-      <p>
-        His current practice is expanding from visual design into
-        product design and design engineering, exploring how UX,
-        interaction design, design systems, and front-end development
-        can become part of the same design process.
+
+      {/* ==================================
+          PROFESSIONAL PRACTICE
+      ================================== */}
+
+      <p style={paragraphStyle}>
+        His professional design practice has included work through{' '}
+        <a
+          href="https://www.fiverr.com/conania"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={linkStyle}
+        >
+          Conania
+        </a>
+        , working across iconography, illustration, visual systems,
+        and digital products.
       </p>
 
-      <p>
-        Rather than treating design and development as separate
-        stages, Perdana is exploring a design-in-code workflow where
-        ideas can be designed, built, tested, and refined directly
-        through implementation.
+
+      {/* ==================================
+          CURRENT DIRECTION
+      ================================== */}
+
+      <p style={paragraphStyle}>
+        Today, his practice is expanding into{' '}
+        <strong style={boldStyle}>
+          Product Design and Design Engineering
+        </strong>
+        , with a focus on UX, interaction design, design systems,
+        and front-end development.
       </p>
 
-      <p>
-        His current direction can be summarized as:
-        <strong> Design, Build, and Ship.</strong>
+
+      {/* ==================================
+          DESIGN + DEVELOPMENT
+      ================================== */}
+
+      <p style={paragraphStyle}>
+        He is exploring how design and development can work as one
+        process, using code to prototype, test, and refine digital
+        experiences rather than treating implementation as a separate
+        handoff.
+      </p>
+
+
+      {/* ==================================
+          CURRENT PRINCIPLE
+      ================================== */}
+
+      <p style={{ margin: 0 }}>
+        His current direction can be summarized as:{' '}
+        <strong style={boldStyle}>
+          Design, Build, and Ship.
+        </strong>
       </p>
     </section>
   );

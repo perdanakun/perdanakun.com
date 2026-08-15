@@ -16,17 +16,20 @@ import InstallerComplete from './InstallerComplete';
 
 import installerSteps from '../../data/installerSteps';
 
+
 export default function PerdanaInstaller({
   isMobile,
   isTablet,
   onClose,
   onFinish,
 }) {
+
   // ==========================================
   // INSTALLER PAGE
   // ==========================================
 
   const [page, setPage] = useState('welcome');
+
 
   // ==========================================
   // ABOUT / WIZARD STEP
@@ -34,11 +37,13 @@ export default function PerdanaInstaller({
 
   const [currentStep, setCurrentStep] = useState(0);
 
+
   // ==========================================
   // INSTALLATION PROGRESS
   // ==========================================
 
   const [progress, setProgress] = useState(0);
+
 
   // ==========================================
   // CURRENT STEP
@@ -47,11 +52,13 @@ export default function PerdanaInstaller({
   const currentInstallerStep =
     installerSteps[currentStep];
 
+
   // ==========================================
   // NEXT
   // ==========================================
 
   const handleNext = () => {
+
     // -----------------------------
     // WELCOME → WIZARD
     // -----------------------------
@@ -59,29 +66,37 @@ export default function PerdanaInstaller({
     if (page === 'welcome') {
       setCurrentStep(0);
       setPage('wizard');
+
       return;
     }
+
 
     // -----------------------------
     // WIZARD NAVIGATION
     // -----------------------------
 
     if (page === 'wizard') {
+
       const isLastStep =
         currentStep >= installerSteps.length - 1;
 
+
       if (!isLastStep) {
         setCurrentStep((step) => step + 1);
+
         return;
       }
 
+
       // Setelah section terakhir
       // mulai fake installation
+
       setProgress(0);
       setPage('loading');
 
       return;
     }
+
 
     // -----------------------------
     // COMPLETE → CLOSE
@@ -92,16 +107,15 @@ export default function PerdanaInstaller({
     }
   };
 
+
   // ==========================================
   // BACK
   // ==========================================
 
   const handleBack = () => {
-    // -----------------------------
-    // WIZARD
-    // -----------------------------
 
     if (page === 'wizard') {
+
       if (currentStep > 0) {
         setCurrentStep((step) => step - 1);
       } else {
@@ -112,11 +126,13 @@ export default function PerdanaInstaller({
     }
   };
 
+
   // ==========================================
   // TREE SELECT
   // ==========================================
 
   const handleSelectStep = (index) => {
+
     if (
       index < 0 ||
       index >= installerSteps.length
@@ -127,6 +143,7 @@ export default function PerdanaInstaller({
     setCurrentStep(index);
   };
 
+
   // ==========================================
   // CANCEL
   // ==========================================
@@ -135,38 +152,49 @@ export default function PerdanaInstaller({
     onClose?.();
   };
 
+
   // ==========================================
   // FAKE INSTALLATION PROGRESS
   // ==========================================
 
   useEffect(() => {
+
     if (page !== 'loading') {
       return;
     }
 
     setProgress(0);
 
+
     const interval = setInterval(() => {
+
       setProgress((current) => {
+
         if (current >= 100) {
           clearInterval(interval);
+
           return 100;
         }
 
         return current + 5;
       });
+
     }, 120);
+
 
     return () => {
       clearInterval(interval);
     };
+
   }, [page]);
+
 
   // ==========================================
   // LOADING → COMPLETE
   // ==========================================
 
   useEffect(() => {
+
     if (
       page !== 'loading' ||
       progress < 100
@@ -174,14 +202,18 @@ export default function PerdanaInstaller({
       return;
     }
 
+
     const timeout = setTimeout(() => {
       setPage('complete');
     }, 500);
 
+
     return () => {
       clearTimeout(timeout);
     };
+
   }, [page, progress]);
+
 
   // ==========================================
   // RENDER
@@ -192,71 +224,77 @@ export default function PerdanaInstaller({
       key="perdana-installer"
       icon={<Computer variant="16x16_4" />}
       title="Perdana's PC Setup"
-style={{
-  position: 'fixed',
 
-  ...(isMobile
-    ? {
-        // =====================================
-        // SMARTPHONE
-        // FULLSCREEN - TASKBAR
-        // =====================================
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: '28px',
+      style={{
+        position: 'fixed',
 
-        width: '100vw',
-        height: 'auto',
+        ...(isMobile
+          ? {
 
-        maxWidth: '100vw',
-        maxHeight: 'none',
+              // =====================================
+              // SMARTPHONE
+              // FULLSCREEN - TASKBAR
+              // =====================================
 
-        transform: 'none',
-        margin: 0,
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: '28px',
 
-        boxSizing: 'border-box',
-      }
+              width: '100vw',
+              height: 'auto',
 
-    : isTablet
-    ? {
-        // =====================================
-        // TABLET
-        // CENTER DI AREA ATAS TASKBAR
-        // =====================================
-        left: '50%',
-        top: 'calc((100vh - 28px) / 2)',
+              maxWidth: '100vw',
+              maxHeight: 'none',
 
-        width: '70vw',
-        height: '60vh',
+              transform: 'none',
+              margin: 0,
 
-        maxWidth: '90vw',
-        maxHeight: 'calc(100vh - 28px)',
+              boxSizing: 'border-box',
+            }
 
-        transform: 'translate(-50%, -50%)',
+          : isTablet
+          ? {
 
-        boxSizing: 'border-box',
-      }
+              // =====================================
+              // TABLET
+              // =====================================
 
-    : {
-        // =====================================
-        // DESKTOP
-        // CENTER DI AREA ATAS TASKBAR
-        // =====================================
-        left: '50%',
-        top: 'calc((100vh - 28px) / 2)',
+              left: '50%',
+              top: 'calc((100vh - 28px) / 2)',
 
-        width: '700px',
-        height: '500px',
+              width: '78vw',
+              height: '68vh',
 
-        maxWidth: 'calc(100vw - 20px)',
-        maxHeight: 'calc(100vh - 28px)',
+              maxWidth: '90vw',
+              maxHeight: 'calc(100vh - 28px)',
 
-        transform: 'translate(-50%, -50%)',
+              transform: 'translate(-50%, -50%)',
 
-        boxSizing: 'border-box',
-      }),
-}}
+              boxSizing: 'border-box',
+            }
+
+          : {
+
+              // =====================================
+              // DESKTOP
+              // =====================================
+
+              left: '50%',
+              top: 'calc((100vh - 28px) / 2)',
+
+              width: '820px',
+              height: '560px',
+
+              maxWidth: 'calc(100vw - 20px)',
+              maxHeight: 'calc(100vh - 28px)',
+
+              transform: 'translate(-50%, -50%)',
+
+              boxSizing: 'border-box',
+            }),
+      }}
+
       titleBarOptions={
         <TitleBar.Close
           onClick={handleCancel}
@@ -264,10 +302,19 @@ style={{
       }
     >
 
+      {/* ==========================================
+          MODAL CONTENT
+      ========================================== */}
+
       <Modal.Content
         style={{
           padding: 0,
+
+          width: '100%',
           height: '100%',
+
+          minWidth: 0,
+          minHeight: 0,
 
           background: '#c0c0c0',
 
@@ -275,6 +322,8 @@ style={{
 
           display: 'flex',
           flexDirection: 'column',
+
+          overflow: 'hidden',
         }}
       >
 
@@ -284,12 +333,18 @@ style={{
 
         <div
           style={{
-            flex: 1,
+            flex: '1 1 0',
+
+            width: '100%',
+
+            minWidth: 0,
             minHeight: 0,
 
             boxSizing: 'border-box',
 
             overflow: 'hidden',
+
+            display: 'flex',
           }}
         >
 
@@ -300,9 +355,16 @@ style={{
           {page === 'welcome' && (
             <div
               style={{
+                width: '100%',
                 height: '100%',
+
+                minWidth: 0,
+                minHeight: 0,
+
                 padding: 12,
+
                 boxSizing: 'border-box',
+
                 overflow: 'auto',
               }}
             >
@@ -319,8 +381,17 @@ style={{
             <div
               style={{
                 display: 'flex',
+
+                flex: '1 1 0',
+
+                width: '100%',
                 height: '100%',
+
+                minWidth: 0,
                 minHeight: 0,
+
+                boxSizing: 'border-box',
+
                 overflow: 'hidden',
               }}
             >
@@ -338,12 +409,6 @@ style={{
 
               <InstallerContent
                 step={currentInstallerStep}
-                onNext={handleNext}
-                onBack={
-                  currentStep > 0 || page === 'wizard'
-                    ? handleBack
-                    : undefined
-                }
               />
 
             </div>
@@ -357,9 +422,16 @@ style={{
           {page === 'loading' && (
             <div
               style={{
+                width: '100%',
                 height: '100%',
+
+                minWidth: 0,
+                minHeight: 0,
+
                 padding: 12,
+
                 boxSizing: 'border-box',
+
                 overflow: 'auto',
               }}
             >
@@ -377,9 +449,16 @@ style={{
           {page === 'complete' && (
             <div
               style={{
+                width: '100%',
                 height: '100%',
+
+                minWidth: 0,
+                minHeight: 0,
+
                 padding: 12,
+
                 boxSizing: 'border-box',
+
                 overflow: 'auto',
               }}
             >
@@ -396,9 +475,11 @@ style={{
 
         <div
           style={{
-            borderTop: '1px solid #808080',
-            boxShadow: '0 1px 0 #ffffff',
             flexShrink: 0,
+
+            borderTop: '1px solid #808080',
+
+            boxShadow: '0 1px 0 #ffffff',
           }}
         />
 
@@ -409,7 +490,10 @@ style={{
 
         <div
           style={{
+            flexShrink: 0,
+
             display: 'flex',
+
             justifyContent: 'flex-end',
             alignItems: 'center',
 
@@ -417,7 +501,7 @@ style={{
 
             padding: '10px 12px',
 
-            flexShrink: 0,
+            boxSizing: 'border-box',
           }}
         >
 

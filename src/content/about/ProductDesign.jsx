@@ -1,54 +1,192 @@
+import {
+  Globe,
+  WindowsExplorer,
+  Folder,
+} from '@react95/icons';
+
 export default function ProductDesign() {
+  const sectionStyle = {
+    display: 'grid',
+    gridTemplateColumns: '24px 1fr',
+    columnGap: '8px',
+    margin: '0 0 20px',
+  };
+
+  const iconStyle = {
+    width: '16px',
+    height: '16px',
+    marginTop: '1px',
+  };
+
+  const headingStyle = {
+    margin: '0 0 8px',
+    fontSize: '14px',
+    lineHeight: '18px',
+    fontWeight: 700,
+  };
+
+  const paragraphStyle = {
+    margin: '0 0 16px',
+  };
+
+  const strongStyle = {
+    fontWeight: 700,
+  };
+
+  const linkStyle = {
+    color: '#000080',
+    textDecoration: 'underline',
+  };
+
   return (
-    <section aria-labelledby="product-design-heading">
-      <h2 id="product-design-heading">Product Design</h2>
+    <section
+      aria-label="Product Design"
+      style={{
+        display: 'block',
+        fontFamily: '"MS Sans Serif", sans-serif',
+        fontSize: 12,
+        lineHeight: '18px',
+        fontWeight: 400,
+        color: '#000000',
+      }}
+    >
+      {/* ==================================
+          INTRODUCTION
+      ================================== */}
 
-      <p>
-        Product design is the direction Perdana is currently
-        exploring as he extends his background in visual design into
-        user experience, interaction, and digital product development.
+      <p style={paragraphStyle}>
+        Product design is the direction Perdana is currently exploring
+        as he extends his background in visual design into user
+        experience, interaction, and digital product development.
       </p>
 
-      <p>
-        His transition is built on an existing foundation in visual
-        systems, but moves the focus from individual visual assets
-        toward understanding how complete experiences work.
+
+      <p style={paragraphStyle}>
+        His transition is built on an existing foundation in{' '}
+        <strong style={strongStyle}>
+          visual systems
+        </strong>
+        , but moves the focus from individual visual assets toward
+        understanding how complete experiences work.
       </p>
 
-      <section>
-        <h3>From Visuals to Experiences</h3>
 
-        <p>
-          Instead of focusing only on how an interface looks, Perdana
-          is exploring how users understand, navigate, interact with,
-          and complete tasks within a product.
-        </p>
+      {/* ==================================
+          FROM VISUALS TO EXPERIENCES
+      ================================== */}
+
+      <section
+        aria-labelledby="visuals-heading"
+        style={sectionStyle}
+      >
+        <div
+          aria-hidden="true"
+          style={iconStyle}
+        >
+          <Globe variant="16x16_4" />
+        </div>
+
+        <div>
+          <h3
+            id="visuals-heading"
+            style={headingStyle}
+          >
+            From Visuals to Experiences
+          </h3>
+
+          <p style={{ margin: 0 }}>
+            Instead of focusing only on how an interface looks, Perdana
+            is exploring how users understand, navigate, interact with,
+            and complete tasks within a product.
+          </p>
+        </div>
       </section>
 
-      <section>
-        <h3>UX & Interaction</h3>
 
-        <p>
-          His current learning and practice include user experience,
-          information architecture, interaction design, prototyping,
-          usability, and interface systems.
-        </p>
+      {/* ==================================
+          UX & INTERACTION
+      ================================== */}
+
+      <section
+        aria-labelledby="ux-heading"
+        style={sectionStyle}
+      >
+        <div
+          aria-hidden="true"
+          style={iconStyle}
+        >
+          <WindowsExplorer variant="16x16_4" />
+        </div>
+
+        <div>
+          <h3
+            id="ux-heading"
+            style={headingStyle}
+          >
+            UX &amp; Interaction
+          </h3>
+
+          <p style={paragraphStyle}>
+            His current learning and practice include user experience,
+            information architecture, interaction design, prototyping,
+            usability, and interface systems.
+          </p>
+
+          <p style={{ margin: 0 }}>
+            <a
+              href="https://www.perdanakun.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={linkStyle}
+            >
+              Explore the current product experiment →
+            </a>
+          </p>
+        </div>
       </section>
 
-      <section>
-        <h3>Product Thinking</h3>
 
-        <p>
-          The goal is to connect user needs, business requirements,
-          visual communication, and technical constraints rather than
-          treating them as isolated design problems.
-        </p>
+      {/* ==================================
+          PRODUCT THINKING
+      ================================== */}
 
-        <p>
-          This is an ongoing transition from designing individual
-          deliverables toward designing systems and experiences that
-          can be built, tested, measured, and improved.
-        </p>
+      <section
+        aria-labelledby="product-thinking-heading"
+        style={{
+          ...sectionStyle,
+          margin: 0,
+        }}
+      >
+        <div
+          aria-hidden="true"
+          style={iconStyle}
+        >
+          <Folder variant="16x16_4" />
+        </div>
+
+        <div>
+          <h3
+            id="product-thinking-heading"
+            style={headingStyle}
+          >
+            Product Thinking
+          </h3>
+
+          <p style={paragraphStyle}>
+            The goal is to connect user needs, business requirements,
+            visual communication, and{' '}
+            <strong style={strongStyle}>
+              technical constraints
+            </strong>{' '}
+            rather than treating them as isolated design problems.
+          </p>
+
+          <p style={{ margin: 0 }}>
+            This is an ongoing transition from designing individual
+            deliverables toward designing systems and experiences that
+            can be built, tested, measured, and improved.
+          </p>
+        </div>
       </section>
     </section>
   );
