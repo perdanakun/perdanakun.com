@@ -32,7 +32,7 @@ export default function PerdanaInstaller({
 
 
   // ==========================================
-  // ABOUT / WIZARD STEP
+  // WIZARD STEP
   // ==========================================
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -54,57 +54,47 @@ export default function PerdanaInstaller({
 
 
   // ==========================================
-  // NEXT
+  // WELCOME → NEXT PAGE
+  // ==========================================
+
+  const handleWhatsNew = () => {
+
+    setCurrentStep(0);
+
+    setPage('wizard');
+  };
+
+
+  // ==========================================
+  // WIZARD → NEXT / INSTALL
   // ==========================================
 
   const handleNext = () => {
 
-    // -----------------------------
-    // WELCOME → WIZARD
-    // -----------------------------
+    if (page !== 'wizard') {
+      return;
+    }
 
-    if (page === 'welcome') {
-      setCurrentStep(0);
-      setPage('wizard');
+
+    const isLastStep =
+      currentStep >= installerSteps.length - 1;
+
+
+    if (!isLastStep) {
+
+      setCurrentStep((step) => step + 1);
 
       return;
     }
 
 
-    // -----------------------------
-    // WIZARD NAVIGATION
-    // -----------------------------
+    // ========================================
+    // LAST STEP → INSTALLATION
+    // ========================================
 
-    if (page === 'wizard') {
+    setProgress(0);
 
-      const isLastStep =
-        currentStep >= installerSteps.length - 1;
-
-
-      if (!isLastStep) {
-        setCurrentStep((step) => step + 1);
-
-        return;
-      }
-
-
-      // Setelah section terakhir
-      // mulai fake installation
-
-      setProgress(0);
-      setPage('loading');
-
-      return;
-    }
-
-
-    // -----------------------------
-    // COMPLETE → CLOSE
-    // -----------------------------
-
-    if (page === 'complete') {
-      onFinish?.();
-    }
+    setPage('loading');
   };
 
 
@@ -114,16 +104,22 @@ export default function PerdanaInstaller({
 
   const handleBack = () => {
 
-    if (page === 'wizard') {
+    if (page !== 'wizard') {
+      return;
+    }
 
-      if (currentStep > 0) {
-        setCurrentStep((step) => step - 1);
-      } else {
-        setPage('welcome');
-      }
+
+    if (currentStep > 0) {
+
+      setCurrentStep((step) => step - 1);
 
       return;
     }
+
+
+    // Kembali ke Welcome
+
+    setPage('welcome');
   };
 
 
@@ -145,10 +141,24 @@ export default function PerdanaInstaller({
 
 
   // ==========================================
-  // CANCEL
+  // ONLINE REGISTRATION
+  // DUMMY FOR NOW
+  // ==========================================
+
+  const handleOnlineRegistration = () => {
+
+    window.alert(
+      'Online Registration is not available yet.'
+    );
+  };
+
+
+  // ==========================================
+  // CLOSE
   // ==========================================
 
   const handleCancel = () => {
+
     onClose?.();
   };
 
@@ -163,6 +173,7 @@ export default function PerdanaInstaller({
       return;
     }
 
+
     setProgress(0);
 
 
@@ -171,10 +182,12 @@ export default function PerdanaInstaller({
       setProgress((current) => {
 
         if (current >= 100) {
+
           clearInterval(interval);
 
           return 100;
         }
+
 
         return current + 5;
       });
@@ -183,6 +196,7 @@ export default function PerdanaInstaller({
 
 
     return () => {
+
       clearInterval(interval);
     };
 
@@ -204,11 +218,14 @@ export default function PerdanaInstaller({
 
 
     const timeout = setTimeout(() => {
+
       setPage('complete');
+
     }, 500);
 
 
     return () => {
+
       clearTimeout(timeout);
     };
 
@@ -220,9 +237,14 @@ export default function PerdanaInstaller({
   // ==========================================
 
   return (
+
     <Modal
       key="perdana-installer"
-      icon={<Computer variant="16x16_4" />}
+
+      icon={
+        <Computer variant="16x16_4" />
+      }
+
       title="Perdana's PC Setup"
 
       style={{
@@ -231,10 +253,9 @@ export default function PerdanaInstaller({
         ...(isMobile
           ? {
 
-              // =====================================
-              // SMARTPHONE
-              // FULLSCREEN - TASKBAR
-              // =====================================
+              // =================================
+              // MOBILE
+              // =================================
 
               top: 0,
               left: 0,
@@ -256,9 +277,9 @@ export default function PerdanaInstaller({
           : isTablet
           ? {
 
-              // =====================================
+              // =================================
               // TABLET
-              // =====================================
+              // =================================
 
               left: '50%',
               top: 'calc((100vh - 28px) / 2)',
@@ -276,9 +297,9 @@ export default function PerdanaInstaller({
 
           : {
 
-              // =====================================
+              // =================================
               // DESKTOP
-              // =====================================
+              // =================================
 
               left: '50%',
               top: 'calc((100vh - 28px) / 2)',
@@ -296,9 +317,11 @@ export default function PerdanaInstaller({
       }}
 
       titleBarOptions={
+
         <TitleBar.Close
           onClick={handleCancel}
         />
+
       }
     >
 
@@ -353,6 +376,7 @@ export default function PerdanaInstaller({
           ==================================== */}
 
           {page === 'welcome' && (
+
             <div
               style={{
                 width: '100%',
@@ -361,23 +385,35 @@ export default function PerdanaInstaller({
                 minWidth: 0,
                 minHeight: 0,
 
-                padding: 12,
-
                 boxSizing: 'border-box',
 
-                overflow: 'auto',
+                overflow: 'hidden',
               }}
             >
-              <InstallerWelcome />
+
+              <InstallerWelcome
+
+                onWhatsNew={handleWhatsNew}
+
+                onOnlineRegistration={
+                  handleOnlineRegistration
+                }
+
+                onClose={handleCancel}
+
+              />
+
             </div>
+
           )}
 
 
           {/* ====================================
-              ABOUT / CONTENT WIZARD
+              WIZARD
           ==================================== */}
 
           {page === 'wizard' && (
+
             <div
               style={{
                 display: 'flex',
@@ -412,6 +448,7 @@ export default function PerdanaInstaller({
               />
 
             </div>
+
           )}
 
 
@@ -420,6 +457,7 @@ export default function PerdanaInstaller({
           ==================================== */}
 
           {page === 'loading' && (
+
             <div
               style={{
                 width: '100%',
@@ -435,10 +473,13 @@ export default function PerdanaInstaller({
                 overflow: 'auto',
               }}
             >
+
               <InstallerLoading
                 progress={progress}
               />
+
             </div>
+
           )}
 
 
@@ -447,6 +488,7 @@ export default function PerdanaInstaller({
           ==================================== */}
 
           {page === 'complete' && (
+
             <div
               style={{
                 width: '100%',
@@ -462,126 +504,141 @@ export default function PerdanaInstaller({
                 overflow: 'auto',
               }}
             >
+
               <InstallerComplete />
+
             </div>
+
           )}
 
         </div>
-
-
-        {/* ======================================
-            DIVIDER
-        ====================================== */}
-
-        <div
-          style={{
-            flexShrink: 0,
-
-            borderTop: '1px solid #808080',
-
-            boxShadow: '0 1px 0 #ffffff',
-          }}
-        />
 
 
         {/* ======================================
             FOOTER
+            HANYA UNTUK WIZARD / LOADING /
+            COMPLETE
         ====================================== */}
 
-        <div
-          style={{
-            flexShrink: 0,
+        {page !== 'welcome' && (
 
-            display: 'flex',
+          <>
 
-            justifyContent: 'flex-end',
-            alignItems: 'center',
+            <div
+              style={{
+                flexShrink: 0,
 
-            gap: 6,
+                borderTop: '1px solid #808080',
 
-            padding: '10px 12px',
-
-            boxSizing: 'border-box',
-          }}
-        >
-
-          {/* ====================================
-              BACK
-          ==================================== */}
-
-          <Button
-            disabled={
-              page === 'welcome' ||
-              page === 'loading' ||
-              page === 'complete'
-            }
-            onClick={handleBack}
-          >
-            {'< Back'}
-          </Button>
+                boxShadow:
+                  '0 1px 0 #ffffff',
+              }}
+            />
 
 
-          {/* ====================================
-              WELCOME → NEXT
-          ==================================== */}
+            <div
+              style={{
+                flexShrink: 0,
 
-          {page === 'welcome' && (
-            <Button onClick={handleNext}>
-              {'Next >'}
-            </Button>
-          )}
+                display: 'flex',
 
+                justifyContent: 'flex-end',
+                alignItems: 'center',
 
-          {/* ====================================
-              WIZARD → NEXT / INSTALL
-          ==================================== */}
+                gap: 6,
 
-          {page === 'wizard' && (
-            <Button onClick={handleNext}>
-              {currentStep <
-              installerSteps.length - 1
-                ? 'Next >'
-                : 'Install'}
-            </Button>
-          )}
+                padding: '10px 12px',
 
+                boxSizing: 'border-box',
+              }}
+            >
 
-          {/* ====================================
-              LOADING
-          ==================================== */}
+              {/* ================================
+                  BACK
+              ================================= */}
 
-          {page === 'loading' && (
-            <Button disabled>
-              Installing...
-            </Button>
-          )}
+              <Button
+                disabled={
+                  page === 'loading' ||
+                  page === 'complete'
+                }
+
+                onClick={handleBack}
+              >
+                {'< Back'}
+              </Button>
 
 
-          {/* ====================================
-              COMPLETE
-          ==================================== */}
+              {/* ================================
+                  WIZARD NEXT / INSTALL
+              ================================= */}
 
-          {page === 'complete' && (
-            <Button onClick={handleNext}>
-              Finish
-            </Button>
-          )}
+              {page === 'wizard' && (
+
+                <Button onClick={handleNext}>
+
+                  {
+                    currentStep <
+                    installerSteps.length - 1
+                      ? 'Next >'
+                      : 'Install'
+                  }
+
+                </Button>
+
+              )}
 
 
-          {/* ====================================
-              CANCEL
-          ==================================== */}
+              {/* ================================
+                  LOADING
+              ================================= */}
 
-          {page !== 'loading' && (
-            <Button onClick={handleCancel}>
-              Cancel
-            </Button>
-          )}
+              {page === 'loading' && (
 
-        </div>
+                <Button disabled>
+                  Installing...
+                </Button>
+
+              )}
+
+
+              {/* ================================
+                  COMPLETE
+              ================================= */}
+
+              {page === 'complete' && (
+
+                <Button onClick={onFinish}>
+                  Finish
+                </Button>
+
+              )}
+
+
+              {/* ================================
+                  CANCEL
+              ================================= */}
+
+              {page !== 'loading' &&
+                page !== 'complete' && (
+
+                  <Button
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+
+                )}
+
+            </div>
+
+          </>
+
+        )}
 
       </Modal.Content>
 
     </Modal>
+
   );
 }

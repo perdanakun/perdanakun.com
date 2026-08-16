@@ -455,6 +455,7 @@ const [windows, setWindows] = useState({
   blog: false,
 });
 
+
 // Perdana PC Installer
 
 const [installerVisible, setInstallerVisible] = useState(false);
@@ -737,17 +738,14 @@ const handleAttachmentTooLarge = (file) => {
     onClick={openAiAssistantV2}
   />
 )/*}
-
 {/* About */}
 <Rnd
-  default={{ x: 20, y: 120, width: 80, height: 80 }}
+  default={{ x: 24, y: 24, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
 >
-<DesktopIcon
-  onOpen={() => setInstallerVisible(true)}
->
+  <DesktopIcon onOpen={() => setInstallerVisible(true)}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Computer variant="32x32_4" />
@@ -757,75 +755,31 @@ const handleAttachmentTooLarge = (file) => {
   </DesktopIcon>
 </Rnd>
 
-{/* Recycle Bin */}
+{/* AI Chat */}
 <Rnd
-  default={{ x: 20, y: 20, width: 80, height: 80 }}
+  default={{ x: 120, y: 24, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
 >
-<DesktopIcon
-  onOpen={() => openWindow('recycleBin')}
->
+  <DesktopIcon onOpen={() => openWindow('aiAssistant')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <RecycleFull variant="32x32_4" />
+        <Intl101 variant="32x32_4" />
       </div>
-      <span>Recycle Bin</span>
-    </div>
-  </DesktopIcon>
-</Rnd>
-
-{/* Projects */}
-<Rnd
-  default={{ x: 20, y: 220, width: 80, height: 80 }}
-  bounds="window"
-  enableResizing={false}
-  disableDragging={false}
->
-<DesktopIcon
-  onOpen={() => openWindow('projects')}
->
-    <div style={desktopIconStyle}>
-      <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Folder variant="32x32_4" />
-      </div>
-      <span>Projects</span>
-    </div>
-  </DesktopIcon>
-</Rnd>
-
-{/* Writing */}
-<Rnd
-  default={{ x: 20, y: 320, width: 80, height: 80 }}
-  bounds="window"
-  enableResizing={false}
-  disableDragging={false}
->
-<DesktopIcon
-onOpen={() =>
-  toggleWindow('blog', true)
-}
->
-    <div style={desktopIconStyle}>
-      <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Notepad2 variant="32x32_4" />
-      </div>
-      <span>Writing</span>
+      <span>AI Chat</span>
     </div>
   </DesktopIcon>
 </Rnd>
 
 {/* Contact */}
 <Rnd
-  default={{ x: 120, y: 20, width: 80, height: 80 }}
+  default={{ x: 24, y: 120, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon
-    onOpen={() => openWindow('contact')}
-  >
+  <DesktopIcon onOpen={() => openWindow('contact')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Mapi32801 variant="32x32_4" />
@@ -835,16 +789,31 @@ onOpen={() =>
   </DesktopIcon>
 </Rnd>
 
-{/* Games */}
+{/* Projects */}
 <Rnd
   default={{ x: 120, y: 120, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon
-    onOpen={() => openWindow('csGame')}
-  >
+  <DesktopIcon onOpen={() => openWindow('projects')}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Folder variant="32x32_4" />
+      </div>
+      <span>Projects</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
+
+{/* Games */}
+<Rnd
+  default={{ x: 24, y: 216, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={false}
+>
+  <DesktopIcon onOpen={() => openWindow('csGame')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Winmine1 variant="32x32_4" />
@@ -854,21 +823,36 @@ onOpen={() =>
   </DesktopIcon>
 </Rnd>
 
-{/* AI Chat */}
+{/* Recycle Bin */}
 <Rnd
-  default={{ x: 120, y: 220, width: 80, height: 80 }}
+  default={{ x: 120, y: 216, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon
-    onOpen={() => openWindow('aiAssistant')}
-  >
+  <DesktopIcon onOpen={() => openWindow('recycleBin')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Intl101 variant="32x32_4" />
+        <RecycleFull variant="32x32_4" />
       </div>
-      <span>AI Chat</span>
+      <span>Recycle Bin</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
+
+{/* Writing */}
+<Rnd
+  default={{ x: 24, y: 312, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={false}
+>
+  <DesktopIcon onOpen={() => toggleWindow('blog', true)}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Notepad2 variant="32x32_4" />
+      </div>
+      <span>Writing</span>
     </div>
   </DesktopIcon>
 </Rnd>

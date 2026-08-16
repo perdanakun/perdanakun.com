@@ -1,544 +1,995 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+} from 'react';
 
 import {
-  Fieldset,
-  Frame,
+  Button,
+  Checkbox,
 } from '@react95/core';
 
-import perdanaImage from './perdana.png';
+import {
+  Bulb,
+} from '@react95/icons';
+
+import didYouKnowIcon
+  from '../../assets/images/win95_did_you_know.png';
+
+import win95Pc
+  from '../../assets/images/win95_pc.png';
 
 
-/* ======================================
-   WINDOWS 95 CHECKBOX
-====================================== */
+/* =========================================================
+   WINDOWS 95 UI CONSTANTS
+========================================================= */
 
-function Win95Checkbox({ checked, onChange, children }) {
+const FONT =
+  '"MS Sans Serif", "Microsoft Sans Serif", sans-serif';
+
+const BUTTON_FONT_SIZE = 11;
+
+
+/* =========================================================
+   SHORTCUT LABEL
+
+   W -> Windows Tour
+   W -> What's New
+   O -> Online Registration
+   P -> Product Catalog
+   N -> Next Tip
+   C -> Close
+========================================================= */
+
+function ShortcutLabel({
+  shortcut,
+  children,
+}) {
+
+  const text =
+    String(children);
+
+  const index =
+    text
+      .toLowerCase()
+      .indexOf(
+        String(shortcut).toLowerCase()
+      );
+
+
+  if (index === -1) {
+
+    return (
+      <span>
+        {text}
+      </span>
+    );
+  }
+
+
   return (
-    <label
-      style={{
-        display: 'flex',
-        alignItems: 'center',
+    <span>
 
-        minHeight: 24,
+      {text.slice(0, index)}
 
-        gap: 6,
-
-        cursor: 'pointer',
-        userSelect: 'none',
-
-        fontFamily: '"MS Sans Serif", sans-serif',
-        fontSize: 12,
-        lineHeight: '18px',
-
-        color: '#000000',
-      }}
-    >
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-        aria-label={children}
+      <u
         style={{
-          position: 'absolute',
+          textDecoration:
+            'underline',
 
-          width: 1,
-          height: 1,
-
-          opacity: 0,
-
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* WIN95 CHECKBOX */}
-
-      <span
-        aria-hidden="true"
-        style={{
-          position: 'relative',
-
-          width: 13,
-          height: 13,
-
-          flexShrink: 0,
-
-          boxSizing: 'border-box',
-
-          background: '#ffffff',
-
-          /*
-            Classic Win95 bevel:
-            dark top/left
-            light bottom/right
-          */
-          borderTop: '1px solid #808080',
-          borderLeft: '1px solid #808080',
-          borderRight: '1px solid #ffffff',
-          borderBottom: '1px solid #ffffff',
-
-          boxShadow: `
-            inset 1px 1px 0 #000000,
-            inset -1px -1px 0 #dfdfdf
-          `,
-
-          display: 'block',
+          textUnderlineOffset:
+            '1px',
         }}
       >
+        {text.charAt(index)}
+      </u>
 
-        {checked && (
-          <>
-            {/* black pixel-style check */}
+      {text.slice(index + 1)}
 
-            <span
-              style={{
-                position: 'absolute',
-
-                width: 4,
-                height: 8,
-
-                left: 3,
-                top: 1,
-
-                borderRight: '2px solid #000000',
-                borderBottom: '2px solid #000000',
-
-                transform: 'rotate(45deg)',
-
-                boxSizing: 'border-box',
-              }}
-            />
-
-          </>
-        )}
-
-      </span>
-
-
-      {/* LABEL */}
-
-      <span
-        style={{
-          display: 'block',
-
-          fontFamily: '"MS Sans Serif", sans-serif',
-          fontSize: 12,
-          lineHeight: '18px',
-
-          color: '#000000',
-        }}
-      >
-        {children}
-      </span>
-
-    </label>
+    </span>
   );
 }
 
 
-export default function InstallerWelcome() {
-  const [features, setFeatures] = useState({
-    portfolio: true,
-    design: true,
-    evolving: true,
-  });
+/* =========================================================
+   INSTALLER WELCOME
+========================================================= */
+
+export default function InstallerWelcome({
+  onWhatsNew,
+  onOnlineRegistration,
+  onClose,
+}) {
+
+
+  /* =======================================================
+     CHECKBOX STATE
+  ======================================================= */
+
+  const [
+    showWelcome,
+    setShowWelcome,
+  ] = useState(true);
+
+
+  /* =======================================================
+     ONLINE REGISTRATION
+  ======================================================= */
+
+  const handleOnlineRegistration = () => {
+
+    if (onOnlineRegistration) {
+
+      onOnlineRegistration();
+
+      return;
+    }
+
+    window.alert(
+      'Online Registration is not available yet.'
+    );
+  };
+
+
+  /* =======================================================
+     WINDOWS TOUR
+  ======================================================= */
+
+  const handleWindowsTour = () => {
+
+    window.alert(
+      'Windows Tour is not available yet.'
+    );
+  };
+
+
+  /* =======================================================
+     PRODUCT CATALOG
+  ======================================================= */
+
+  const handleProductCatalog = () => {
+
+    window.alert(
+      'Product Catalog is not available yet.'
+    );
+  };
+
+
+  /* =======================================================
+     NEXT TIP
+  ======================================================= */
+
+  const handleNextTip = () => {
+
+    if (onWhatsNew) {
+
+      onWhatsNew();
+    }
+  };
+
 
   return (
+
     <article
-      aria-labelledby="identity-title"
+      aria-labelledby="welcome-title"
+
       style={{
+        width: '100%',
         height: '100%',
 
-        display: 'flex',
-        flexDirection: 'column',
-
-        fontFamily: '"MS Sans Serif", sans-serif',
-        color: '#000000',
+        minWidth: 0,
+        minHeight: 0,
 
         boxSizing: 'border-box',
+
+        backgroundColor:
+          '#c0c0c0',
+
+        color: '#000000',
+
+        fontFamily: FONT,
+
+        fontSize: 11,
+
+        overflow: 'hidden',
+
+        display: 'flex',
+
+        flexDirection:
+          'column',
       }}
     >
 
-      {/* ======================================
-          TWO COLUMN LAYOUT
-      ====================================== */}
 
-      <section
-        aria-label="Perdana's Computer introduction"
+      {/* =================================================
+          MAIN CONTENT
+      ================================================= */}
+
+      <div
         style={{
-          display: 'flex',
+          flex: '1 1 auto',
 
-          flex: 1,
+          minWidth: 0,
           minHeight: 0,
 
-          gap: 18,
+          padding:
+            '10px 12px 0',
 
-          boxSizing: 'border-box',
+          boxSizing:
+            'border-box',
+
+          display: 'flex',
+
+          flexDirection:
+            'column',
+
+          overflow:
+            'hidden',
         }}
       >
 
-        {/* ====================================
-            LEFT COLUMN
-        ==================================== */}
 
-        <div
-          aria-label="Portrait of Perdana Kurniawan Arta"
+        {/* =================================================
+            TITLE
+        ================================================= */}
+
+        <h1
+          id="welcome-title"
+
           style={{
-            width: 190,
+            margin:
+              '0 0 7px 0',
+
+            padding: 0,
+
+            width:
+              'fit-content',
+
+            alignSelf:
+              'flex-start',
+
+            textAlign:
+              'left',
+
+            whiteSpace:
+              'nowrap',
+
+            fontFamily:
+              'Georgia, "Times New Roman", serif',
+
+            fontSize: 26,
+
+            lineHeight:
+              '29px',
+
+            fontWeight:
+              'bold',
+
+            letterSpacing:
+              '-0.7px',
+
+            color:
+              '#000000',
 
             flexShrink: 0,
 
-            background: '#008080',
-
-            border: '2px inset #c0c0c0',
-
-            boxSizing: 'border-box',
-
-            overflow: 'hidden',
-
-            display: 'flex',
+            transform:
+              'translateX(0)',
           }}
         >
 
-          {/* 
-          <img
-            src={perdanaImage}
-            alt="Perdana Kurniawan Arta, Visual Designer"
+          <span>
+            Welcome to{' '}
+          </span>
+
+
+          <span
             style={{
-              width: '100%',
-              height: '100%',
-              display: 'block',
+              fontFamily:
+                '"Arial Black", Arial, sans-serif',
 
-              objectFit: 'cover',
-              objectPosition: '100% 50%',
+              fontSize: 25,
+
+              letterSpacing:
+                '-1.3px',
+
+              fontWeight:
+                900,
             }}
-          />
-          */}
+          >
+            Windows
+          </span>
 
-        </div>
+
+          <span
+            style={{
+              fontFamily:
+                'Arial, sans-serif',
+
+              fontSize: 25,
+
+              fontWeight:
+                400,
+
+              color:
+                '#f1f1f1',
+
+              letterSpacing:
+                '-1px',
+
+              textShadow:
+                '1px 1px 0 #808080',
+            }}
+          >
+            95
+          </span>
+
+        </h1>
 
 
-        {/* ====================================
-            RIGHT COLUMN
-        ==================================== */}
+        {/* =================================================
+            MAIN ROW
+        ================================================= */}
 
         <div
           style={{
-            flex: 1,
+            flex:
+              '1 1 auto',
 
             minWidth: 0,
             minHeight: 0,
 
-            display: 'flex',
-            flexDirection: 'column',
+            display:
+              'flex',
 
-            overflowY: 'auto',
+            alignItems:
+              'stretch',
 
-            paddingRight: 6,
+            gap:
+              10,
 
-            boxSizing: 'border-box',
-
-            fontFamily: '"MS Sans Serif", sans-serif',
-            fontSize: 12,
-            lineHeight: 1.5,
-
-            textAlign: 'left',
+            overflow:
+              'hidden',
           }}
         >
 
-          {/* ==================================
-              TITLE
-          ================================== */}
 
-          <header
-            style={{
-              paddingBottom: 10,
-
-              borderBottom: '1px solid #808080',
-            }}
-          >
-
-            <h2
-              id="perdana-pc-welcome-title"
-              style={{
-                margin: '3px 0 0',
-
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 16,
-                lineHeight: 1.25,
-
-                fontWeight: 'bold',
-
-                textAlign: 'left',
-
-                color: '#000000',
-              }}
-            >
-              Welcome to Perdana's Computer
-            </h2>
-
-          </header>
-
-
-          {/* ==================================
-              INTRODUCTION
-          ================================== */}
+          {/* ===============================================
+              INFORMATION PANEL
+          =============================================== */}
 
           <section
-            aria-labelledby="identity-title"
+            aria-label="Welcome information"
+
             style={{
-              paddingTop: 10,
+              flex:
+                '1 1 auto',
+
+              minWidth: 0,
+              minHeight: 0,
+
+              backgroundColor:
+                '#ffffdf',
+
+              borderTop:
+                '1px solid #808080',
+
+              borderLeft:
+                '1px solid #808080',
+
+              borderRight:
+                '1px solid #ffffff',
+
+              borderBottom:
+                '1px solid #ffffff',
+
+              boxSizing:
+                'border-box',
+
+              overflow:
+                'hidden',
+
+              padding:
+                '14px 14px',
+
+              display:
+                'flex',
+
+              flexDirection:
+                'column',
             }}
           >
 
-            <p
+
+            {/* =============================================
+                DID YOU KNOW
+            ============================================= */}
+
+            <div
               style={{
-                margin: '0 0 6px',
+                display:
+                  'flex',
 
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 12,
-                lineHeight: 1.5,
+                alignItems:
+                  'flex-start',
 
-                textAlign: 'left',
+                width:
+                  '100%',
 
-                color: '#000000',
+                minWidth:
+                  0,
+
+                /*
+                  Bulb + text naik bersama 5px.
+                */
+                transform:
+                  'translateY(0px)',
               }}
             >
-              Before exploring the work, start with the
-              person behind it.
-            </p>
 
 
-            {/* ==================================
-                IDENTITY
-            ================================== */}
+              {/* =========================================
+                  DID YOU KNOW ICON
+              ========================================= */}
 
-            <h1
-              id="identity-title"
-              style={{
-                margin: '0 0 12px',
+              <div
+                aria-hidden="true"
 
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 16,
-                lineHeight: 1.3,
-
-                fontWeight: 'bold',
-
-                textAlign: 'center',
-
-                color: '#000000',
-
-                letterSpacing: '0.02em',
-              }}
-            >
-              Perdana Kurniawan Arta
-            </h1>
-
-
-            <p
-              style={{
-                margin: '0 0 12px',
-
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 12,
-                lineHeight: 1.5,
-
-                textAlign: 'left',
-
-                color: '#000000',
-              }}
-            >
-              Visual Designer exploring Product Design,
-              UX, and Design Engineering
-            </p>
-
-
-            {/* ==================================
-                ABOUT
-            ================================== */}
-
-            <section
-              aria-labelledby="about-title"
-            >
-
-              <h2
-                id="about-title"
                 style={{
-                  margin: '0 0 12px',
+                  width:
+                    64,
 
-                  fontFamily: '"MS Sans Serif", sans-serif',
-                  fontSize: 12,
-                  lineHeight: 1.3,
+                  minWidth:
+                    64,
 
-                  fontWeight: 'bold',
+                  height:
+                    64,
 
-                  textAlign: 'left',
+                  marginRight:
+                    12,
 
-                  color: '#000000',
+                  marginTop:
+                    -10,
+
+                  padding:
+                    0,
+
+                  display:
+                    'flex',
+
+                  alignItems:
+                    'flex-start',
+
+                  justifyContent:
+                    'flex-start',
+
+                  flexShrink:
+                    0,
+
+                  boxSizing:
+                    'border-box',
                 }}
               >
-                About this Computer
-              </h2>
 
+                <img
+                  src={didYouKnowIcon}
+
+                  alt=""
+
+                  width={64}
+
+                  height={64}
+
+                  style={{
+                    width:
+                      64,
+
+                    height:
+                      64,
+
+                    display:
+                      'block',
+
+                    imageRendering:
+                      'pixelated',
+                  }}
+                />
+
+              </div>
+
+
+              {/* =========================================
+                  TEXT CONTENT
+              ========================================= */}
 
               <div
                 style={{
-                  paddingLeft: 20,
+                  flex:
+                    '1 1 auto',
 
-                  boxSizing: 'border-box',
+                  minWidth:
+                    0,
+
+                  width:
+                    '100%',
+
+                  paddingTop:
+                    10,
+
+                  boxSizing:
+                    'border-box',
+
+                  textAlign:
+                    'left',
                 }}
               >
 
-<p
-  style={{
-    margin: 0,
 
-    fontFamily: '"MS Sans Serif", sans-serif',
-    fontSize: 12,
-    lineHeight: 1.5,
+                {/* =======================================
+                    DID YOU KNOW TITLE
+                ======================================= */}
 
-    textAlign: 'left',
+                <strong
+                  style={{
+                    display:
+                      'block',
 
-    color: '#000000',
-  }}
->
-  A visual designer with 10+ years of experience
-  {' '}across visual design, visual systems,
-  iconography, illustration, and design direction,
-  now expanding into product design, UX, and
-  design engineering.
-</p>
+                    margin:
+                      0,
 
+                    padding:
+                      0,
+
+                    fontFamily:
+                      FONT,
+
+                    fontSize:
+                      12,
+
+                    lineHeight:
+                      '15px',
+
+                    fontWeight:
+                      'bold',
+
+                    color:
+                      '#000000',
+                  }}
+                >
+                  Did you know...
+                </strong>
+
+
+
+                {/* =======================================
+                    SECOND PARAGRAPH
+                ======================================= */}
 
                 <p
                   style={{
-                    margin: '11px 0 0',
+                    margin:
+                      '25px 0 0',
 
-                    fontFamily: '"MS Sans Serif", sans-serif',
-                    fontSize: 12,
-                    lineHeight: 1.5,
+                    padding:
+                      0,
 
-                    textAlign: 'left',
+                    maxWidth:
+                      480,
 
-                    color: '#000000',
+                    fontFamily:
+                      FONT,
+
+                    fontSize:
+                      12,
+
+                    lineHeight:
+                      '16px',
+
+                    fontWeight:
+                      'normal',
+
+                    color:
+                      '#000000',
                   }}
                 >
-                  Through this work, he explores how design,
-                  interaction, and code can come together to
-                  build functional digital experiences.
+                  Perdana Kurniawan Arta is a Visual
+                  Designer and Design Lead currently exploring Product Design,
+                  UX, and Design Engineering.
+                </p>
+
+
+                {/* =======================================
+                    THIRD PARAGRAPH
+                ======================================= */}
+
+                <p
+                  style={{
+                    margin:
+                      '11px 0 0',
+
+                    padding:
+                      0,
+
+                    maxWidth:
+                      480,
+
+                    fontFamily:
+                      FONT,
+
+                    fontSize:
+                      12,
+
+                    lineHeight:
+                      '16px',
+
+                    fontWeight:
+                      'normal',
+
+                    color:
+                      '#000000',
+                  }}
+                >
+                  With 10+ years of experience across
+                  visual design, visual systems,
+                  iconography, illustration, and design
+                  direction, he now explores how design,
+                  interaction, and code can come together
+                  to build functional digital experiences.
                 </p>
 
               </div>
 
-            </section>
-
-          </section>
+            </div>
 
 
-          {/* ==================================
-              FLEXIBLE SPACE
-          ================================== */}
+            {/* =============================================
+                WINDOWS 95 PC IMAGE
+            ============================================= */}
 
-          <div
-            aria-hidden="true"
-            style={{
-              flex: 1,
+            <div
+              aria-hidden="true"
 
-              minHeight: 18,
-            }}
-          />
-
-
-          {/* ==================================
-              INSIDE PERDANA'S COMPUTER
-          ================================== */}
-
-          <section
-            aria-labelledby="inside-title"
-            style={{
-              paddingTop: 12,
-            }}
-          >
-
-            <Fieldset
-              legend="Inside Perdana's Computer"
               style={{
-                width: '100%',
+                flex:
+                  '1 1 auto',
 
-                boxSizing: 'border-box',
+                display:
+                  'flex',
 
-                margin: 0,
+                alignItems:
+                  'flex-end',
 
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 12,
-                lineHeight: 1.5,
+                justifyContent:
+                  'center',
 
-                background: '#c0c0c0',
+                minHeight:
+                  0,
+
+                paddingTop:
+                  8,
               }}
             >
 
-              <Frame
-                display="flex"
-                flexDirection="column"
+              <img
+                src={win95Pc}
+
+                alt=""
+
+                height={210}
+
                 style={{
-                  gap: 1,
+                  height:
+                    210,
 
-                  padding: '2px 0',
+                  width:
+                    'auto',
 
-                  fontFamily: '"MS Sans Serif", sans-serif',
-                  fontSize: 12,
-                  lineHeight: 1.5,
+                  display:
+                    'block',
 
-                  background: '#c0c0c0',
+                  imageRendering:
+                    'pixelated',
+
+                  flexShrink:
+                    0,
+
+                  /*
+                    PC naik 15px.
+                  */
+                  transform:
+                    'translateY(-20px)',
                 }}
-              >
+              />
 
-                <Win95Checkbox
-                  checked={features.portfolio}
-                  onChange={(event) => {
-                    setFeatures((current) => ({
-                      ...current,
-                      portfolio: event.target.checked,
-                    }));
-                  }}
-                >
-                  Interactive Portfolio
-                </Win95Checkbox>
-
-
-                <Win95Checkbox
-                  checked={features.design}
-                  onChange={(event) => {
-                    setFeatures((current) => ({
-                      ...current,
-                      design: event.target.checked,
-                    }));
-                  }}
-                >
-                  Design, UX &amp; Design Engineering
-                </Win95Checkbox>
-
-
-                <Win95Checkbox
-                  checked={features.evolving}
-                  onChange={(event) => {
-                    setFeatures((current) => ({
-                      ...current,
-                      evolving: event.target.checked,
-                    }));
-                  }}
-                >
-                  Continuously evolving
-                </Win95Checkbox>
-
-              </Frame>
-
-            </Fieldset>
+            </div>
 
           </section>
 
+
+          {/* ===============================================
+              RIGHT BUTTON COLUMN
+          =============================================== */}
+
+          <aside
+            aria-label="Welcome actions"
+
+            style={{
+              width:
+                140,
+
+              minWidth:
+                140,
+
+              flexShrink:
+                0,
+
+              gap:
+                8,
+
+              display:
+                'flex',
+
+              flexDirection:
+                'column',
+
+              boxSizing:
+                'border-box',
+            }}
+          >
+
+
+            {/* =============================================
+                WINDOWS TOUR
+            ============================================= */}
+
+            <Button
+              onClick={
+                handleWindowsTour
+              }
+            >
+              <ShortcutLabel
+                shortcut="W"
+              >
+                Windows Tour
+              </ShortcutLabel>
+            </Button>
+
+
+            {/* =============================================
+                WHAT'S NEW
+            ============================================= */}
+
+            <Button
+              onClick={() => {}}
+            >
+              <ShortcutLabel
+                shortcut="W"
+              >
+                What's New
+              </ShortcutLabel>
+            </Button>
+
+
+            {/* =============================================
+                ONLINE REGISTRATION
+            ============================================= */}
+
+            <Button
+              onClick={
+                handleOnlineRegistration
+              }
+            >
+              <ShortcutLabel
+                shortcut="O"
+              >
+                Online Registration
+              </ShortcutLabel>
+            </Button>
+
+
+            {/* =============================================
+                PRODUCT CATALOG
+            ============================================= */}
+
+            <Button
+              onClick={
+                handleProductCatalog
+              }
+            >
+              <ShortcutLabel
+                shortcut="P"
+              >
+                Product Catalog
+              </ShortcutLabel>
+            </Button>
+
+
+            {/* =============================================
+                NEXT TIP
+            ============================================= */}
+
+            <Button
+              onClick={
+                handleNextTip
+              }
+            >
+              <ShortcutLabel
+                shortcut="N"
+              >
+                Next Tip
+              </ShortcutLabel>
+            </Button>
+
+
+            {/* =============================================
+                SPACER
+            ============================================= */}
+
+            <div
+              style={{
+                flex:
+                  '1 1 auto',
+
+                minHeight:
+                  14,
+              }}
+            />
+
+
+            {/* =============================================
+                DIVIDER
+            ============================================= */}
+
+            <div
+              aria-hidden="true"
+
+              style={{
+                width:
+                  '100%',
+
+                height:
+                  2,
+
+                margin:
+                  '0 0 13px',
+
+                borderTop:
+                  '1px solid #808080',
+
+                borderBottom:
+                  '1px solid #ffffff',
+
+                boxSizing:
+                  'border-box',
+
+                flexShrink:
+                  0,
+              }}
+            />
+
+
+            {/* =============================================
+                CLOSE
+            ============================================= */}
+
+            <Button
+              onClick={
+                onClose
+              }
+            >
+              <ShortcutLabel
+                shortcut="C"
+              >
+                Close
+              </ShortcutLabel>
+            </Button>
+
+          </aside>
+
         </div>
 
-      </section>
+
+        {/* =================================================
+            CHECKBOX ROW
+        ================================================= */}
+
+        <div
+          style={{
+            flexShrink:
+              0,
+
+            width:
+              '100%',
+
+            height:
+              39,
+
+            minHeight:
+              39,
+
+            boxSizing:
+              'border-box',
+
+            display:
+              'flex',
+
+            alignItems:
+              'center',
+
+            padding:
+              '6px 0 8px',
+
+            backgroundColor:
+              '#c0c0c0',
+
+            overflow:
+              'visible',
+          }}
+        >
+
+
+{/* ===============================================
+    CHECKBOX
+=============================================== */}
+
+<div
+  style={{
+    display: 'flex',
+
+    alignItems: 'center',
+
+    width: '100%',
+
+    minWidth: 0,
+
+    fontFamily: FONT,
+
+    fontSize: 11,
+
+    lineHeight: '14px',
+
+    color: '#000000',
+
+    userSelect: 'none',
+  }}
+>
+  <Checkbox
+    checked={showWelcome}
+
+    onChange={(event) => {
+      setShowWelcome(
+        event.target.checked
+      );
+    }}
+
+    style={{
+      margin: 0,
+
+      padding: 8,
+
+      width: 12,
+      height: 13,
+
+      flexShrink: 0,
+    }}
+  />
+
+  <span
+    style={{
+      marginLeft: 5,
+
+      display: 'block',
+
+      whiteSpace: 'nowrap',
+
+      lineHeight: '14px',
+    }}
+  >
+    Show this Welcome Screen next time you start Windows
+  </span>
+</div>
+
+        </div>
+
+      </div>
 
     </article>
   );
