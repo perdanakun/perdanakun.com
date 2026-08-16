@@ -1,10 +1,6 @@
 import '@react95/core/GlobalStyle';
 import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
-import '@fontsource/open-sans/400.css';
-import '@fontsource/open-sans/500.css';
-import '@fontsource/open-sans/600.css';
-import '@fontsource/open-sans/700.css';
 import winBackground from './assets/images/win_background2.jpg';
 import winDawn from './assets/images/1dawn.png';
 import winMorning from './assets/images/2morning.png';
@@ -654,9 +650,7 @@ const handleAttachmentTooLarge = (file) => {
             background-position: center;
             background-repeat: no-repeat;
 
-            .content-font {
-  font-family: 'Open Sans', sans-serif !important;
-}
+
 
 .portfolio-identity {
   position: absolute;
