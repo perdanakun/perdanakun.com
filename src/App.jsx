@@ -807,9 +807,9 @@ const handleAttachmentTooLarge = (file) => {
   disableDragging={false}
 >
 <DesktopIcon
-  onOpen={() =>
-    openExternalLink('https://medium.com/@perdanakurniawan25')
-  }
+onOpen={() =>
+  openExternalLink('/blog/')
+}
 >
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
