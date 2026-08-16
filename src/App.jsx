@@ -28,6 +28,7 @@ import AiAssistant from "./components/AiAssistant";
 import AiAssistantSphere from "./components/AiAssistantSphere";
 import ImageViewer from './components/ImageViewer';
 import PerdanaInstaller from './components/installer/PerdanaInstaller';
+import BlogContent from './components/BlogContent';
 import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
@@ -455,6 +456,7 @@ const [windows, setWindows] = useState({
   aiAssistant: false,
   recycleBin: false,
   imageViewer: false,
+  blog: false,
 });
 
 // Perdana PC Installer
@@ -808,7 +810,7 @@ const handleAttachmentTooLarge = (file) => {
 >
 <DesktopIcon
 onOpen={() =>
-  openExternalLink('/blog/')
+  toggleWindow('blog', true)
 }
 >
     <div style={desktopIconStyle}>
@@ -964,6 +966,74 @@ onOpen={() =>
 )} 
 
 INI ENDING KODE INACTIVE*/}
+
+{/* =========================
+    Jendela Writing
+========================= */}
+
+{windows.blog && (
+  <ResizableModal
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    // =========================
+    // TABLET
+    // =========================
+
+    tabletWidth="80%"
+    tabletHeight="70%"
+    tabletTop="50%"
+    tabletLeft="50%"
+    tabletRight="auto"
+    tabletBottom="auto"
+    tabletTransform="translate(-50%, -50%)"
+
+    // =========================
+    // DESKTOP
+    // =========================
+
+    desktopWidth="55%"
+    desktopHeight="70%"
+    desktopTop="50%"
+    desktopLeft="50%"
+    desktopRight="auto"
+    desktopBottom="auto"
+    desktopTransform="translate(-50%, -50%)"
+
+    // =========================
+    // WINDOW
+    // =========================
+
+    title="Writing.exe"
+
+    /*
+     * Replace this with whichever
+     * React95 icon you want for Writing.
+     *
+     * You can temporarily remove
+     * the icon prop if necessary.
+     */
+    icon={<Notepad variant="16x16_4" />}
+
+    titleBarOptions={
+      <>
+        <Modal.Minimize />
+
+        <TitleBar.Close
+          onClick={() =>
+            toggleWindow('blog', false)
+          }
+        />
+      </>
+    }
+  >
+    <BlogContent
+      isMobile={isMobile}
+    />
+  </ResizableModal>
+)}
+
+
 
 {/* --- JENDELA ABOUT PERDANA KURNIAWAN ARTA --- */}
 {installerVisible && (
