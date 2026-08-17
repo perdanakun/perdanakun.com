@@ -187,7 +187,7 @@ export default function InstallerWelcome() {
 
             flexShrink: 0,
 
-            background: '#008080',
+            background: '#000080',
 
             border: '2px inset #c0c0c0',
 
@@ -323,7 +323,7 @@ export default function InstallerWelcome() {
 
                 fontWeight: 'bold',
 
-                textAlign: 'center',
+                textAlign: 'left',
 
                 color: '#000000',
 
@@ -435,20 +435,6 @@ export default function InstallerWelcome() {
 
 
           {/* ==================================
-              FLEXIBLE SPACE
-          ================================== */}
-
-          <div
-            aria-hidden="true"
-            style={{
-              flex: 1,
-
-              minHeight: 18,
-            }}
-          />
-
-
-          {/* ==================================
               INSIDE PERDANA'S COMPUTER
           ================================== */}
 
@@ -465,6 +451,7 @@ export default function InstallerWelcome() {
                 width: '100%',
 
                 boxSizing: 'border-box',
+                
 
                 margin: 0,
 

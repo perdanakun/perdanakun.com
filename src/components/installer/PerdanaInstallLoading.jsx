@@ -1,25 +1,77 @@
 import React from 'react';
 import installerBackground from '../../assets/images/7night.png';
 
-function PerdanaInstallLoading() {
+function PerdanaInstallLoading({
+  isMobile = false,
+  isTablet = false,
+}) {
+  const getWindowStyle = () => {
+  // =========================
+  // SMARTPHONE
+  // =========================
+  if (isMobile) {
+    return {
+      width: '90vw',
+      height: '30vh',
+
+      maxWidth: 'none',
+      maxHeight: 'none',
+
+      boxSizing: 'border-box',
+    };
+  }
+
+  // =========================
+  // TABLET
+  // =========================
+  if (isTablet) {
+    return {
+      width: '60vw',
+      height: '30vh',
+
+      maxWidth: 'none',
+      maxHeight: 'none',
+
+      boxSizing: 'border-box',
+    };
+  }
+
+  // =========================
+  // DESKTOP
+  // =========================
+  return {
+    width: '420px',
+    height: '220px',
+
+    maxWidth: '90vw',
+    maxHeight: '90vh',
+
+    boxSizing: 'border-box',
+  };
+};
+
+
   return (
     <div
       style={{
         position: 'fixed',
         inset: 0,
+
         width: '100vw',
         height: '100vh',
+
         zIndex: 999999,
 
         backgroundImage: `url(${installerBackground})`,
-backgroundSize: 'cover',
-backgroundPosition: 'center',
-backgroundRepeat: 'no-repeat',
-
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+
+        boxSizing: 'border-box',
 
         fontFamily:
           '"MS Sans Serif", "Microsoft Sans Serif", sans-serif',
@@ -27,8 +79,7 @@ backgroundRepeat: 'no-repeat',
     >
       <div
         style={{
-          width: '420px',
-          maxWidth: '90vw',
+          ...getWindowStyle(),
 
           backgroundColor: '#c0c0c0',
 
@@ -40,7 +91,6 @@ backgroundRepeat: 'no-repeat',
           padding: '3px',
         }}
       >
-
         {/* TITLE BAR */}
         <div
           style={{
@@ -56,6 +106,12 @@ backgroundRepeat: 'no-repeat',
 
             fontSize: '12px',
             fontWeight: 'bold',
+
+            boxSizing: 'border-box',
+
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
           }}
         >
           Installing Windows 95
@@ -64,11 +120,21 @@ backgroundRepeat: 'no-repeat',
         {/* CONTENT */}
         <div
           style={{
-            padding: '24px 20px 20px',
+            padding: isMobile
+              ? '20px 14px 18px'
+              : '24px 20px 20px',
+
             fontSize: '12px',
+
+            boxSizing: 'border-box',
           }}
         >
-          <div style={{ marginBottom: '14px' }}>
+          <div
+            style={{
+              marginBottom: '14px',
+              lineHeight: '16px',
+            }}
+          >
             Please wait while Windows 95 is being installed...
           </div>
 
@@ -86,6 +152,7 @@ backgroundRepeat: 'no-repeat',
               borderBottom: '2px solid #ffffff',
 
               padding: '2px',
+
               boxSizing: 'border-box',
 
               overflow: 'hidden',
@@ -109,6 +176,8 @@ backgroundRepeat: 'no-repeat',
             style={{
               marginTop: '12px',
               textAlign: 'center',
+
+              lineHeight: '16px',
             }}
           >
             Setting up your desktop...

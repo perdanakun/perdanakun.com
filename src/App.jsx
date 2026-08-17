@@ -402,11 +402,16 @@ function App() {
     }
   };
 
-  const [pcState, setPcState] = useState(
-    getPCState
-  );
+const [pcState, setPcState] = useState(getPCState);
 
-  const [pcScreen, setPcScreen] = useState('boot');
+const [pcScreen, setPcScreen] = useState(() => {
+  const state = getPCState();
+
+  return state.installed
+    ? 'desktop'
+    : 'boot';
+});
+
 
   // boot PC
 
@@ -604,9 +609,6 @@ useEffect(() => {
 }, [isInstalling]);
 
 
-// Virtual PC boot state
-const [isBooting, setIsBooting] = useState(false);
-
 
 // AI Assistant v2
 const [aiAssistantV2Visible, setAiAssistantV2Visible] = useState(false);
@@ -651,34 +653,12 @@ const handleRestart = () => {
     blog: false,
   });
 
+  // Reset boot session supaya Welcome muncul lagi
+  sessionStorage.removeItem('perdana-boot-session');
+
   // Masuk ke boot screen
-  setIsBooting(true);
+  setPcScreen('boot');
 };
-
-// ==========================================
-// VIRTUAL PC REBOOT TIMER
-// ==========================================
-
-useEffect(() => {
-  if (!isBooting) {
-    return;
-  }
-
-  const bootTimer = setTimeout(() => {
-    setIsBooting(false);
-
-    setWindows(prev => ({
-      ...prev,
-      welcome: true,
-    }));
-  }, 2000);
-
-  return () => {
-    clearTimeout(bootTimer);
-  };
-}, [isBooting]);
-
-
 
 
 
@@ -903,57 +883,6 @@ const handleAttachmentTooLarge = (file) => {
   <PerdanaBootScreen />
 )}
 
-{/* =========================
-    PERDANA PC BOOT SCREEN
-========================= */}
-
-{isBooting && (
-  <div
-    style={{
-      position: 'fixed',
-      inset: 0,
-
-      zIndex: 99999,
-
-      backgroundColor: '#000',
-
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-
-      color: '#fff',
-
-      fontFamily:
-        '"MS Sans Serif", "Microsoft Sans Serif", sans-serif',
-
-      textAlign: 'center',
-    }}
-  >
-    <div>
-      <div
-        style={{
-          fontSize: 28,
-          fontWeight: 'bold',
-          letterSpacing: '2px',
-        }}
-      >
-        PERDANA PC
-      </div>
-
-      <div
-        style={{
-          marginTop: 12,
-          fontSize: 12,
-          color: '#c0c0c0',
-        }}
-      >
-        Starting Windows 95...
-      </div>
-    </div>
-  </div>
-)}
-
-
       {/* --- CONTAINER DESKTOP UTAMA --- */}
 {/* =========================
     WINDOWS 95 INSTALL LOADING
@@ -1040,6 +969,7 @@ onFinish={() => {
     onClick={openAiAssistantV2}
   />
 )/*}
+
 {/* About */}
 <Rnd
   default={{ x: 24, y: 24, width: 80, height: 80 }}
@@ -1047,19 +977,36 @@ onFinish={() => {
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon onOpen={() => setInstallerVisible(true)}>
+  <DesktopIcon onOpen={() => openWindow('about')}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Computer variant="32x32_4" />
       </div>
-      <span>Perdana's PC</span>
+      <span>About</span>
+    </div>
+  </DesktopIcon>
+</Rnd>
+
+{/* Installer */}
+<Rnd
+  default={{ x: 120, y: 24, width: 80, height: 80 }}
+  bounds="window"
+  enableResizing={false}
+  disableDragging={false}
+>
+  <DesktopIcon onOpen={() => setInstallerVisible(true)}>
+    <div style={desktopIconStyle}>
+      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+        <Drvspace7 variant="32x32_4" />
+      </div>
+      <span>Installer</span>
     </div>
   </DesktopIcon>
 </Rnd>
 
 {/* AI Chat */}
 <Rnd
-  default={{ x: 120, y: 24, width: 80, height: 80 }}
+  default={{ x: 24, y: 120, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
@@ -1076,7 +1023,7 @@ onFinish={() => {
 
 {/* Contact */}
 <Rnd
-  default={{ x: 24, y: 120, width: 80, height: 80 }}
+  default={{ x: 120, y: 120, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
@@ -1093,7 +1040,7 @@ onFinish={() => {
 
 {/* Projects */}
 <Rnd
-  default={{ x: 120, y: 120, width: 80, height: 80 }}
+  default={{ x: 24, y: 216, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
@@ -1110,7 +1057,7 @@ onFinish={() => {
 
 {/* Games */}
 <Rnd
-  default={{ x: 24, y: 216, width: 80, height: 80 }}
+  default={{ x: 120, y: 216, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
@@ -1127,7 +1074,7 @@ onFinish={() => {
 
 {/* Recycle Bin */}
 <Rnd
-  default={{ x: 120, y: 216, width: 80, height: 80 }}
+  default={{ x: 24, y: 312, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
@@ -1144,7 +1091,7 @@ onFinish={() => {
 
 {/* Writing */}
 <Rnd
-  default={{ x: 24, y: 312, width: 80, height: 80 }}
+  default={{ x: 24, y: 408, width: 80, height: 80 }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
@@ -1158,6 +1105,7 @@ onFinish={() => {
     </div>
   </DesktopIcon>
 </Rnd>
+
 
 
 
@@ -1706,8 +1654,8 @@ INI ENDING KODE INACTIVE*/}
             left: '50%',
             top: '50%',
 
-            width: '30%',
-            height: '50%',
+            width: '50%',
+            height: '70%',
 
             maxWidth: 'calc(100vw - 20px)',
             maxHeight: 'calc(100vh - 50px)',

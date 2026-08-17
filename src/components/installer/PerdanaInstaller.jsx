@@ -224,76 +224,75 @@ export default function PerdanaInstaller({
       key="perdana-installer"
       icon={<Computer variant="16x16_4" />}
       title="Perdana's PC Setup"
+style={{
+  position: 'fixed',
 
-      style={{
-        position: 'fixed',
+  ...(isMobile
+    ? {
+        // =====================================
+        // SMARTPHONE
+        // =====================================
 
-        ...(isMobile
-          ? {
+        left: '50%',
+        top: 'calc((100vh - 28px) / 2)',
 
-              // =====================================
-              // SMARTPHONE
-              // FULLSCREEN - TASKBAR
-              // =====================================
+        width: '95vw',
+        height: '80vh',
 
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: '28px',
+        maxWidth: '95vw',
+        maxHeight: 'calc(100vh - 28px)',
 
-              width: '100vw',
-              height: 'auto',
+        transform: 'translate(-50%, -50%)',
 
-              maxWidth: '100vw',
-              maxHeight: 'none',
+        margin: 0,
 
-              transform: 'none',
-              margin: 0,
+        boxSizing: 'border-box',
+      }
 
-              boxSizing: 'border-box',
-            }
+    : isTablet
+    ? {
+        // =====================================
+        // TABLET
+        // =====================================
 
-          : isTablet
-          ? {
+        left: '50%',
+        top: 'calc((100vh - 28px) / 2)',
 
-              // =====================================
-              // TABLET
-              // =====================================
+        width: '78vw',
+        height: '68vh',
 
-              left: '50%',
-              top: 'calc((100vh - 28px) / 2)',
+        maxWidth: '90vw',
+        maxHeight: 'calc(100vh - 28px)',
 
-              width: '78vw',
-              height: '68vh',
+        transform: 'translate(-50%, -50%)',
 
-              maxWidth: '90vw',
-              maxHeight: 'calc(100vh - 28px)',
+        margin: 0,
 
-              transform: 'translate(-50%, -50%)',
+        boxSizing: 'border-box',
+      }
 
-              boxSizing: 'border-box',
-            }
+    : {
+        // =====================================
+        // DESKTOP
+        // =====================================
 
-          : {
+        left: '50%',
+        top: 'calc((100vh - 28px) / 2)',
 
-              // =====================================
-              // DESKTOP
-              // =====================================
+        width: '820px',
+        height: '560px',
 
-              left: '50%',
-              top: 'calc((100vh - 28px) / 2)',
+        maxWidth: 'calc(100vw - 20px)',
+        maxHeight: 'calc(100vh - 28px)',
 
-              width: '820px',
-              height: '560px',
+        transform: 'translate(-50%, -50%)',
 
-              maxWidth: 'calc(100vw - 20px)',
-              maxHeight: 'calc(100vh - 28px)',
+        margin: 0,
 
-              transform: 'translate(-50%, -50%)',
+        boxSizing: 'border-box',
+      }),
+}}
 
-              boxSizing: 'border-box',
-            }),
-      }}
 
       titleBarOptions={
         <TitleBar.Close

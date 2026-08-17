@@ -228,7 +228,7 @@ export default function WelcomeModal({
   React.useEffect(() => {
     const welcomeTimer = setTimeout(() => {
       setIsReady(true);
-    }, 700);
+    }, 200);
 
     return () => {
       clearTimeout(welcomeTimer);

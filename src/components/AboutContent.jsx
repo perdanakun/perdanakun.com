@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from '@react95/core';
-import perdanaImage from '../assets/images/img_nimu.jpg';
+import perdanaImage from '../assets/images/perdana.png';
 
 export default function AboutContent() {
   const [page, setPage] = useState(1);
@@ -28,7 +28,7 @@ export default function AboutContent() {
         {/* LEFT PHOTO PANEL */}
         <div
           style={{
-            width: 160,
+            width: '30%',
             flexShrink: 0,
             overflow: 'hidden',
             background: '#000',
