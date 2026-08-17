@@ -422,7 +422,7 @@ const [pcScreen, setPcScreen] = useState(() => {
 
   const bootTimer = setTimeout(() => {
     setPcScreen('desktop');
-  }, 1500);
+  }, 10000);
 
   return () => {
     clearTimeout(bootTimer);
