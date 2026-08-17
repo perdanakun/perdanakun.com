@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Modal,
   Button,
-  Checkbox,
   TitleBar,
 } from '@react95/core';
 
@@ -22,6 +21,10 @@ const FONT =
   '"MS Sans Serif", "Microsoft Sans Serif", sans-serif';
 
 
+/* ======================================
+   SHORTCUT LABEL
+====================================== */
+
 function ShortcutLabel({
   shortcut,
   children,
@@ -30,7 +33,9 @@ function ShortcutLabel({
 
   const index = text
     .toLowerCase()
-    .indexOf(String(shortcut).toLowerCase());
+    .indexOf(
+      String(shortcut).toLowerCase()
+    );
 
   if (index === -1) {
     return <span>{text}</span>;
@@ -55,12 +60,185 @@ function ShortcutLabel({
 }
 
 
+/* ======================================
+   WINDOWS 95 CHECKBOX
+====================================== */
+
+function Win95Checkbox({
+  checked,
+  onChange,
+  children,
+}) {
+  return (
+    <label
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+
+        minHeight: 24,
+
+        gap: 6,
+
+        cursor: 'pointer',
+        userSelect: 'none',
+
+        fontFamily: FONT,
+
+        fontSize: 12,
+        lineHeight: '18px',
+
+        color: '#000000',
+
+        position: 'relative',
+      }}
+    >
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        aria-label={children}
+
+        style={{
+          position: 'absolute',
+
+          width: 1,
+          height: 1,
+
+          opacity: 0,
+
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* ==================================
+          WIN95 CHECKBOX VISUAL
+      ================================== */}
+
+      <span
+        aria-hidden="true"
+
+        style={{
+          position: 'relative',
+
+          width: 13,
+          height: 13,
+
+          flexShrink: 0,
+
+          boxSizing: 'border-box',
+
+          background: '#ffffff',
+
+          borderTop:
+            '1px solid #808080',
+
+          borderLeft:
+            '1px solid #808080',
+
+          borderRight:
+            '1px solid #ffffff',
+
+          borderBottom:
+            '1px solid #ffffff',
+
+          boxShadow: `
+            inset 1px 1px 0 #000000,
+            inset -1px -1px 0 #dfdfdf
+          `,
+
+          display: 'block',
+        }}
+      >
+        {checked && (
+          <span
+            style={{
+              position: 'absolute',
+
+              width: 4,
+              height: 8,
+
+              left: 3,
+              top: 1,
+
+              borderRight:
+                '2px solid #000000',
+
+              borderBottom:
+                '2px solid #000000',
+
+              transform:
+                'rotate(45deg)',
+
+              boxSizing: 'border-box',
+            }}
+          />
+        )}
+      </span>
+
+      {/* ==================================
+          LABEL TEXT
+      ================================== */}
+
+      <span
+        style={{
+          display: 'block',
+
+          fontFamily: FONT,
+
+          fontSize: 12,
+
+          lineHeight: '18px',
+
+          color: '#000000',
+        }}
+      >
+        {children}
+      </span>
+    </label>
+  );
+}
+
+
+/* ======================================
+   WELCOME MODAL
+====================================== */
+
 export default function WelcomeModal({
   isMobile,
   isTablet,
   onClose,
 }) {
-  const [showWelcome, setShowWelcome] = React.useState(true);
+
+  /* ====================================
+     WELCOME CHECKBOX STATE
+  ==================================== */
+
+  const [showWelcome, setShowWelcome] =
+    React.useState(true);
+
+
+  /* ====================================
+     DELAY SHOW WELCOME
+  ==================================== */
+
+  const [isReady, setIsReady] =
+    React.useState(false);
+
+
+  React.useEffect(() => {
+    const welcomeTimer = setTimeout(() => {
+      setIsReady(true);
+    }, 700);
+
+    return () => {
+      clearTimeout(welcomeTimer);
+    };
+  }, []);
+
+
+  /* ====================================
+     BUTTON ACTIONS
+  ==================================== */
 
   const handleWindowsTour = () => {
     window.alert(
@@ -68,11 +246,13 @@ export default function WelcomeModal({
     );
   };
 
+
   const handleWhatsNew = () => {
     window.alert(
       "What's New is not available yet."
     );
   };
+
 
   const handleOnlineRegistration = () => {
     window.alert(
@@ -80,11 +260,13 @@ export default function WelcomeModal({
     );
   };
 
+
   const handleProductCatalog = () => {
     window.alert(
       'Product Catalog is not available yet.'
     );
   };
+
 
   const handleNextTip = () => {
     window.alert(
@@ -92,6 +274,19 @@ export default function WelcomeModal({
     );
   };
 
+
+  /* ====================================
+     WAIT BEFORE RENDER
+  ==================================== */
+
+  if (!isReady) {
+    return null;
+  }
+
+
+  /* ====================================
+     MAIN MODAL
+  ==================================== */
 
   return (
     <Modal
@@ -106,6 +301,10 @@ export default function WelcomeModal({
       style={{
         position: 'fixed',
 
+        /* ================================
+           MOBILE
+        ================================= */
+
         ...(isMobile
           ? {
               top: 0,
@@ -117,30 +316,43 @@ export default function WelcomeModal({
               height: 'auto',
 
               maxWidth: '100vw',
-              maxHeight: 'calc(100vh - 28px)',
+              maxHeight:
+                'calc(100vh - 28px)',
 
               transform: 'none',
+
               margin: 0,
             }
+
+        /* ================================
+           TABLET
+        ================================= */
 
           : isTablet
           ? {
               left: '50%',
-              top: 'calc((100vh - 28px) / 2)',
+              top:
+                'calc((100vh - 28px) / 2)',
 
               width: '78vw',
               height: '68vh',
 
               maxWidth: '90vw',
-              maxHeight: 'calc(100vh - 28px)',
+              maxHeight:
+                'calc(100vh - 28px)',
 
               transform:
                 'translate(-50%, -50%)',
             }
 
+        /* ================================
+           DESKTOP
+        ================================= */
+
           : {
               left: '50%',
-              top: 'calc((100vh - 28px) / 2)',
+              top:
+                'calc((100vh - 28px) / 2)',
 
               width: '700px',
               height: '380px',
@@ -169,6 +381,10 @@ export default function WelcomeModal({
       }
     >
 
+      {/* ==================================
+          MODAL CONTENT
+      ================================== */}
+
       <Modal.Content
         style={{
           padding: 0,
@@ -186,6 +402,10 @@ export default function WelcomeModal({
           overflow: 'hidden',
         }}
       >
+
+        {/* ==================================
+            MAIN ARTICLE
+        ================================== */}
 
         <article
           aria-labelledby="welcome-title"
@@ -213,7 +433,9 @@ export default function WelcomeModal({
           }}
         >
 
-          {/* CONTENT */}
+          {/* ==================================
+              CONTENT AREA
+          ================================== */}
 
           <div
             style={{
@@ -222,7 +444,8 @@ export default function WelcomeModal({
               minWidth: 0,
               minHeight: 0,
 
-              padding: '10px 12px 0',
+              padding:
+                '10px 12px 0',
 
               boxSizing: 'border-box',
 
@@ -233,13 +456,17 @@ export default function WelcomeModal({
             }}
           >
 
-            {/* TITLE */}
+            {/* ==================================
+                TITLE
+            ================================== */}
 
             <h1
               id="welcome-title"
 
               style={{
-                margin: '0 0 7px 0',
+                margin:
+                  '0 0 7px 0',
+
                 padding: 0,
 
                 width: 'fit-content',
@@ -307,7 +534,9 @@ export default function WelcomeModal({
             </h1>
 
 
-            {/* MAIN ROW */}
+            {/* ==================================
+                MAIN ROW
+            ================================== */}
 
             <div
               style={{
@@ -326,7 +555,9 @@ export default function WelcomeModal({
               }}
             >
 
-              {/* INFORMATION PANEL */}
+              {/* ==================================
+                  INFORMATION PANEL
+              ================================== */}
 
               <section
                 aria-label="Welcome information"
@@ -337,7 +568,8 @@ export default function WelcomeModal({
                   minWidth: 0,
                   minHeight: 0,
 
-                  backgroundColor: '#ffffdf',
+                  backgroundColor:
+                    '#ffffdf',
 
                   borderTop:
                     '1px solid #808080',
@@ -351,31 +583,39 @@ export default function WelcomeModal({
                   borderBottom:
                     '1px solid #ffffff',
 
-                  boxSizing: 'border-box',
+                  boxSizing:
+                    'border-box',
 
                   overflow: 'hidden',
 
-                  padding: '14px 14px',
+                  padding:
+                    '14px 14px',
 
                   display: 'flex',
 
-                  flexDirection: 'column',
+                  flexDirection:
+                    'column',
                 }}
               >
 
-                {/* DID YOU KNOW */}
+                {/* ==================================
+                    DID YOU KNOW
+                ================================== */}
 
                 <div
                   style={{
                     display: 'flex',
 
-                    alignItems: 'flex-start',
+                    alignItems:
+                      'flex-start',
 
                     width: '100%',
 
                     minWidth: 0,
                   }}
                 >
+
+                  {/* ICON */}
 
                   <div
                     aria-hidden="true"
@@ -393,15 +633,19 @@ export default function WelcomeModal({
 
                       display: 'flex',
 
-                      alignItems: 'flex-start',
+                      alignItems:
+                        'flex-start',
 
-                      justifyContent: 'flex-start',
+                      justifyContent:
+                        'flex-start',
 
                       flexShrink: 0,
 
-                      boxSizing: 'border-box',
+                      boxSizing:
+                        'border-box',
                     }}
                   >
+
                     <img
                       src={didYouKnowIcon}
                       alt=""
@@ -415,11 +659,15 @@ export default function WelcomeModal({
 
                         display: 'block',
 
-                        imageRendering: 'pixelated',
+                        imageRendering:
+                          'pixelated',
                       }}
                     />
+
                   </div>
 
+
+                  {/* TEXT */}
 
                   <div
                     style={{
@@ -431,7 +679,8 @@ export default function WelcomeModal({
 
                       paddingTop: 10,
 
-                      boxSizing: 'border-box',
+                      boxSizing:
+                        'border-box',
 
                       textAlign: 'left',
                     }}
@@ -448,7 +697,8 @@ export default function WelcomeModal({
 
                         fontSize: 12,
 
-                        lineHeight: '15px',
+                        lineHeight:
+                          '15px',
 
                         fontWeight: 'bold',
 
@@ -461,7 +711,8 @@ export default function WelcomeModal({
 
                     <p
                       style={{
-                        margin: '25px 0 0',
+                        margin:
+                          '25px 0 0',
 
                         padding: 0,
 
@@ -471,21 +722,25 @@ export default function WelcomeModal({
 
                         fontSize: 12,
 
-                        lineHeight: '16px',
+                        lineHeight:
+                          '16px',
 
                         color: '#000',
                       }}
                     >
-                      Perdana Kurniawan Arta is a Visual
-                      Designer and Design Lead currently
-                      exploring Product Design, UX, and
-                      Design Engineering.
+                      Perdana Kurniawan Arta
+                      is a Visual Designer
+                      and Design Lead
+                      currently exploring
+                      Product Design, UX,
+                      and Design Engineering.
                     </p>
 
 
                     <p
                       style={{
-                        margin: '11px 0 0',
+                        margin:
+                          '11px 0 0',
 
                         padding: 0,
 
@@ -495,24 +750,33 @@ export default function WelcomeModal({
 
                         fontSize: 12,
 
-                        lineHeight: '16px',
+                        lineHeight:
+                          '16px',
 
                         color: '#000',
                       }}
                     >
-                      With 10+ years of experience across
-                      visual design, visual systems,
-                      iconography, illustration, and design
-                      direction, he now explores how design,
-                      interaction, and code can come together
-                      to build functional digital experiences.
+                      With 10+ years of
+                      experience across
+                      visual design, visual
+                      systems, iconography,
+                      illustration, and design
+                      direction, he now
+                      explores how design,
+                      interaction, and code
+                      can come together to
+                      build functional digital
+                      experiences.
                     </p>
 
                   </div>
+
                 </div>
 
 
-                {/* PC IMAGE 
+                {/* ==================================
+                    OPTIONAL WINDOWS 95 PC IMAGE
+                ==================================
 
                 <div
                   aria-hidden="true"
@@ -522,15 +786,18 @@ export default function WelcomeModal({
 
                     display: 'flex',
 
-                    alignItems: 'flex-end',
+                    alignItems:
+                      'flex-end',
 
-                    justifyContent: 'center',
+                    justifyContent:
+                      'center',
 
                     minHeight: 0,
 
                     paddingTop: 8,
                   }}
                 >
+
                   <img
                     src={win95Pc}
                     alt=""
@@ -539,11 +806,13 @@ export default function WelcomeModal({
 
                     style={{
                       height: 210,
+
                       width: 'auto',
 
                       display: 'block',
 
-                      imageRendering: 'pixelated',
+                      imageRendering:
+                        'pixelated',
 
                       flexShrink: 0,
 
@@ -551,12 +820,17 @@ export default function WelcomeModal({
                         'translateY(-20px)',
                     }}
                   />
-                </div>*/}
 
-              </section> 
+                </div>
+
+                */}
+
+              </section>
 
 
-              {/* BUTTONS */}
+              {/* ==================================
+                  RIGHT BUTTONS
+              ================================== */}
 
               <aside
                 aria-label="Welcome actions"
@@ -571,52 +845,80 @@ export default function WelcomeModal({
 
                   display: 'flex',
 
-                  flexDirection: 'column',
+                  flexDirection:
+                    'column',
 
-                  boxSizing: 'border-box',
+                  boxSizing:
+                    'border-box',
                 }}
               >
 
                 <Button
-                  onClick={handleWindowsTour}
+                  onClick={
+                    handleWindowsTour
+                  }
                 >
-                  <ShortcutLabel shortcut="W">
+                  <ShortcutLabel
+                    shortcut="W"
+                  >
                     Windows Tour
                   </ShortcutLabel>
                 </Button>
 
+
                 <Button
-                  onClick={handleWhatsNew}
+                  onClick={
+                    handleWhatsNew
+                  }
                 >
-                  <ShortcutLabel shortcut="W">
+                  <ShortcutLabel
+                    shortcut="W"
+                  >
                     What's New
                   </ShortcutLabel>
                 </Button>
 
+
                 <Button
-                  onClick={handleOnlineRegistration}
+                  onClick={
+                    handleOnlineRegistration
+                  }
                 >
-                  <ShortcutLabel shortcut="O">
+                  <ShortcutLabel
+                    shortcut="O"
+                  >
                     Online Registration
                   </ShortcutLabel>
                 </Button>
 
+
                 <Button
-                  onClick={handleProductCatalog}
+                  onClick={
+                    handleProductCatalog
+                  }
                 >
-                  <ShortcutLabel shortcut="P">
+                  <ShortcutLabel
+                    shortcut="P"
+                  >
                     Product Catalog
                   </ShortcutLabel>
                 </Button>
 
+
                 <Button
-                  onClick={handleNextTip}
+                  onClick={
+                    handleNextTip
+                  }
                 >
-                  <ShortcutLabel shortcut="N">
+                  <ShortcutLabel
+                    shortcut="N"
+                  >
                     Next Tip
                   </ShortcutLabel>
                 </Button>
 
+
+                {/* SPACER */}
 
                 <div
                   style={{
@@ -626,6 +928,8 @@ export default function WelcomeModal({
                 />
 
 
+                {/* SEPARATOR */}
+
                 <div
                   aria-hidden="true"
 
@@ -633,7 +937,8 @@ export default function WelcomeModal({
                     width: '100%',
                     height: 2,
 
-                    margin: '0 0 8px',
+                    margin:
+                      '0 0 8px',
 
                     borderTop:
                       '1px solid #808080',
@@ -641,15 +946,22 @@ export default function WelcomeModal({
                     borderBottom:
                       '1px solid #ffffff',
 
-                    boxSizing: 'border-box',
+                    boxSizing:
+                      'border-box',
 
                     flexShrink: 0,
                   }}
                 />
 
 
-                <Button onClick={onClose}>
-                  <ShortcutLabel shortcut="C">
+                {/* CLOSE */}
+
+                <Button
+                  onClick={onClose}
+                >
+                  <ShortcutLabel
+                    shortcut="C"
+                  >
                     Close
                   </ShortcutLabel>
                 </Button>
@@ -659,7 +971,9 @@ export default function WelcomeModal({
             </div>
 
 
-            {/* CHECKBOX */}
+            {/* ==================================
+                CHECKBOX AREA
+            ================================== */}
 
             <div
               style={{
@@ -670,75 +984,38 @@ export default function WelcomeModal({
                 height: 39,
                 minHeight: 39,
 
-                boxSizing: 'border-box',
+                boxSizing:
+                  'border-box',
 
                 display: 'flex',
 
-                alignItems: 'center',
+                alignItems:
+                  'center',
 
-                padding: '6px 0 8px',
+                padding:
+                  '6px 0 8px',
 
-                backgroundColor: '#c0c0c0',
+                backgroundColor:
+                  '#c0c0c0',
 
-                overflow: 'visible',
+                overflow:
+                  'visible',
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
 
-                  alignItems: 'center',
+              <Win95Checkbox
+                checked={showWelcome}
 
-                  width: '100%',
-
-                  minWidth: 0,
-
-                  fontFamily: FONT,
-
-                  fontSize: 11,
-
-                  lineHeight: '14px',
-
-                  color: '#000',
-
-                  userSelect: 'none',
+                onChange={(event) => {
+                  setShowWelcome(
+                    event.target.checked
+                  );
                 }}
               >
-                <Checkbox
-                  checked={showWelcome}
+                Show this Welcome Screen
+                next time you start Windows
+              </Win95Checkbox>
 
-                  onChange={(event) => {
-                    setShowWelcome(
-                      event.target.checked
-                    );
-                  }}
-
-                  style={{
-                    margin: 0,
-                    padding: 8,
-
-                    width: 12,
-                    height: 13,
-
-                    flexShrink: 0,
-                  }}
-                />
-
-                <span
-                  style={{
-                    marginLeft: 5,
-
-                    display: 'block',
-
-                    whiteSpace: 'nowrap',
-
-                    lineHeight: '14px',
-                  }}
-                >
-                  Show this Welcome Screen next time
-                  you start Windows
-                </span>
-              </div>
             </div>
 
           </div>
@@ -746,6 +1023,7 @@ export default function WelcomeModal({
         </article>
 
       </Modal.Content>
+
     </Modal>
   );
 }

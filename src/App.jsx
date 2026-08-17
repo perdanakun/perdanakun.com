@@ -1,6 +1,7 @@
 import '@react95/core/GlobalStyle';
 import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
+import installerBackground from './assets/images/7night.png';
 import winBackground from './assets/images/win_background2.jpg';
 import winDawn from './assets/images/1dawn.png';
 import winMorning from './assets/images/2morning.png';
@@ -8,7 +9,7 @@ import winMidday from './assets/images/3midday.png';
 import winAfternoon from './assets/images/4afternoon.png';
 import winSunset from './assets/images/5sunset.png';
 import winBlueHour from './assets/images/6bluehour.png';
-import winNight from './assets/images/7night.png';
+
 import AiAssistantContentModal from './components/AiAssistantContentModal';
 import ProjectFolderContent from './components/ProjectFolderContent';
 import CSGameModal from './components/CSGameModal';
@@ -27,6 +28,7 @@ import PerdanaInstaller from './components/installer/PerdanaInstaller';
 import BlogContent from './components/BlogContent';
 import WelcomeModal from './components/WelcomeModal';
 import PerdanaBootScreen from './components/boot/PerdanaBootScreen';
+import PerdanaInstallLoading from './components/installer/PerdanaInstallLoading';
 import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
@@ -583,6 +585,25 @@ useEffect(() => {
 // Perdana PC Installer
 const [installerVisible, setInstallerVisible] = useState(false);
 
+// Installer loading state
+const [isInstalling, setIsInstalling] = useState(false);
+
+useEffect(() => {
+  if (!isInstalling) {
+    return;
+  }
+
+  const installTimer = setTimeout(() => {
+    setIsInstalling(false);
+    setInstallerVisible(false);
+  }, 3000);
+
+  return () => {
+    clearTimeout(installTimer);
+  };
+}, [isInstalling]);
+
+
 // Virtual PC boot state
 const [isBooting, setIsBooting] = useState(false);
 
@@ -934,16 +955,63 @@ const handleAttachmentTooLarge = (file) => {
 
 
       {/* --- CONTAINER DESKTOP UTAMA --- */}
-{pcScreen === 'desktop' && (
+{/* =========================
+    WINDOWS 95 INSTALL LOADING
+========================= */}
+{pcScreen === 'desktop' && isInstalling && (
+  <PerdanaInstallLoading />
+)}
+
+
+       {/* --- INSTALLER --- */}
+{pcScreen === 'desktop' && installerVisible ? (
+  <div
+    style={{
+      position: 'fixed',
+      inset: 0,
+      width: '100vw',
+      height: '100vh',
+
+      backgroundImage: `url(${installerBackground})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+
+      overflow: 'hidden',
+      zIndex: 99999,
+    }}
+  >
+    <PerdanaInstaller
+      isMobile={isMobile}
+      isTablet={isTablet}
+
+      onClose={() => setInstallerVisible(false)}
+
+onFinish={() => {
+  const nextState = {
+    ...pcState,
+    installed: true,
+  };
+
+  savePCState(nextState);
+
+  // Installer tetap tampil sementara
+  setIsInstalling(true);
+}}
+
+    />
+  </div>
+) : pcScreen === 'desktop' ? (
   <main
     aria-label="Perdana's Computer — portfolio of Perdana Kurniawan Arta"
-  style={{
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-    overflow: 'hidden',
-  }}
->
+    style={{
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      overflow: 'hidden',
+    }}
+  >
+
   <header
   className="portfolio-identity"
   aria-label="Perdana Kurniawan Arta"
@@ -1258,28 +1326,6 @@ INI ENDING KODE INACTIVE*/}
   </ResizableModal>
 )}
 
-
-
-{/* --- JENDELA PERDANA PC INSTALLER --- */}
-
-{installerVisible && (
-  <PerdanaInstaller
-    isMobile={isMobile}
-    isTablet={isTablet}
-
-    onClose={() => setInstallerVisible(false)}
-
-    onFinish={() => {
-      const nextState = {
-        ...pcState,
-        installed: true,
-      };
-
-      savePCState(nextState);
-      setInstallerVisible(false);
-    }}
-  />
-)}
 
 
 
@@ -1846,8 +1892,9 @@ INI ENDING KODE INACTIVE*/}
           }
         />
 
-      </main>
-      )}
+  </main>
+) : null}
+
     </>
   );
 }
