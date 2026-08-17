@@ -25,6 +25,8 @@ import AiAssistantSphere from "./components/AiAssistantSphere";
 import ImageViewer from './components/ImageViewer';
 import PerdanaInstaller from './components/installer/PerdanaInstaller';
 import BlogContent from './components/BlogContent';
+import WelcomeModal from './components/WelcomeModal';
+import PerdanaBootScreen from './components/boot/PerdanaBootScreen';
 import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
@@ -369,6 +371,91 @@ return (
 
 function App() {
 
+
+  // ==========================================
+  // PERDANA PC — VIRTUAL PC STATE
+  // ==========================================
+
+  const PC_STORAGE_KEY = 'perdana-pc';
+
+  const getPCState = () => {
+    try {
+      const saved = localStorage.getItem(
+        PC_STORAGE_KEY
+      );
+
+      if (!saved) {
+        return {
+          installed: false,
+          welcomeEnabled: true,
+        };
+      }
+
+      return JSON.parse(saved);
+    } catch {
+      return {
+        installed: false,
+        welcomeEnabled: true,
+      };
+    }
+  };
+
+  const [pcState, setPcState] = useState(
+    getPCState
+  );
+
+  const [pcScreen, setPcScreen] = useState('boot');
+
+  // boot PC
+
+  useEffect(() => {
+  if (pcScreen !== 'boot') {
+    return;
+  }
+
+  const bootTimer = setTimeout(() => {
+    setPcScreen('desktop');
+  }, 1500);
+
+  return () => {
+    clearTimeout(bootTimer);
+  };
+}, [pcScreen]);
+
+// ==========================================
+// PERDANA PC INSTALLER LIFECYCLE
+// ==========================================
+
+useEffect(() => {
+  // Jangan cek installer sebelum boot selesai
+  if (pcScreen !== 'desktop') {
+    return;
+  }
+
+  // Kalau sudah pernah install, jangan munculkan otomatis
+  if (pcState.installed) {
+    return;
+  }
+
+  // Installer muncul otomatis setelah first boot
+  setInstallerVisible(true);
+}, [pcScreen, pcState.installed]);
+
+
+
+  // this PC already installed something like that
+
+  const savePCState = (nextState) => {
+  setPcState(nextState);
+
+  localStorage.setItem(
+    PC_STORAGE_KEY,
+    JSON.stringify(nextState)
+  );
+};
+
+
+
  // ==========================================
   // DYNAMIC WALLPAPER - DINONAKTIFKAN
   // ==========================================
@@ -445,6 +532,7 @@ useEffect(() => {
 
   // Menyimpan status true (terbuka) atau false (tertutup) untuk setiap aplikasi/jendela
 const [windows, setWindows] = useState({
+  welcome: false,
   about: false,
   projects: false,
   contact: false,
@@ -455,10 +543,49 @@ const [windows, setWindows] = useState({
   blog: false,
 });
 
+// ==========================================
+// WINDOWS BOOT SESSION
+// ==========================================
+
+useEffect(() => {
+  // Jangan buka Welcome sebelum desktop siap
+  if (pcScreen !== 'desktop') {
+    return;
+  }
+
+  // Kalau PC belum selesai di-install,
+  // installer harus punya prioritas.
+  if (!pcState.installed) {
+    return;
+  }
+
+  const bootSession = sessionStorage.getItem(
+    'perdana-boot-session'
+  );
+
+  // Welcome hanya otomatis sekali
+  // dalam satu browser session / boot session.
+  if (!bootSession) {
+    setWindows(prev => ({
+      ...prev,
+      welcome: true,
+    }));
+
+    sessionStorage.setItem(
+      'perdana-boot-session',
+      'true'
+    );
+  }
+}, [pcScreen, pcState.installed]);
+
+
 
 // Perdana PC Installer
-
 const [installerVisible, setInstallerVisible] = useState(false);
+
+// Virtual PC boot state
+const [isBooting, setIsBooting] = useState(false);
+
 
 // AI Assistant v2
 const [aiAssistantV2Visible, setAiAssistantV2Visible] = useState(false);
@@ -484,6 +611,55 @@ const [aiSphereVisible, setAiSphereVisible] = useState(true);
     [name]: value
   }));
 };
+
+// ==========================================
+// VIRTUAL PC RESTART
+// ==========================================
+
+const handleRestart = () => {
+  // Tutup semua window
+  setWindows({
+    welcome: false,
+    about: false,
+    projects: false,
+    contact: false,
+    csGame: false,
+    aiAssistant: false,
+    recycleBin: false,
+    imageViewer: false,
+    blog: false,
+  });
+
+  // Masuk ke boot screen
+  setIsBooting(true);
+};
+
+// ==========================================
+// VIRTUAL PC REBOOT TIMER
+// ==========================================
+
+useEffect(() => {
+  if (!isBooting) {
+    return;
+  }
+
+  const bootTimer = setTimeout(() => {
+    setIsBooting(false);
+
+    setWindows(prev => ({
+      ...prev,
+      welcome: true,
+    }));
+  }, 2000);
+
+  return () => {
+    clearTimeout(bootTimer);
+  };
+}, [isBooting]);
+
+
+
+
 
 //restore minimize AIsphere AI assistant
 const minimizeAI = () => {
@@ -700,9 +876,67 @@ const handleAttachmentTooLarge = (file) => {
         `}
       </style>
 
+{/* --- BOOT PERDANA PC --- */}
+
+      {pcScreen === 'boot' && (
+  <PerdanaBootScreen />
+)}
+
+{/* =========================
+    PERDANA PC BOOT SCREEN
+========================= */}
+
+{isBooting && (
+  <div
+    style={{
+      position: 'fixed',
+      inset: 0,
+
+      zIndex: 99999,
+
+      backgroundColor: '#000',
+
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      color: '#fff',
+
+      fontFamily:
+        '"MS Sans Serif", "Microsoft Sans Serif", sans-serif',
+
+      textAlign: 'center',
+    }}
+  >
+    <div>
+      <div
+        style={{
+          fontSize: 28,
+          fontWeight: 'bold',
+          letterSpacing: '2px',
+        }}
+      >
+        PERDANA PC
+      </div>
+
+      <div
+        style={{
+          marginTop: 12,
+          fontSize: 12,
+          color: '#c0c0c0',
+        }}
+      >
+        Starting Windows 95...
+      </div>
+    </div>
+  </div>
+)}
+
+
       {/* --- CONTAINER DESKTOP UTAMA --- */}
-<main
-  aria-label="Perdana's Computer — portfolio of Perdana Kurniawan Arta"
+{pcScreen === 'desktop' && (
+  <main
+    aria-label="Perdana's Computer — portfolio of Perdana Kurniawan Arta"
   style={{
     position: 'relative',
     width: '100%',
@@ -944,6 +1178,19 @@ const handleAttachmentTooLarge = (file) => {
 )} 
 
 INI ENDING KODE INACTIVE*/}
+{/* =========================
+    Jendela Welcome
+========================= */}
+
+
+{windows.welcome && (
+  <WelcomeModal
+    isMobile={isMobile}
+    isTablet={isTablet}
+    onClose={() => toggleWindow('welcome', false)}
+  />
+)}
+
 
 {/* =========================
     Jendela Writing
@@ -1013,15 +1260,28 @@ INI ENDING KODE INACTIVE*/}
 
 
 
-{/* --- JENDELA ABOUT PERDANA KURNIAWAN ARTA --- */}
+{/* --- JENDELA PERDANA PC INSTALLER --- */}
+
 {installerVisible && (
   <PerdanaInstaller
     isMobile={isMobile}
     isTablet={isTablet}
+
     onClose={() => setInstallerVisible(false)}
-    onFinish={() => setInstallerVisible(false)}
+
+    onFinish={() => {
+      const nextState = {
+        ...pcState,
+        installed: true,
+      };
+
+      savePCState(nextState);
+      setInstallerVisible(false);
+    }}
   />
 )}
+
+
 
 {/* --- JENDELA AI MESSENGER --- */}
 {windows.aiAssistant && (
@@ -1536,6 +1796,14 @@ INI ENDING KODE INACTIVE*/}
         <TaskBar
           list={
             <List style={{ width: '240px' }}>
+<List.Item
+  icon={<Computer variant="16x16_4" />}
+  onClick={() => toggleWindow('welcome', true)}
+>
+  Welcome
+</List.Item>
+
+
 <List.Item 
   icon={<Intl101 variant="16x16_4" />} 
   onClick={() => toggleWindow('aiAssistant', true)}
@@ -1570,7 +1838,7 @@ INI ENDING KODE INACTIVE*/}
               <List.Divider />
               <List.Item 
                 icon={<PowerOff variant="16x16_4" />} 
-                onClick={() => window.location.reload()}
+                onClick={handleRestart}
               >
                 Reset Desktop
               </List.Item>
@@ -1579,6 +1847,7 @@ INI ENDING KODE INACTIVE*/}
         />
 
       </main>
+      )}
     </>
   );
 }
