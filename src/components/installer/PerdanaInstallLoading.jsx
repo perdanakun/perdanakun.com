@@ -1,5 +1,5 @@
 import React from 'react';
-import installerBackground from '../../assets/images/7night.png';
+import installerBackground from '../../assets/images/win95_install.jpg';
 
 function PerdanaInstallLoading({
   isMobile = false,

@@ -6,6 +6,7 @@ import {
 } from '@react95/core';
 
 import perdanaImage from './perdana.png';
+import win95installimg from './win95_install_illustration.png';
 
 
 /* ======================================
@@ -179,42 +180,34 @@ export default function InstallerWelcome() {
         {/* ====================================
             LEFT COLUMN
         ==================================== */}
+<div
+  aria-label="Portrait of Perdana Kurniawan Arta"
+  style={{
+    width: 190,
+    flexShrink: 0,
+    background: '#54A8A8',
+    border: '2px inset #c0c0c0',
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <img
+    src={win95installimg}
+    alt="Perdana Kurniawan Arta, Visual Designer"
+    style={{
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      objectFit: 'contain',
+      objectPosition: 'center',
+      transform: 'scale(1)',
+    }}
+  />
+</div>
 
-        <div
-          aria-label="Portrait of Perdana Kurniawan Arta"
-          style={{
-            width: 190,
-
-            flexShrink: 0,
-
-            background: '#000080',
-
-            border: '2px inset #c0c0c0',
-
-            boxSizing: 'border-box',
-
-            overflow: 'hidden',
-
-            display: 'flex',
-          }}
-        >
-
-          {/* 
-          <img
-            src={perdanaImage}
-            alt="Perdana Kurniawan Arta, Visual Designer"
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'block',
-
-              objectFit: 'cover',
-              objectPosition: '100% 50%',
-            }}
-          />
-          */}
-
-        </div>
 
 
         {/* ====================================
@@ -434,16 +427,19 @@ export default function InstallerWelcome() {
           </section>
 
 
+
           {/* ==================================
               INSIDE PERDANA'S COMPUTER
           ================================== */}
 
-          <section
-            aria-labelledby="inside-title"
-            style={{
-              paddingTop: 12,
-            }}
-          >
+<section
+  aria-labelledby="inside-title"
+  style={{
+    marginTop: 'auto',
+    paddingTop: 12,
+  }}
+>
+
 
             <Fieldset
               legend="Inside Perdana's Computer"

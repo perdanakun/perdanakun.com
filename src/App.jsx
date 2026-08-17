@@ -1,7 +1,7 @@
 import '@react95/core/GlobalStyle';
 import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
-import installerBackground from './assets/images/7night.png';
+import installerBackground from './assets/images/win95_install.jpg';
 import winBackground from './assets/images/win_background2.jpg';
 import winDawn from './assets/images/1dawn.png';
 import winMorning from './assets/images/2morning.png';

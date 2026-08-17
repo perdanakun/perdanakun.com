@@ -355,7 +355,7 @@ export default function WelcomeModal({
                 'calc((100vh - 28px) / 2)',
 
               width: '700px',
-              height: '380px',
+              height: '320px',
 
               maxWidth:
                 'calc(100vw - 20px)',
@@ -538,22 +538,27 @@ export default function WelcomeModal({
                 MAIN ROW
             ================================== */}
 
-            <div
-              style={{
-                flex: '1 1 auto',
+<div
+  style={{
+    flex: '1 1 auto',
 
-                minWidth: 0,
-                minHeight: 0,
+    minWidth: 0,
+    minHeight: 0,
 
-                display: 'flex',
+    display: 'flex',
 
-                alignItems: 'stretch',
+    flexDirection: isMobile
+      ? 'column'
+      : 'row',
 
-                gap: 10,
+    alignItems: 'stretch',
 
-                overflow: 'hidden',
-              }}
-            >
+    gap: isMobile ? 8 : 10,
+
+    overflow: 'hidden',
+  }}
+>
+
 
               {/* ==================================
                   INFORMATION PANEL
@@ -598,232 +603,361 @@ export default function WelcomeModal({
                 }}
               >
 
-                {/* ==================================
-                    DID YOU KNOW
-                ================================== */}
+          {/* ==================================
+    DID YOU KNOW
+================================== */}
 
-                <div
-                  style={{
-                    display: 'flex',
+<div
+  style={{
+    display: isMobile
+      ? 'block'
+      : 'flex',
 
-                    alignItems:
-                      'flex-start',
+    alignItems: 'flex-start',
 
-                    width: '100%',
+    width: '100%',
 
-                    minWidth: 0,
-                  }}
-                >
+    minWidth: 0,
+  }}
+>
 
-                  {/* ICON */}
+  {/* ==================================
+      ICON
+  ================================== */}
 
-                  <div
-                    aria-hidden="true"
+  <div
+    aria-hidden="true"
 
-                    style={{
-                      width: 64,
-                      minWidth: 64,
+    style={{
+      width: 64,
+      minWidth: 64,
 
-                      height: 64,
+      height: 64,
 
-                      marginRight: 12,
-                      marginTop: -10,
+      marginRight: isMobile
+        ? 12
+        : 12,
 
-                      padding: 0,
+      marginTop: -10,
 
-                      display: 'flex',
+      padding: 0,
 
-                      alignItems:
-                        'flex-start',
+      display: isMobile
+        ? 'inline-flex'
+        : 'flex',
 
-                      justifyContent:
-                        'flex-start',
+      alignItems:
+        'flex-start',
 
-                      flexShrink: 0,
+      justifyContent:
+        'flex-start',
 
-                      boxSizing:
-                        'border-box',
-                    }}
-                  >
+      flexShrink: 0,
 
-                    <img
-                      src={didYouKnowIcon}
-                      alt=""
+      boxSizing:
+        'border-box',
 
-                      width={64}
-                      height={64}
+      verticalAlign:
+        'top',
+    }}
+  >
 
-                      style={{
-                        width: 64,
-                        height: 64,
+    <img
+      src={didYouKnowIcon}
+      alt=""
 
-                        display: 'block',
+      width={64}
+      height={64}
 
-                        imageRendering:
-                          'pixelated',
-                      }}
-                    />
+      style={{
+        width: 64,
+        height: 64,
 
-                  </div>
+        display: 'block',
 
+        imageRendering:
+          'pixelated',
+      }}
+    />
 
-                  {/* TEXT */}
+  </div>
 
-                  <div
-                    style={{
-                      flex: '1 1 auto',
 
-                      minWidth: 0,
+  {/* ==================================
+      TEXT AREA
+  ================================== */}
 
-                      width: '100%',
+  <div
+    style={{
+      display: isMobile
+        ? 'inline-block'
+        : 'block',
 
-                      paddingTop: 10,
+      verticalAlign:
+        'top',
 
-                      boxSizing:
-                        'border-box',
+      width: isMobile
+        ? 'calc(100% - 80px)'
+        : 'auto',
 
-                      textAlign: 'left',
-                    }}
-                  >
+      flex: isMobile
+        ? 'none'
+        : '1 1 auto',
 
-                    <strong
-                      style={{
-                        display: 'block',
+      minWidth: 0,
 
-                        margin: 0,
-                        padding: 0,
+      paddingTop: 10,
 
-                        fontFamily: FONT,
+      boxSizing:
+        'border-box',
 
-                        fontSize: 12,
+      textAlign: 'left',
+    }}
+  >
 
-                        lineHeight:
-                          '15px',
+    {/* DID YOU KNOW */}
 
-                        fontWeight: 'bold',
+    <strong
+      style={{
+        display: 'block',
 
-                        color: '#000',
-                      }}
-                    >
-                      Did you know...
-                    </strong>
+        margin: 0,
+        padding: 0,
 
+        fontFamily: FONT,
 
-                    <p
-                      style={{
-                        margin:
-                          '25px 0 0',
+        fontSize: 12,
 
-                        padding: 0,
+        lineHeight:
+          '15px',
 
-                        maxWidth: 480,
+        fontWeight: 'bold',
 
-                        fontFamily: FONT,
+        color: '#000',
+      }}
+    >
+      Did you know...
+    </strong>
 
-                        fontSize: 12,
 
-                        lineHeight:
-                          '16px',
+    {/* ==================================
+        DESKTOP/TABLET TEXT
+    ================================== */}
 
-                        color: '#000',
-                      }}
-                    >
-                      Perdana Kurniawan Arta
-                      is a Visual Designer
-                      and Design Lead
-                      currently exploring
-                      Product Design, UX,
-                      and Design Engineering.
-                    </p>
+    {!isMobile && (
+      <>
+        <p
+          style={{
+            margin:
+              '25px 0 0',
 
+            padding: 0,
 
-                    <p
-                      style={{
-                        margin:
-                          '11px 0 0',
+            maxWidth: 480,
 
-                        padding: 0,
+            fontFamily: FONT,
 
-                        maxWidth: 480,
+            fontSize: 12,
 
-                        fontFamily: FONT,
+            lineHeight:
+              '16px',
 
-                        fontSize: 12,
+            color: '#000',
 
-                        lineHeight:
-                          '16px',
+            textAlign: 'left',
+          }}
+        >
+          Perdana Kurniawan Arta
+          is a Visual Designer
+          and Design Lead
+          currently exploring
+          Product Design, UX,
+          and Design Engineering.
+        </p>
 
-                        color: '#000',
-                      }}
-                    >
-                      With 10+ years of
-                      experience across
-                      visual design, visual
-                      systems, iconography,
-                      illustration, and design
-                      direction, he now
-                      explores how design,
-                      interaction, and code
-                      can come together to
-                      build functional digital
-                      experiences.
-                    </p>
 
-                  </div>
+        <p
+          style={{
+            margin:
+              '11px 0 0',
 
-                </div>
+            padding: 0,
 
+            maxWidth: 480,
 
-                {/* ==================================
-                    OPTIONAL WINDOWS 95 PC IMAGE
-                ==================================
+            fontFamily: FONT,
 
-                <div
-                  aria-hidden="true"
+            fontSize: 12,
 
-                  style={{
-                    flex: '1 1 auto',
+            lineHeight:
+              '16px',
 
-                    display: 'flex',
+            color: '#000',
 
-                    alignItems:
-                      'flex-end',
+            textAlign: 'left',
+          }}
+        >
+          With 10+ years of
+          experience across
+          visual design, visual
+          systems, iconography,
+          illustration, and design
+          direction, he now
+          explores how design,
+          interaction, and code
+          can come together to
+          build functional digital
+          experiences.
+        </p>
+      </>
+    )}
 
-                    justifyContent:
-                      'center',
+  </div>
 
-                    minHeight: 0,
 
-                    paddingTop: 8,
-                  }}
-                >
+  {/* ==================================
+      MOBILE TEXT
+  ================================== */}
 
-                  <img
-                    src={win95Pc}
-                    alt=""
+  {isMobile && (
+    <div
+      style={{
+        width: '100%',
 
-                    height={210}
+        marginTop: 12,
 
-                    style={{
-                      height: 210,
+        boxSizing: 'border-box',
 
-                      width: 'auto',
+        textAlign: 'left',
+      }}
+    >
 
-                      display: 'block',
+      <p
+        style={{
+          margin: 0,
 
-                      imageRendering:
-                        'pixelated',
+          padding: 0,
 
-                      flexShrink: 0,
+          width: '100%',
 
-                      transform:
-                        'translateY(-20px)',
-                    }}
-                  />
+          maxWidth: 480,
 
-                </div>
+          fontFamily: FONT,
 
-                */}
+          fontSize: 12,
+
+          lineHeight:
+            '16px',
+
+          color: '#000',
+
+          textAlign: 'left',
+        }}
+      >
+        Perdana Kurniawan Arta
+        is a Visual Designer
+        and Design Lead
+        currently exploring
+        Product Design, UX,
+        and Design Engineering.
+      </p>
+
+
+      <p
+        style={{
+          margin:
+            '11px 0 0',
+
+          padding: 0,
+
+          width: '100%',
+
+          maxWidth: 480,
+
+          fontFamily: FONT,
+
+          fontSize: 12,
+
+          lineHeight:
+            '16px',
+
+          color: '#000',
+
+          textAlign: 'left',
+        }}
+      >
+        With 10+ years of
+        experience across
+        visual design, visual
+        systems, iconography,
+        illustration, and design
+        direction, he now
+        explores how design,
+        interaction, and code
+        can come together to
+        build functional digital
+        experiences.
+      </p>
+
+    </div>
+  )}
+
+</div>
+
+{/* ==================================
+    OPTIONAL WINDOWS 95 PC IMAGE
+================================== */}
+
+{isMobile && (
+  <div
+    aria-hidden="true"
+    style={{
+      flex: '1 1 auto',
+
+      minWidth: 0,
+      minHeight: 0,
+
+      width: '100%',
+
+      display: 'flex',
+
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+
+      padding:
+        '8px 0 0',
+
+      boxSizing: 'border-box',
+
+      overflow: 'hidden',
+    }}
+  >
+    <img
+      src={win95Pc}
+      alt=""
+
+      style={{
+        display: 'block',
+
+        width: 'auto',
+        height: 'auto',
+
+        maxWidth: '75%',
+        maxHeight: '75%',
+
+        objectFit: 'contain',
+
+        imageRendering: 'pixelated',
+
+        flexShrink: 1,
+
+        transform:
+          'translateY(-20%)',
+      }}
+    />
+  </div>
+)}
+
 
               </section>
 
@@ -832,26 +966,32 @@ export default function WelcomeModal({
                   RIGHT BUTTONS
               ================================== */}
 
-              <aside
-                aria-label="Welcome actions"
+<aside
+  aria-label="Welcome actions"
 
-                style={{
-                  width: 140,
-                  minWidth: 140,
+  style={{
+    width: isMobile
+      ? '100%'
+      : 140,
 
-                  flexShrink: 0,
+    minWidth: isMobile
+      ? 0
+      : 140,
 
-                  gap: 8,
+    flexShrink: 0,
 
-                  display: 'flex',
+    gap: 8,
 
-                  flexDirection:
-                    'column',
+    display: 'flex',
 
-                  boxSizing:
-                    'border-box',
-                }}
-              >
+    flexDirection:
+      'column',
+
+    boxSizing:
+      'border-box',
+  }}
+>
+
 
                 <Button
                   onClick={
@@ -888,19 +1028,6 @@ export default function WelcomeModal({
                     shortcut="O"
                   >
                     Online Registration
-                  </ShortcutLabel>
-                </Button>
-
-
-                <Button
-                  onClick={
-                    handleProductCatalog
-                  }
-                >
-                  <ShortcutLabel
-                    shortcut="P"
-                  >
-                    Product Catalog
                   </ShortcutLabel>
                 </Button>
 
