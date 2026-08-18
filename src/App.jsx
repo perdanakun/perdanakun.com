@@ -53,6 +53,7 @@ import {
   Winmine1,
   Drvspace7,
   Intl101,
+  Install,
 } from '@react95/icons';
 import { useState, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
@@ -893,6 +894,7 @@ const handleAttachmentTooLarge = (file) => {
 
 
        {/* --- INSTALLER --- */}
+       
 {pcScreen === 'desktop' && installerVisible ? (
   <div
     style={{
@@ -910,25 +912,103 @@ const handleAttachmentTooLarge = (file) => {
       zIndex: 99999,
     }}
   >
-    <PerdanaInstaller
-      isMobile={isMobile}
-      isTablet={isTablet}
+{/* FADING BACKGROUND */}
+<div
+  style={{
+    position: 'absolute',
+    inset: 0,
 
-      onClose={() => setInstallerVisible(false)}
+    background: `
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.5) 12%,
+        transparent 35%,
+        transparent 65%,
+        rgba(0, 0, 0, 0.5) 88%,
+        rgba(0, 0, 0, 0.9) 100%
+      )
+    `,
 
-onFinish={() => {
-  const nextState = {
-    ...pcState,
-    installed: true,
-  };
+    pointerEvents: 'none',
+    zIndex: 1,
+  }}
+/>
+<div
+  style={{
+    position: 'relative',
+    zIndex: 3,
 
-  savePCState(nextState);
+    width: '100%',
+    height: '100%',
 
-  // Installer tetap tampil sementara
-  setIsInstalling(true);
-}}
+    boxSizing: 'border-box',
+  }}
+>
+  {/* =========================
+      PERDANA INSTALLER
+  ========================= */}
 
-    />
+  <PerdanaInstaller
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    onClose={() => setInstallerVisible(false)}
+
+    onFinish={() => {
+      const nextState = {
+        ...pcState,
+        installed: true,
+      };
+
+      savePCState(nextState);
+
+      setIsInstalling(true);
+    }}
+  />
+{/* =========================
+    INSTALLATION NOTE
+========================= */}
+<div
+  style={{
+    position: 'absolute',
+
+    left: 0,
+    right: 0,
+    bottom: isMobile ? '5%' : '3%',
+
+    width: '100%',
+
+    padding: '0 16px',
+
+    color: '#dadada',
+
+    fontFamily:
+      '"MS Sans Serif", Arial, sans-serif',
+
+    fontSize: isMobile ? 10 : 11,
+
+    fontWeight: 'normal',
+
+    textShadow: '1px 1px 0 #000',
+
+    textAlign: 'center',
+
+    lineHeight: 1.3,
+
+    boxSizing: 'border-box',
+
+    userSelect: 'none',
+    pointerEvents: 'none',
+
+    zIndex: 100001,
+  }}
+>
+  This setup runs automatically the first time you visit.
+  Once you're in, you can launch it again from the desktop.
+</div>
+</div>
+
   </div>
 ) : pcScreen === 'desktop' ? (
   <main
@@ -997,7 +1077,7 @@ onFinish={() => {
   <DesktopIcon onOpen={() => setInstallerVisible(true)}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Drvspace7 variant="32x32_4" />
+        <Install variant="32x32_4" />
       </div>
       <span>Installer</span>
     </div>

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Modal,
   Button,
-  TitleBar,
+  Frame,
 } from '@react95/core';
 
-import { Computer } from '@react95/icons';
-
 import InstallerWelcome from './InstallerWelcome';
+import InstallerWelcomeAbout from './InstallerWelcomeAbout';
+import InstallerSystemRequirements from './InstallerSystemRequirements';
 import InstallerTree from './InstallerTree';
 import InstallerContent from './InstallerContent';
 import InstallerLoading from './InstallerLoading';
 import InstallerComplete from './InstallerComplete';
+
 
 import installerSteps from '../../data/installerSteps';
 
@@ -58,17 +58,24 @@ export default function PerdanaInstaller({
   // ==========================================
 
   const handleNext = () => {
+if (page === 'welcome') {
+  setPage('welcomeAbout');
 
-    // -----------------------------
-    // WELCOME → WIZARD
-    // -----------------------------
+  return;
+}
 
-    if (page === 'welcome') {
-      setCurrentStep(0);
-      setPage('wizard');
+if (page === 'welcomeAbout') {
+  setPage('requirements');
 
-      return;
-    }
+  return;
+}
+
+if (page === 'requirements') {
+  setCurrentStep(0);
+  setPage('wizard');
+
+  return;
+}
 
 
     // -----------------------------
@@ -111,38 +118,63 @@ export default function PerdanaInstaller({
   // ==========================================
   // BACK
   // ==========================================
+const handleBack = () => {
 
-  const handleBack = () => {
+  // -----------------------------
+  // WELCOME ABOUT → WELCOME
+  // -----------------------------
 
-    if (page === 'wizard') {
+  if (page === 'welcomeAbout') {
+    setPage('welcome');
 
-      if (currentStep > 0) {
-        setCurrentStep((step) => step - 1);
-      } else {
-        setPage('welcome');
-      }
+    return;
+  }
 
-      return;
+
+  // -----------------------------
+  // REQUIREMENTS → WELCOME ABOUT
+  // -----------------------------
+
+  if (page === 'requirements') {
+    setPage('welcomeAbout');
+
+    return;
+  }
+
+
+  // -----------------------------
+  // WIZARD → REQUIREMENTS
+  // -----------------------------
+
+  if (page === 'wizard') {
+
+    if (currentStep > 0) {
+      setCurrentStep((step) => step - 1);
+    } else {
+      setPage('requirements');
     }
-  };
+
+    return;
+  }
+
+}; // ← INI YANG KURANG
 
 
-  // ==========================================
-  // TREE SELECT
-  // ==========================================
+// ==========================================
+// TREE SELECT
+// ==========================================
 
-  const handleSelectStep = (index) => {
+const handleSelectStep = (index) => {
 
-    if (
-      index < 0 ||
-      index >= installerSteps.length
-    ) {
-      return;
-    }
+  if (
+    index < 0 ||
+    index >= installerSteps.length
+  ) {
+    return;
+  }
 
-    setCurrentStep(index);
-  };
-
+  setCurrentStep(index);
+};
 
   // ==========================================
   // CANCEL
@@ -219,112 +251,200 @@ export default function PerdanaInstaller({
   // RENDER
   // ==========================================
 
-  return (
-    <Modal
-      key="perdana-installer"
-      icon={<Computer variant="16x16_4" />}
-      title="Perdana's PC Setup"
-style={{
-  position: 'fixed',
+return (
+  <div
+    style={{
+      position: 'fixed',
+
+      left: '50%',
+      top: isMobile
+        ? '4%'
+        : '50%',
+
+      transform: isMobile
+        ? 'translateX(-50%)'
+        : 'translate(-50%, -50%)',
+
+      width: isMobile
+        ? '95vw'
+        : isTablet
+        ? '78vw'
+        : '820px',
+
+      maxWidth: isMobile
+        ? '95vw'
+        : 'calc(100vw - 20px)',
+
+      zIndex: 100000,
+    }}
+  >
+
+    {/* =========================
+        TITLE DI LUAR WINDOW
+    ========================= */}
+{/*<div
+  style={{
+    width: '100%',
+
+    color: '#ffffff',
+
+    fontFamily:
+      '"MS Sans Serif", Arial, sans-serif',
+
+    fontSize: isMobile ? 18 : 22,
+    fontWeight: 'bold',
+
+    textShadow: '2px 2px 0 #000',
+
+    // Smartphone = center
+    // Desktop = kiri
+    textAlign: isMobile
+      ? 'center'
+      : 'left',
+
+    lineHeight: 1.15,
+
+    userSelect: 'none',
+    pointerEvents: 'none',
+
+    // Jarak antara title dan window
+    marginBottom: isMobile ? 10 : 8,
+
+    // Batas visual di bawah title
+    paddingBottom: isMobile ? 8 : 6,
+
+
+
+    boxSizing: 'border-box',
+  }}
+>
+  {isMobile ? (
+    <>
+      <div>
+        Perdana's Computer
+      </div>
+
+      <div>
+        Windows 95 Setup
+      </div>
+    </>
+  ) : (
+    <div>
+      Perdana's Computer - Windows 95 Setup
+    </div>
+  )}
+</div>*/}
+
+
+    {/* =========================
+        INSTALLER WINDOW
+    ========================= */}
+
+    <Frame
+  key="perdana-installer"
+  style={{
+  position: 'relative',
+
+  display: 'flex',
+  flexDirection: 'column',
+
+  padding: 3,
+
+  background: '#c0c0c0',
+
+  boxSizing: 'border-box',
 
   ...(isMobile
     ? {
-        // =====================================
-        // SMARTPHONE
-        // =====================================
-
-        left: '50%',
-        top: 'calc((100vh - 28px) / 2)',
-
-        width: '95vw',
+        width: '100%',
         height: '80vh',
 
-        maxWidth: '95vw',
+        maxWidth: '100%',
         maxHeight: 'calc(100vh - 28px)',
 
-        transform: 'translate(-50%, -50%)',
-
         margin: 0,
-
-        boxSizing: 'border-box',
       }
 
     : isTablet
     ? {
-        // =====================================
-        // TABLET
-        // =====================================
-
-        left: '50%',
-        top: 'calc((100vh - 28px) / 2)',
-
-        width: '78vw',
+        width: '100%',
         height: '68vh',
 
-        maxWidth: '90vw',
+        maxWidth: '100%',
         maxHeight: 'calc(100vh - 28px)',
 
-        transform: 'translate(-50%, -50%)',
-
         margin: 0,
-
-        boxSizing: 'border-box',
       }
 
     : {
-        // =====================================
-        // DESKTOP
-        // =====================================
-
-        left: '50%',
-        top: 'calc((100vh - 28px) / 2)',
-
-        width: '820px',
+        width: '100%',
         height: '560px',
 
-        maxWidth: 'calc(100vw - 20px)',
+        maxWidth: '100%',
         maxHeight: 'calc(100vh - 28px)',
 
-        transform: 'translate(-50%, -50%)',
-
         margin: 0,
-
-        boxSizing: 'border-box',
       }),
 }}
+>
 
+      {/* ======================================
+          INSTALLER TITLE BAR
+      ====================================== */}
+{/* ======================================
+    INSTALLER TITLE BAR
+====================================== */}
 
-      titleBarOptions={
-        <TitleBar.Close
-          onClick={handleCancel}
-        />
-      }
-    >
+<div
+  style={{
+    flexShrink: 0,
 
-      {/* ==========================================
-          MODAL CONTENT
-      ========================================== */}
+    height: 20,
 
-      <Modal.Content
-        style={{
-          padding: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
 
-          width: '100%',
-          height: '100%',
+    padding: '2px 8px 6px 8px',
 
-          minWidth: 0,
-          minHeight: 0,
+    background: '#000080',
+    color: '#ffffff',
 
-          background: '#c0c0c0',
+    fontWeight: 'bold',
+    fontSize: 12,
 
-          boxSizing: 'border-box',
+    boxSizing: 'border-box',
 
-          display: 'flex',
-          flexDirection: 'column',
+    userSelect: 'none',
+  }}
+>
+  Windows 95 Setup Wizard
+</div>
 
-          overflow: 'hidden',
-        }}
-      >
+{/* ======================================
+    INSTALLER BODY
+====================================== */}
+
+<div
+  style={{
+    flex: '1 1 0',
+
+    width: '100%',
+    minWidth: 0,
+    minHeight: 0,
+
+    marginTop: 3,
+
+    background: '#c0c0c0',
+
+    boxSizing: 'border-box',
+
+    display: 'flex',
+    flexDirection: 'column',
+
+    overflow: 'hidden',
+  }}
+>
 
         {/* ======================================
             MAIN CONTENT
@@ -370,6 +490,51 @@ style={{
               <InstallerWelcome />
             </div>
           )}
+
+
+          {page === 'welcomeAbout' && (
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
+
+      minWidth: 0,
+      minHeight: 0,
+
+      padding: 12,
+
+      boxSizing: 'border-box',
+
+      overflow: 'auto',
+    }}
+  >
+    <InstallerWelcomeAbout />
+  </div>
+)}
+
+          {/* ====================================
+    SYSTEM REQUIREMENTS
+==================================== */}
+
+{page === 'requirements' && (
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
+
+      minWidth: 0,
+      minHeight: 0,
+
+      padding: 12,
+
+      boxSizing: 'border-box',
+
+      overflow: 'auto',
+    }}
+  >
+    <InstallerSystemRequirements />
+  </div>
+)}
 
 
           {/* ====================================
@@ -530,6 +695,22 @@ style={{
             </Button>
           )}
 
+          {page === 'welcomeAbout' && (
+  <Button onClick={handleNext}>
+    {'Next >'}
+  </Button>
+)}
+
+          {/* ====================================
+                REQUIREMENTS → NEXT
+            ==================================== */}
+
+{page === 'requirements' && (
+  <Button onClick={handleNext}>
+    {'Next >'}
+  </Button>
+)}
+
 
           {/* ====================================
               WIZARD → NEXT / INSTALL
@@ -579,8 +760,43 @@ style={{
 
         </div>
 
-      </Modal.Content>
+      </div>
 
-    </Modal>
+    </Frame>
+
+    {/* =========================
+        INSTALLATION NOTE
+    ========================= 
+    <div
+      style={{
+        width: '100%',
+
+        marginTop: 8,
+
+        color: '#ffffff',
+
+        fontFamily:
+          '"MS Sans Serif", Arial, sans-serif',
+
+        fontSize: isMobile ? 10 : 11,
+        fontWeight: 'normal',
+
+        textShadow: '1px 1px 0 #000',
+
+        textAlign: isMobile
+          ? 'center'
+          : 'center',
+
+        lineHeight: 1.3,
+
+        userSelect: 'none',
+        pointerEvents: 'none',
+      }}
+    >
+This setup runs automatically the first time you visit.
+Once you're in, you can launch it again from the desktop.
+    </div>*/}
+
+    </div>
   );
 }

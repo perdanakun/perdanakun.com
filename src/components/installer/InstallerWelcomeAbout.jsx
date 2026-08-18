@@ -272,7 +272,7 @@ export default function InstallerWelcome() {
                 color: '#000000',
               }}
             >
-              Welcome to Perdana's Computer
+              About this Computer
             </h2>
 
           </header>
@@ -289,74 +289,6 @@ export default function InstallerWelcome() {
             }}
           >
 
-            {/* ==================================
-                INTRO HOOK
-            ================================== */}
-
-            <p
-              style={{
-                margin: '0 0 6px',
-
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 12,
-                lineHeight: '18px',
-
-                textAlign: 'left',
-
-                color: '#000000',
-              }}
-            >
-              Before exploring the work, start with the
-              person behind it.
-            </p>
-
-
-            {/* ==================================
-                IDENTITY
-            ================================== */}
-
-            <h1
-              id="identity-title"
-              style={{
-                margin: '0 0 8px',
-
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 14,
-                lineHeight: '18px',
-
-                fontWeight: 'bold',
-
-                textAlign: 'left',
-
-                color: '#000000',
-
-                letterSpacing: '0.02em',
-              }}
-            >
-              Perdana Kurniawan Arta
-            </h1>
-
-
-            {/* ==================================
-                POSITIONING
-            ================================== */}
-
-            <p
-              style={{
-                margin: '0 0 14px',
-
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 12,
-                lineHeight: '18px',
-
-                textAlign: 'left',
-
-                color: '#000000',
-              }}
-            >
-              Visual Designer exploring Product Design,
-              UX, and Design Engineering
-            </p>
 
 
             {/* ==================================
@@ -366,8 +298,6 @@ export default function InstallerWelcome() {
             <section
               aria-labelledby="about-title"
             >
-
-
               <div
                 style={{
                   boxSizing: 'border-box',
@@ -389,8 +319,65 @@ export default function InstallerWelcome() {
                     color: '#000000',
                   }}
                 >
-                 A visual designer with 10+ years of experience across visual design, visual systems, iconography, illustration, and design direction. Now exploring what happens when those skills move beyond how things look and into how things work.
+                  This is Perdana's personal computer — a place
+                  to explore his work, experience, ideas, and
+                  experiments.
                 </p>
+
+
+                {/* ABOUT — PARAGRAPH 2 */}
+
+                <p
+                  style={{
+                    margin: '10px 0 0',
+
+                    fontFamily: '"MS Sans Serif", sans-serif',
+                    fontSize: 12,
+                    lineHeight: '18px',
+
+                    textAlign: 'left',
+
+                    color: '#000000',
+                  }}
+                >
+ Inside, you'll find work shaped by years of visual design, alongside newer explorations into product design, UX, and design engineering.
+                </p>
+
+
+                {/* ABOUT — PARAGRAPH 3 */}
+
+                <p
+                  style={{
+                    margin: '10px 0 0',
+
+                    fontFamily: '"MS Sans Serif", sans-serif',
+                    fontSize: 12,
+                    lineHeight: '18px',
+
+                    textAlign: 'left',
+
+                    color: '#000000',
+                  }}
+                >
+                Not everything here is a finished product. Some projects are built, some are being explored, and some are simply ideas worth following.
+                </p>
+
+                                {/* ABOUT — PARAGRAPH 4 */}
+
+                <p
+                  style={{
+                    margin: '10px 0 0',
+
+                    fontFamily: '"MS Sans Serif", sans-serif',
+                    fontSize: 12,
+                    lineHeight: '18px',
+
+                    textAlign: 'left',
+
+                    color: '#000000',
+                  }}
+                >
+Think of it less like a portfolio and more like a computer you can look around.    </p>
 
               </div>
 
@@ -399,6 +386,131 @@ export default function InstallerWelcome() {
           </section>
 
 
+          {/* ==================================
+              INSIDE PERDANA'S COMPUTER
+          ================================== */}
+
+          <section
+            aria-labelledby="inside-title"
+            style={{
+              marginTop: 'auto',
+
+              paddingTop: 12,
+
+              boxSizing: 'border-box',
+            }}
+          >
+
+            <Fieldset
+              legend="Inside Perdana's Computer"
+              style={{
+                width: '100%',
+
+                boxSizing: 'border-box',
+
+                margin: 0,
+
+                fontFamily: '"MS Sans Serif", sans-serif',
+                fontSize: 12,
+                lineHeight: '18px',
+
+                background: '#c0c0c0',
+              }}
+            >
+
+              <Frame
+                display="flex"
+                flexDirection="column"
+                style={{
+                  gap: 1,
+
+                  padding: '2px 0',
+
+                  fontFamily: '"MS Sans Serif", sans-serif',
+                  fontSize: 12,
+                  lineHeight: '18px',
+
+                  background: '#c0c0c0',
+                }}
+              >
+
+                {/* VISUAL DESIGN */}
+
+                <Win95Checkbox
+                  checked={features.portfolio}
+                  onChange={(event) => {
+                    setFeatures((current) => ({
+                      ...current,
+                      portfolio: event.target.checked,
+                    }));
+                  }}
+                >
+                  Visual Design &amp; Systems
+                </Win95Checkbox>
+
+
+                {/* PRODUCT DESIGN */}
+
+                <Win95Checkbox
+                  checked={features.design}
+                  onChange={(event) => {
+                    setFeatures((current) => ({
+                      ...current,
+                      design: event.target.checked,
+                    }));
+                  }}
+                >
+                  Product Design &amp; UX
+                </Win95Checkbox>
+
+
+                {/* DESIGN ENGINEERING */}
+
+                <Win95Checkbox
+                  checked={features.evolving}
+                  onChange={(event) => {
+                    setFeatures((current) => ({
+                      ...current,
+                      evolving: event.target.checked,
+                    }));
+                  }}
+                >
+                  Design Engineering &amp; Experiments
+                </Win95Checkbox>
+
+              </Frame>
+
+            </Fieldset>
+
+
+            {/* INSIDE DESCRIPTION */}
+
+            <div
+              style={{
+                paddingTop: 10,
+
+                boxSizing: 'border-box',
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+
+                  fontFamily: '"MS Sans Serif", sans-serif',
+                  fontSize: 12,
+                  lineHeight: '18px',
+
+                  textAlign: 'left',
+
+                  color: '#000000',
+                }}
+              >
+                Work, ideas, notes, experiments, and things built
+                along the way.
+              </p>
+            </div>
+
+          </section>
 
         </div>
 
