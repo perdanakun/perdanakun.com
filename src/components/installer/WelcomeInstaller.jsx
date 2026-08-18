@@ -10,8 +10,17 @@ export default function WelcomeInstaller({
   isMobile,
   isTablet,
   onContinue,
-  onExit,
+  onClose,
 }) {
+
+  // ==========================================
+  // EXIT SETUP
+  // ==========================================
+
+  const handleCancel = () => {
+    onClose?.();
+  };
+
 
   return (
     <div
@@ -27,13 +36,20 @@ export default function WelcomeInstaller({
           ? '90vw'
           : isTablet
           ? '55vw'
-          : '410px',
+          : '600px',
 
         maxWidth: 'calc(100vw - 24px)',
 
         zIndex: 100000,
+
+        fontFamily:
+          '"MS Sans Serif", Arial, sans-serif',
       }}
     >
+
+      {/* ==========================================
+          WINDOWS 95 OUTER FRAME
+      ========================================== */}
 
       <Frame
         style={{
@@ -46,51 +62,71 @@ export default function WelcomeInstaller({
           boxSizing: 'border-box',
 
           display: 'flex',
+
           flexDirection: 'column',
+
+          boxShadow: `
+            inset -1px -1px #000000,
+            inset 1px 1px #ffffff
+          `,
         }}
       >
 
-        {/* TITLE BAR */}
+        {/* ==========================================
+            TITLE BAR
+        ========================================== */}
 
         <div
           style={{
             height: 22,
 
             display: 'flex',
-            alignItems: 'center',
 
-            padding: '2px 8px',
+            alignItems: 'center',
+            justifyContent: 'center',
+
+            padding: '2px 8px 6px 8px',
 
             background: '#000080',
+
             color: '#ffffff',
 
             fontFamily:
               '"MS Sans Serif", Arial, sans-serif',
 
-            fontSize: 12,
+            fontSize: 14,
+
             fontWeight: 'bold',
+
+            lineHeight: 1,
 
             boxSizing: 'border-box',
 
             userSelect: 'none',
+
+            whiteSpace: 'nowrap',
+
+            overflow: 'hidden',
+
+            textOverflow: 'ellipsis',
           }}
         >
-          Welcome Installer
+          Perdana's Computer Setup
         </div>
 
 
-        {/* CONTENT */}
+        {/* ==========================================
+            MAIN WHITE CONTENT
+        ========================================== */}
 
-        <div
+        <main
           style={{
             background: '#ffffff',
 
-            minHeight: isMobile
-              ? '220px'
-              : '250px',
-
             padding: isMobile
               ? '24px 20px'
+              : isTablet
+              ? '26px 26px'
               : '28px 30px',
 
             boxSizing: 'border-box',
@@ -98,53 +134,44 @@ export default function WelcomeInstaller({
             display: 'flex',
             flexDirection: 'column',
 
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
           }}
         >
 
-          <div
+          {/* ==========================================
+              WELCOME TITLE
+          ========================================== */}
+
+          <h1
             style={{
-              marginBottom: 18,
+              margin: '0 0 18px',
+              letterSpacing: '-0.5px',
 
               color: '#000000',
 
               fontFamily:
                 '"MS Sans Serif", Arial, sans-serif',
 
-              fontSize: isMobile
-                ? 17
-                : 20,
+              fontSize: 16,
 
               fontWeight: 'bold',
 
               lineHeight: 1.2,
+
+              textAlign: 'left',
             }}
           >
-            Welcome to the Installer
-          </div>
+            Welcome to Windows 95 Setup
+          </h1>
 
 
-          <div
+          {/* ==========================================
+              INTRODUCTION
+          ========================================== */}
+
+          <p
             style={{
-              color: '#000000',
-
-              fontFamily:
-                '"MS Sans Serif", Arial, sans-serif',
-
-              fontSize: 13,
-
-              lineHeight: 1.5,
-            }}
-          >
-            This setup wizard will help you
-            install the application on your
-            computer.
-          </div>
-
-
-          <div
-            style={{
-              marginTop: 12,
+              margin: 0,
 
               color: '#000000',
 
@@ -153,54 +180,163 @@ export default function WelcomeInstaller({
 
               fontSize: 13,
 
+              fontWeight: 'normal',
+
               lineHeight: 1.5,
+
+              textAlign: 'left',
             }}
           >
-            Click <b>Continue</b> to begin the setup,
-            or <b>Exit Setup</b> to close the installer.
+            Congratulations! You've made a great choice.
+          </p>
+
+
+          {/* ==========================================
+              ABOUT PERDANA'S COMPUTER
+          ========================================== */}
+
+          <p
+            style={{
+              margin: '12px 0 0',
+
+              color: '#000000',
+
+              fontFamily:
+                '"MS Sans Serif", Arial, sans-serif',
+
+              fontSize: 13,
+
+              fontWeight: 'normal',
+
+              lineHeight: 1.5,
+
+              textAlign: 'left',
+            }}
+          >
+            This is Perdana's Computer — a personal space
+            for his work, experience, ideas, and experiments
+            as he explores the intersection of design,
+            products, interaction, and code.
+          </p>
+
+
+          {/* ==========================================
+              SETUP INTRODUCTION
+          ========================================== */}
+
+          <p
+            style={{
+              margin: '12px 0 0',
+
+              color: '#000000',
+
+              fontFamily:
+                '"MS Sans Serif", Arial, sans-serif',
+
+              fontSize: 13,
+
+              fontWeight: 'normal',
+
+              lineHeight: 1.5,
+
+              textAlign: 'left',
+            }}
+          >
+            Setup will introduce you to the person behind
+            the work, show you what's inside, and guide you
+            through the story before you start exploring.
+          </p>
+
+
+          {/* ==========================================
+              CONTINUE INSTRUCTION
+          ========================================== */}
+
+          <p
+            style={{
+              margin: '12px 0 0',
+
+              color: '#000000',
+
+              fontFamily:
+                '"MS Sans Serif", Arial, sans-serif',
+
+              fontSize: 13,
+
+              fontWeight: 'normal',
+
+              lineHeight: 1.5,
+
+              textAlign: 'left',
+            }}
+          >
+            Click <strong>Continue</strong> to begin setup.
+          </p>
+
+
+          {/* ==========================================
+              BUTTON AREA
+          ========================================== */}
+
+          <div
+            style={{
+              marginTop: 20,
+
+              paddingTop: 0,
+
+
+              display: 'flex',
+
+              justifyContent: 'flex-end',
+
+              alignItems: 'center',
+
+              gap: 6,
+
+              background: '#ffffff',
+            }}
+          >
+
+            {/* ==========================================
+                CONTINUE
+            ========================================== */}
+
+            <Button
+              onClick={onContinue}
+              style={{
+                minWidth: 75,
+
+                fontFamily:
+                  '"MS Sans Serif", Arial, sans-serif',
+
+                fontSize: 12,
+              }}
+            >
+              Continue
+            </Button>
+
+
+            {/* ==========================================
+                EXIT SETUP
+            ========================================== */}
+
+            <Button
+              onClick={handleCancel}
+              style={{
+                minWidth: 75,
+
+                fontFamily:
+                  '"MS Sans Serif", Arial, sans-serif',
+
+                fontSize: 12,
+              }}
+            >
+              Exit Setup
+            </Button>
+
           </div>
 
-        </div>
-
-
-        {/* DIVIDER */}
-
-        <div
-          style={{
-            borderTop: '1px solid #808080',
-            boxShadow: '0 1px 0 #ffffff',
-          }}
-        />
-
-
-        {/* FOOTER */}
-
-        <div
-          style={{
-            display: 'flex',
-
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-
-            gap: 6,
-
-            padding: '10px 12px',
-
-            background: '#c0c0c0',
-
-            boxSizing: 'border-box',
-          }}
-        >
-
-          <Button onClick={onContinue}>
-            Continue
-          </Button>
-
-          <Button onClick={onExit}>
-            Exit Setup
-          </Button>
-
-        </div>
+        </main>
 
       </Frame>
 

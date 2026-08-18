@@ -2,7 +2,7 @@ import '@react95/core/GlobalStyle';
 import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
 import installerBackground from './assets/images/win95_install.jpg';
-import winBackground from './assets/images/win_background2.jpg';
+import winBackground from './assets/images/win95clouds.jpeg';
 import winDawn from './assets/images/1dawn.png';
 import winMorning from './assets/images/2morning.png';
 import winMidday from './assets/images/3midday.png';
@@ -24,6 +24,7 @@ import CameraModal from './components/CameraModal';
 import AiAssistant from "./components/AiAssistant";
 import AiAssistantSphere from "./components/AiAssistantSphere";
 import ImageViewer from './components/ImageViewer';
+import WelcomeInstaller from './components/installer/WelcomeInstaller';
 import PerdanaInstaller from './components/installer/PerdanaInstaller';
 import BlogContent from './components/BlogContent';
 import WelcomeModal from './components/WelcomeModal';
@@ -423,7 +424,7 @@ const [pcScreen, setPcScreen] = useState(() => {
 
   const bootTimer = setTimeout(() => {
     setPcScreen('desktop');
-  }, 10000);
+  }, 6000);
 
   return () => {
     clearTimeout(bootTimer);
@@ -445,8 +446,8 @@ useEffect(() => {
     return;
   }
 
-  // Installer muncul otomatis setelah first boot
-  setInstallerVisible(true);
+  // First boot → tampilkan Welcome Installer terlebih dahulu
+  setWelcomeInstallerVisible(true);
 }, [pcScreen, pcState.installed]);
 
 
@@ -589,7 +590,15 @@ useEffect(() => {
 
 
 // Perdana PC Installer
+const [welcomeInstallerVisible, setWelcomeInstallerVisible] = useState(false);
 const [installerVisible, setInstallerVisible] = useState(false);
+
+// Desktop Icon Installer
+const openInstaller = () => {
+  setWelcomeInstallerVisible(true);
+  setInstallerVisible(false);
+};
+
 
 // Installer loading state
 const [isInstalling, setIsInstalling] = useState(false);
@@ -891,11 +900,11 @@ const handleAttachmentTooLarge = (file) => {
 {pcScreen === 'desktop' && isInstalling && (
   <PerdanaInstallLoading />
 )}
+{/* =========================
+    WINDOWS 95 INSTALL FLOW
+========================= */}
 
-
-       {/* --- INSTALLER --- */}
-       
-{pcScreen === 'desktop' && installerVisible ? (
+{pcScreen === 'desktop' && (welcomeInstallerVisible || installerVisible) ? (
   <div
     style={{
       position: 'fixed',
@@ -912,103 +921,133 @@ const handleAttachmentTooLarge = (file) => {
       zIndex: 99999,
     }}
   >
-{/* FADING BACKGROUND */}
-<div
-  style={{
-    position: 'absolute',
-    inset: 0,
 
-    background: `
-      linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.9) 0%,
-        rgba(0, 0, 0, 0.5) 12%,
-        transparent 35%,
-        transparent 65%,
-        rgba(0, 0, 0, 0.5) 88%,
-        rgba(0, 0, 0, 0.9) 100%
-      )
-    `,
+    {/* =========================
+        FADING BACKGROUND
+    ========================= */}
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
 
-    pointerEvents: 'none',
-    zIndex: 1,
+        background: `
+          linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0.5) 12%,
+            transparent 35%,
+            transparent 65%,
+            rgba(0, 0, 0, 0.5) 88%,
+            rgba(0, 0, 0, 0.9) 100%
+          )
+        `,
+
+        pointerEvents: 'none',
+        zIndex: 1,
+      }}
+    />
+
+    <div
+      style={{
+        position: 'relative',
+        zIndex: 3,
+
+        width: '100%',
+        height: '100%',
+
+        boxSizing: 'border-box',
+      }}
+    >
+
+      {/* =========================
+          WELCOME INSTALLER
+      ========================= */}
+      {welcomeInstallerVisible && (
+<WelcomeInstaller
+  isMobile={isMobile}
+  isTablet={isTablet}
+
+  onContinue={() => {
+    setWelcomeInstallerVisible(false);
+    setInstallerVisible(true);
+  }}
+
+  onClose={() => {
+    setWelcomeInstallerVisible(false);
   }}
 />
-<div
-  style={{
-    position: 'relative',
-    zIndex: 3,
+      )}
 
-    width: '100%',
-    height: '100%',
+      {/* =========================
+          PERDANA INSTALLER
+      ========================= */}
+      {installerVisible && (
+        <PerdanaInstaller
+          isMobile={isMobile}
+          isTablet={isTablet}
 
-    boxSizing: 'border-box',
-  }}
->
-  {/* =========================
-      PERDANA INSTALLER
-  ========================= */}
+          onClose={() => {
+            setInstallerVisible(false);
+          }}
 
-  <PerdanaInstaller
-    isMobile={isMobile}
-    isTablet={isTablet}
+          onFinish={() => {
+            const nextState = {
+              ...pcState,
+              installed: true,
+            };
 
-    onClose={() => setInstallerVisible(false)}
+            savePCState(nextState);
 
-    onFinish={() => {
-      const nextState = {
-        ...pcState,
-        installed: true,
-      };
+            setIsInstalling(true);
+          }}
+        />
+      )}
 
-      savePCState(nextState);
+      {/* =========================
+          INSTALLATION NOTE
+      ========================= */}
+     {(welcomeInstallerVisible || installerVisible) && (
+        <div
+          style={{
+            position: 'absolute',
 
-      setIsInstalling(true);
-    }}
-  />
-{/* =========================
-    INSTALLATION NOTE
-========================= */}
-<div
-  style={{
-    position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: isMobile ? '5%' : '3%',
 
-    left: 0,
-    right: 0,
-    bottom: isMobile ? '5%' : '3%',
+            width: '100%',
 
-    width: '100%',
+            padding: '0 16px',
 
-    padding: '0 16px',
+            color: '#dadada',
 
-    color: '#dadada',
+            fontFamily:
+              '"MS Sans Serif", Arial, sans-serif',
 
-    fontFamily:
-      '"MS Sans Serif", Arial, sans-serif',
+            fontSize: isMobile ? 10 : 11,
 
-    fontSize: isMobile ? 10 : 11,
+            fontWeight: 'normal',
 
-    fontWeight: 'normal',
+            textShadow: '1px 1px 0 #000',
 
-    textShadow: '1px 1px 0 #000',
+            textAlign: 'center',
 
-    textAlign: 'center',
+            lineHeight: 1.3,
 
-    lineHeight: 1.3,
+            boxSizing: 'border-box',
 
-    boxSizing: 'border-box',
+            userSelect: 'none',
+            pointerEvents: 'none',
 
-    userSelect: 'none',
-    pointerEvents: 'none',
+            zIndex: 10001,
+          }}
+        >
+          This setup runs automatically the first time you visit.
+          Once you're in, you can launch it again from the desktop.
+        </div>
+      )}
 
-    zIndex: 100001,
-  }}
->
-  This setup runs automatically the first time you visit.
-  Once you're in, you can launch it again from the desktop.
-</div>
-</div>
-
+    </div>
   </div>
 ) : pcScreen === 'desktop' ? (
   <main
@@ -1074,7 +1113,7 @@ const handleAttachmentTooLarge = (file) => {
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon onOpen={() => setInstallerVisible(true)}>
+  <DesktopIcon onOpen={openInstaller}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
         <Install variant="32x32_4" />
