@@ -1003,49 +1003,73 @@ const handleAttachmentTooLarge = (file) => {
         />
       )}
 
-      {/* =========================
-          INSTALLATION NOTE
-      ========================= */}
-     {(welcomeInstallerVisible || installerVisible) && (
-        <div
-          style={{
-            position: 'absolute',
+{/* =========================
+    INSTALLATION NOTE
+========================= */}
+{(welcomeInstallerVisible || installerVisible) && (
+  <div
+    style={{
+      position: 'absolute',
 
-            left: 0,
-            right: 0,
-            bottom: isMobile ? '5%' : '3%',
+      left: '50%',
+      bottom: isMobile
+        ? '6%'
+        : isTablet
+        ? '4%'
+        : '3%',
 
-            width: '100%',
+      transform: 'translateX(-50%)',
 
-            padding: '0 16px',
+      width: isMobile
+        ? '90%'
+        : isTablet
+        ? '75%'
+        : '100%',
 
-            color: '#dadada',
+      maxWidth: isMobile
+        ? '360px'
+        : isTablet
+        ? '600px'
+        : 'none',
 
-            fontFamily:
-              '"MS Sans Serif", Arial, sans-serif',
+      padding: '0 16px',
 
-            fontSize: isMobile ? 10 : 11,
+      color: '#dadada',
 
-            fontWeight: 'normal',
+      fontFamily:
+        '"MS Sans Serif", Arial, sans-serif',
 
-            textShadow: '1px 1px 0 #000',
+      fontSize: isMobile
+        ? 9
+        : isTablet
+        ? 10
+        : 11,
 
-            textAlign: 'center',
+      fontWeight: 'normal',
 
-            lineHeight: 1.3,
+      textShadow: '1px 1px 0 #000',
 
-            boxSizing: 'border-box',
+      textAlign: 'center',
 
-            userSelect: 'none',
-            pointerEvents: 'none',
+      lineHeight: isMobile
+        ? 1.4
+        : isTablet
+        ? 1.4
+        : 1.3,
 
-            zIndex: 10001,
-          }}
-        >
-          This setup runs automatically the first time you visit.
-          Once you're in, you can launch it again from the desktop.
-        </div>
-      )}
+      boxSizing: 'border-box',
+
+      userSelect: 'none',
+      pointerEvents: 'none',
+
+      zIndex: 10001,
+    }}
+  >
+    This setup runs automatically the first time you visit.
+    <br />
+    Once you're in, you can launch it again from the desktop.
+  </div>
+)}
 
     </div>
   </div>

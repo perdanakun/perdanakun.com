@@ -7,18 +7,9 @@ import {
 import win95installimg from './win95_install_illustration.png';
 
 
-/* =========================================================
-   INSTALLER LOADING
-   Windows 95 Setup style
-========================================================= */
-
 export default function InstallerLoading({
   progress = 0,
 }) {
-
-  /* =======================================================
-     SAFE PROGRESS
-  ======================================================= */
 
   const safeProgress = Math.max(
     0,
@@ -26,12 +17,7 @@ export default function InstallerLoading({
   );
 
 
-  /* =======================================================
-     INSTALL STATUS
-  ======================================================= */
-
   const getStatus = () => {
-
     if (safeProgress >= 100) {
       return 'Setup is complete.';
     }
@@ -56,45 +42,12 @@ export default function InstallerLoading({
   };
 
 
-  /* =======================================================
-     CURRENT FILE
-  ======================================================= */
-
-  const getCurrentFile = () => {
-
-    if (safeProgress >= 100) {
-      return 'INSTALLATION COMPLETE.';
-    }
-
-    if (safeProgress >= 80) {
-      return 'REGISTERING COMPONENTS...';
-    }
-
-    if (safeProgress >= 60) {
-      return 'COPYING DESIGN-ASSETS.DAT...';
-    }
-
-    if (safeProgress >= 40) {
-      return 'COPYING PORTFOLIO.DAT...';
-    }
-
-    if (safeProgress >= 20) {
-      return 'COPYING README.TXT...';
-    }
-
-    return 'PREPARING SETUP...';
-  };
-
-
   return (
     <section
       aria-labelledby="installer-loading-title"
       style={{
         width: '100%',
         height: '100%',
-
-        minWidth: 0,
-        minHeight: 0,
 
         display: 'flex',
         flexDirection: 'column',
@@ -106,21 +59,18 @@ export default function InstallerLoading({
         fontFamily:
           '"MS Sans Serif", sans-serif',
 
-        color: '#000000',
+        color: '#000',
 
         overflow: 'hidden',
       }}
     >
 
-
-      {/* ===================================================
-          SETUP HEADER
-      =================================================== */}
+      {/* =========================
+          HEADER
+      ========================= */}
 
       <header
         style={{
-          flex: '0 0 auto',
-
           height: 28,
           minHeight: 28,
 
@@ -136,35 +86,21 @@ export default function InstallerLoading({
           borderBottom:
             '1px solid #808080',
 
+          fontSize: 11,
+          fontWeight: 'bold',
+
           userSelect: 'none',
         }}
       >
-
-        <span
-          style={{
-            fontFamily:
-              '"MS Sans Serif", sans-serif',
-
-            fontSize: 11,
-
-            lineHeight: '16px',
-
-            fontWeight: 'bold',
-
-            color: '#000000',
-          }}
-        >
-          Perdana's Computer Setup
-        </span>
-
+        Perdana's Computer Setup
       </header>
 
 
-      {/* ===================================================
-          MAIN SETUP AREA
-      =================================================== */}
+      {/* =========================
+          MAIN
+      ========================= */}
 
-      <div
+      <main
         style={{
           flex: '1 1 0',
 
@@ -179,13 +115,11 @@ export default function InstallerLoading({
         }}
       >
 
-
-        {/* =================================================
-            LEFT IMAGE PANEL
-        ================================================= */}
+        {/* =========================
+            LEFT IMAGE
+        ========================= */}
 
         <aside
-          aria-label="Perdana's Computer Setup illustration"
           style={{
             width: 170,
             minWidth: 170,
@@ -208,7 +142,6 @@ export default function InstallerLoading({
             justifyContent: 'center',
           }}
         >
-
           <img
             src={win95installimg}
             alt="Perdana's Computer Setup"
@@ -221,19 +154,16 @@ export default function InstallerLoading({
               objectFit: 'contain',
 
               objectPosition: 'center',
-
-              transform: 'scale(1)',
             }}
           />
-
         </aside>
 
 
-        {/* =================================================
+        {/* =========================
             RIGHT CONTENT
-        ================================================= */}
+        ========================= */}
 
-        <main
+        <div
           style={{
             flex: '1 1 0',
 
@@ -243,241 +173,59 @@ export default function InstallerLoading({
             display: 'flex',
             flexDirection: 'column',
 
+            justifyContent: 'center',
+
             boxSizing: 'border-box',
 
-            padding: '18px 20px',
-
-            backgroundColor: '#c0c0c0',
+            padding: '20px 24px',
 
             overflow: 'hidden',
           }}
         >
 
-
-          {/* ===============================================
-              TITLE
-          =============================================== */}
-
           <h1
             id="installer-loading-title"
             style={{
               margin: 0,
-              padding: 0,
-
-              fontFamily:
-                '"MS Sans Serif", sans-serif',
 
               fontSize: 16,
-
               lineHeight: '20px',
 
               fontWeight: 'bold',
-
-              color: '#000000',
             }}
           >
             Installing Perdana's Computer
           </h1>
 
 
-          {/* ===============================================
-              DIVIDER
-          =============================================== */}
-
-          <div
+          <p
             style={{
-              width: '100%',
-
-              height: 1,
-
-              marginTop: 8,
-              marginBottom: 14,
-
-              backgroundColor: '#808080',
-
-              boxShadow:
-                '0 1px 0 #ffffff',
-
-              flexShrink: 0,
-            }}
-          />
-
-
-          {/* ===============================================
-              INSTALL ICON + DESCRIPTION
-          =============================================== */}
-
-          <div
-            style={{
-              display: 'flex',
-
-              alignItems: 'flex-start',
-
-              gap: 10,
-
-              marginBottom: 20,
-
-              flexShrink: 0,
-            }}
-          >
-
-            {/* INSTALL ICON */}
-
-            <div
-              style={{
-                width: 32,
-                minWidth: 32,
-
-                height: 32,
-
-                display: 'flex',
-
-                alignItems: 'center',
-                justifyContent: 'center',
-
-                backgroundColor: '#c0c0c0',
-              }}
-            >
-
-              {/* Small Windows-style folder icon using CSS */}
-
-              <div
-                style={{
-                  width: 28,
-                  height: 22,
-
-                  position: 'relative',
-
-                  backgroundColor: '#ffff00',
-
-                  borderTop:
-                    '1px solid #808000',
-
-                  borderLeft:
-                    '1px solid #808000',
-
-                  borderRight:
-                    '1px solid #000000',
-
-                  borderBottom:
-                    '1px solid #000000',
-
-                  boxSizing: 'border-box',
-                }}
-              >
-
-                <div
-                  style={{
-                    position: 'absolute',
-
-                    left: 2,
-                    top: -5,
-
-                    width: 12,
-                    height: 5,
-
-                    backgroundColor: '#ffff00',
-
-                    borderTop:
-                      '1px solid #808000',
-
-                    borderLeft:
-                      '1px solid #808000',
-
-                    borderRight:
-                      '1px solid #808000',
-
-                    boxSizing: 'border-box',
-                  }}
-                />
-
-              </div>
-
-            </div>
-
-
-            {/* DESCRIPTION */}
-
-            <div
-              style={{
-                minWidth: 0,
-              }}
-            >
-
-              <p
-                style={{
-                  margin: 0,
-
-                  fontFamily:
-                    '"MS Sans Serif", sans-serif',
-
-                  fontSize: 11,
-
-                  lineHeight: '16px',
-
-                  color: '#000000',
-                }}
-              >
-                Setup is installing
-                {' '}
-                <strong>
-                  Perdana's Computer
-                </strong>
-                {' '}
-                on your computer.
-              </p>
-
-
-              <p
-                style={{
-                  margin: '8px 0 0',
-
-                  fontFamily:
-                    '"MS Sans Serif", sans-serif',
-
-                  fontSize: 11,
-
-                  lineHeight: '16px',
-
-                  color: '#000000',
-                }}
-              >
-                Please wait while Setup
-                completes the installation.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          {/* ===============================================
-              CURRENT STATUS
-          =============================================== */}
-
-          <div
-            style={{
-              marginBottom: 5,
-
-              fontFamily:
-                '"MS Sans Serif", sans-serif',
+              margin: '10px 0 0',
 
               fontSize: 11,
-
               lineHeight: '16px',
+            }}
+          >
+            Setup is installing Perdana's Computer
+            on your computer.
+          </p>
 
-              color: '#000000',
 
-              flexShrink: 0,
+          {/* STATUS */}
+
+          <div
+            style={{
+              marginTop: 20,
+
+              fontSize: 11,
+              lineHeight: '16px',
             }}
           >
             {getStatus()}
           </div>
 
 
-          {/* ===============================================
-              PROGRESS BAR
-          =============================================== */}
+          {/* PROGRESS BAR */}
 
           <div
             style={{
@@ -485,25 +233,17 @@ export default function InstallerLoading({
 
               maxWidth: 420,
 
-              boxSizing: 'border-box',
-
-              marginBottom: 4,
-
-              flexShrink: 0,
+              marginTop: 5,
             }}
           >
-
             <ProgressBar
               percent={safeProgress}
               width="100%"
             />
-
           </div>
 
 
-          {/* ===============================================
-              PERCENTAGE
-          =============================================== */}
+          {/* PERCENTAGE */}
 
           <div
             style={{
@@ -511,214 +251,36 @@ export default function InstallerLoading({
 
               maxWidth: 420,
 
-              display: 'flex',
-
-              justifyContent: 'flex-end',
-
-              fontFamily:
-                '"MS Sans Serif", sans-serif',
+              marginTop: 3,
 
               fontSize: 11,
-
               lineHeight: '16px',
 
-              color: '#000000',
-
-              flexShrink: 0,
+              textAlign: 'right',
             }}
           >
-
             {safeProgress}%
-
           </div>
 
 
-          {/* ===============================================
-              CURRENT FILE
-          =============================================== */}
+          {/* NOTE */}
 
           <div
             style={{
               marginTop: 16,
 
-              width: '100%',
-
-              maxWidth: 420,
-
-              boxSizing: 'border-box',
-
-              flexShrink: 0,
-            }}
-          >
-
-            <div
-              style={{
-                marginBottom: 4,
-
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 11,
-
-                lineHeight: '16px',
-
-                color: '#000000',
-              }}
-            >
-              Current file:
-            </div>
-
-
-            <div
-              style={{
-                width: '100%',
-
-                minHeight: 28,
-
-                padding: '5px 6px',
-
-                boxSizing: 'border-box',
-
-                display: 'flex',
-
-                alignItems: 'center',
-
-                backgroundColor: '#ffffff',
-
-                borderTop:
-                  '1px solid #808080',
-
-                borderLeft:
-                  '1px solid #808080',
-
-                borderRight:
-                  '1px solid #ffffff',
-
-                borderBottom:
-                  '1px solid #ffffff',
-
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 11,
-
-                lineHeight: '16px',
-
-                color: '#000000',
-
-                overflow: 'hidden',
-
-                whiteSpace: 'nowrap',
-
-                textOverflow: 'ellipsis',
-              }}
-            >
-
-              {getCurrentFile()}
-
-            </div>
-
-          </div>
-
-
-          {/* ===============================================
-              INSTALLATION NOTE
-          =============================================== */}
-
-          <div
-            style={{
-              marginTop: 'auto',
-
-              paddingTop: 20,
-
-              fontFamily:
-                '"MS Sans Serif", sans-serif',
-
               fontSize: 11,
-
               lineHeight: '16px',
-
-              color: '#000000',
             }}
           >
-
             {safeProgress >= 100
               ? "Perdana's Computer has been installed successfully."
-              : 'Do not turn off your computer while Setup is running.'}
-
+              : 'Please wait while Setup completes the installation.'}
           </div>
 
-        </main>
+        </div>
 
-      </div>
-
-
-      {/* ===================================================
-          FOOTER DIVIDER
-      =================================================== */}
-
-      <div
-        style={{
-          height: 1,
-
-          flexShrink: 0,
-
-          backgroundColor: '#808080',
-
-          boxShadow:
-            '0 1px 0 #ffffff',
-        }}
-      />
-
-
-      {/* ===================================================
-          STATUS BAR
-      =================================================== */}
-
-      <footer
-        style={{
-          height: 22,
-          minHeight: 22,
-
-          display: 'flex',
-
-          alignItems: 'center',
-
-          justifyContent: 'space-between',
-
-          padding: '2px 6px',
-
-          boxSizing: 'border-box',
-
-          backgroundColor: '#c0c0c0',
-
-          fontFamily:
-            '"MS Sans Serif", sans-serif',
-
-          fontSize: 11,
-
-          lineHeight: '16px',
-
-          color: '#000000',
-
-          userSelect: 'none',
-
-          flexShrink: 0,
-        }}
-      >
-
-        <span>
-          {safeProgress >= 100
-            ? 'Setup complete'
-            : 'Installing'}
-        </span>
-
-
-        <span>
-          {safeProgress}%
-        </span>
-
-      </footer>
+      </main>
 
     </section>
   );
