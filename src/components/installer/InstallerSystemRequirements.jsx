@@ -19,6 +19,9 @@ function Win95RadioButton() {
   return (
     <span
       aria-hidden="true"
+
+      className="win95-radio"
+
       style={{
         position: 'relative',
 
@@ -92,7 +95,10 @@ function RequirementOption({
 }) {
   return (
     <div
-      className="requirement-option ui-font"
+      className="
+        requirement-option
+        ui-font-reading
+      "
 
       style={{
         display: 'flex',
@@ -104,6 +110,7 @@ function RequirementOption({
         boxSizing: 'border-box',
 
         margin: 0,
+
         padding: '5px 0',
 
         gap: 8,
@@ -118,6 +125,7 @@ function RequirementOption({
 
       <div
         aria-hidden="true"
+
         className="requirement-icon"
 
         style={{
@@ -186,9 +194,13 @@ function RequirementOption({
         }}
       >
 
-        {/* TITLE */}
+        {/* ==================================
+            TITLE
+        ================================== */}
 
         <div
+          className="ui-font-reading"
+
           style={{
             fontWeight: 700,
 
@@ -201,13 +213,19 @@ function RequirementOption({
         </div>
 
 
-        {/* DESCRIPTION */}
+        {/* ==================================
+            DESCRIPTION
+        ================================== */}
 
         <div
+          className="ui-font-reading"
+
           style={{
             marginTop: 6,
 
             textAlign: 'left',
+
+            color: '#000000',
           }}
         >
           {description}
@@ -230,7 +248,7 @@ export default function InstallerSystemRequirements() {
     <article
       aria-labelledby="system-requirements-title"
 
-      className="ui-font"
+      className="ui-font-reading"
 
       style={{
         height: '100%',
@@ -252,6 +270,47 @@ export default function InstallerSystemRequirements() {
         {`
           @media (max-width: 600px) {
 
+            /* ==============================
+               MAIN LAYOUT
+            ============================== */
+
+            .requirements-layout {
+              flex-direction: column !important;
+
+              gap: 12px !important;
+            }
+
+
+            /* ==============================
+               IMAGE
+            ============================== */
+
+            .requirements-image {
+              width: 100% !important;
+
+              min-width: 0 !important;
+
+              height: 150px !important;
+
+              flex-shrink: 0 !important;
+            }
+
+
+            /* ==============================
+               CONTENT
+            ============================== */
+
+            .requirements-content {
+              width: 100%;
+
+              padding-right: 2px !important;
+            }
+
+
+            /* ==============================
+               REQUIREMENT OPTION
+            ============================== */
+
             .requirement-option {
               display: grid !important;
 
@@ -262,6 +321,7 @@ export default function InstallerSystemRequirements() {
                 auto auto;
 
               column-gap: 8px;
+
               row-gap: 2px;
 
               align-items: start;
@@ -279,6 +339,7 @@ export default function InstallerSystemRequirements() {
               grid-row: 1;
 
               width: 32px !important;
+
               min-width: 32px !important;
 
               height: 32px !important;
@@ -286,6 +347,7 @@ export default function InstallerSystemRequirements() {
               display: flex !important;
 
               align-items: flex-start;
+
               justify-content: center;
 
               padding-top: 0;
@@ -307,11 +369,13 @@ export default function InstallerSystemRequirements() {
               width: 32px;
 
               margin: 0 !important;
+
               padding: 0 !important;
 
               display: flex;
 
               align-items: flex-start;
+
               justify-content: center;
 
               align-self: start;
@@ -324,6 +388,7 @@ export default function InstallerSystemRequirements() {
 
             .requirement-text {
               grid-column: 2;
+
               grid-row: 1 / 3;
 
               min-width: 0;
@@ -353,10 +418,13 @@ export default function InstallerSystemRequirements() {
       <section
         aria-label="System Requirements introduction"
 
+        className="requirements-layout"
+
         style={{
           display: 'flex',
 
           flex: 1,
+
           minHeight: 0,
 
           gap: 15,
@@ -372,8 +440,11 @@ export default function InstallerSystemRequirements() {
         <div
           aria-label="Windows 95 installation illustration"
 
+          className="requirements-image"
+
           style={{
             width: 170,
+
             minWidth: 170,
 
             flexShrink: 0,
@@ -390,6 +461,7 @@ export default function InstallerSystemRequirements() {
             display: 'flex',
 
             alignItems: 'center',
+
             justifyContent: 'center',
           }}
         >
@@ -401,11 +473,13 @@ export default function InstallerSystemRequirements() {
 
             style={{
               width: '100%',
+
               height: '100%',
 
               display: 'block',
 
               objectFit: 'contain',
+
               objectPosition: 'center',
 
               transform: 'scale(1)',
@@ -420,15 +494,20 @@ export default function InstallerSystemRequirements() {
         ==================================== */}
 
         <div
-          className="ui-font"
+          className="
+            ui-font-reading
+            requirements-content
+          "
 
           style={{
             flex: 1,
 
             minWidth: 0,
+
             minHeight: 0,
 
             display: 'flex',
+
             flexDirection: 'column',
 
             overflowY: 'auto',
@@ -449,17 +528,14 @@ export default function InstallerSystemRequirements() {
 
           <header
             style={{
-              paddingBottom: 10,
-
-              borderBottom:
-                '1px solid #808080',
+              paddingBottom: 0,
             }}
           >
 
             <h2
               id="system-requirements-title"
 
-              className="ui-font"
+              className="ui-font-reading"
 
               style={{
                 margin: '3px 0 0',
@@ -467,6 +543,7 @@ export default function InstallerSystemRequirements() {
                 padding: 0,
 
                 fontSize: 16,
+
                 lineHeight: '20px',
 
                 letterSpacing:
@@ -490,91 +567,152 @@ export default function InstallerSystemRequirements() {
           ================================== */}
 
           <section
-            aria-label="System requirements introduction"
+            aria-labelledby="
+              requirements-introduction-title
+            "
 
             style={{
-              paddingTop: 10,
+              paddingTop: 15,
+
+              boxSizing: 'border-box',
             }}
           >
 
-            <p
-              style={{
-                margin: '0 0 12px',
+            <div
+              id="
+                requirements-introduction-title
+              "
 
-                textAlign: 'left',
+              className="ui-font-reading"
+
+              style={{
+                boxSizing: 'border-box',
 
                 color: '#000000',
               }}
             >
-              Before continuing, make sure your system is
-              ready to explore Perdana's Computer.
-            </p>
-
-
-            {/* ==================================
-                REQUIREMENTS
-            ================================== */}
-
-            <div
-              aria-label="System requirements"
-
-              style={{
-                width: '100%',
-
-                boxSizing: 'border-box',
-              }}
-            >
 
               {/* ==================================
-                  REQUIREMENT 1
+                  INTRODUCTION TEXT
               ================================== */}
 
-              <RequirementOption
-                icon={Drvspace7}
+              <p
+                style={{
+                  margin: 0,
 
-                title="Curiosity to Explore"
+                  textAlign: 'left',
 
-                description="Good design starts with asking questions. This computer is a place to explore how visual design, interaction, and technology can come together."
-              />
+                  color: '#000000',
+                }}
+              >
+                Before continuing, make sure your system is
+                ready to explore Perdana's Computer.
+              </p>
 
 
               {/* ==================================
-                  REQUIREMENT 2
+                  REQUIREMENTS
               ================================== */}
 
-              <RequirementOption
-                icon={Brush}
+              <section
+                aria-labelledby="requirements-list-title"
 
-                title="A Visual Design Foundation"
+                style={{
+                  paddingTop: 5,
 
-                description="Built from more than a decade of working with visual design, visual systems, iconography, illustration, and design direction."
-              />
+                  boxSizing: 'border-box',
+                }}
+              >
+
+                {/* ==================================
+                    REQUIREMENT LIST
+                ================================== */}
+
+                <div
+                  id="requirements-list-title"
+
+                  aria-label="System requirements"
+
+                  style={{
+                    width: '100%',
+
+                    boxSizing: 'border-box',
+                  }}
+                >
+
+                  {/* ==================================
+                      REQUIREMENT 1
+                  ================================== */}
+
+                  <RequirementOption
+                    icon={Drvspace7}
+
+                    title="Curiosity to Explore"
+
+                    description="
+                      Good design starts with asking questions.
+                      This computer is a place to explore how
+                      visual design, interaction, and technology
+                      can come together.
+                    "
+                  />
 
 
-              {/* ==================================
-                  REQUIREMENT 3
-              ================================== */}
+                  {/* ==================================
+                      REQUIREMENT 2
+                  ================================== */}
 
-              <RequirementOption
-                icon={Shell32135}
+                  <RequirementOption
+                    icon={Brush}
 
-                title="Room to Discover"
+                    title="A Visual Design Foundation"
 
-                description="This is an ongoing exploration into product design, UX, and design engineering. Some things are finished, others are still being figured out."
-              />
+                    description="
+                      Built from more than a decade of working
+                      with visual design, visual systems,
+                      iconography, illustration, and design
+                      direction.
+                    "
+                  />
 
 
-              {/* ==================================
-                  REQUIREMENT 4
-              ================================== */}
+                  {/* ==================================
+                      REQUIREMENT 3
+                  ================================== */}
 
-              <RequirementOption
-                icon={Bookmark}
+                  <RequirementOption
+                    icon={Shell32135}
 
-                title="An Open Mind"
+                    title="Room to Discover"
 
-                description="After years of focusing on how things look, the next question is how they work, behave, and become something people can actually use."
-              />
+                    description="
+                      This is an ongoing exploration into
+                      product design, UX, and design engineering.
+                      Some things are finished, others are still
+                      being figured out.
+                    "
+                  />
+
+
+                  {/* ==================================
+                      REQUIREMENT 4
+                  ================================== */}
+
+                  <RequirementOption
+                    icon={Bookmark}
+
+                    title="An Open Mind"
+
+                    description="
+                      After years of focusing on how things look,
+                      the next question is how they work, behave,
+                      and become something people can actually use.
+                    "
+                  />
+
+                </div>
+
+              </section>
 
             </div>
 
@@ -586,12 +724,12 @@ export default function InstallerSystemRequirements() {
           ================================== */}
 
           <section
-            aria-label="Ready to explore"
+            aria-labelledby="ready-to-explore-title"
 
             style={{
               marginTop: 'auto',
 
-              paddingTop: 12,
+              paddingTop: 0,
 
               boxSizing: 'border-box',
             }}
@@ -599,18 +737,21 @@ export default function InstallerSystemRequirements() {
 
             <div
               style={{
-                paddingTop: 8,
-
-                borderTop:
-                  '1px solid #808080',
+                paddingTop: 10,
 
                 boxSizing: 'border-box',
+
+                color: '#000000',
               }}
             >
 
-              {/* READY TO EXPLORE */}
+              {/* ==================================
+                  READY TO EXPLORE TITLE
+              ================================== */}
 
               <p
+                id="ready-to-explore-title"
+
                 style={{
                   margin: 0,
 
@@ -625,7 +766,9 @@ export default function InstallerSystemRequirements() {
               </p>
 
 
-              {/* DESCRIPTION */}
+              {/* ==================================
+                  READY TO EXPLORE DESCRIPTION
+              ================================== */}
 
               <p
                 style={{
@@ -637,20 +780,6 @@ export default function InstallerSystemRequirements() {
                 }}
               >
                 Everything you need is already installed.
-              </p>
-
-
-              {/* PUNCHLINE */}
-
-              <p
-                style={{
-                  margin: '8px 0 0',
-
-                  textAlign: 'left',
-
-                  color: '#000000',
-                }}
-              >
                 No installation experience required.
               </p>
 

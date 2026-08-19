@@ -20,14 +20,15 @@ function Win95Checkbox({
 }) {
   return (
     <label
-      className="ui-font"
+      className="win95-checkbox ui-font-reading"
       style={{
         display: 'flex',
+
         alignItems: 'center',
 
         minHeight: 24,
 
-        gap: 6,
+        gap: 10,
 
         cursor: 'pointer',
         userSelect: 'none',
@@ -36,17 +37,32 @@ function Win95Checkbox({
       }}
     >
 
+      {/* ==================================
+          NATIVE CHECKBOX
+      ================================== */}
+
       <input
         type="checkbox"
+
         checked={checked}
+
         onChange={onChange}
-        aria-label={children}
+
+        aria-label={
+          typeof children === 'string'
+            ? children
+            : undefined
+        }
+
+        className="win95-checkbox-input"
 
         style={{
           position: 'absolute',
 
           width: 1,
           height: 1,
+
+          margin: 0,
 
           opacity: 0,
 
@@ -56,11 +72,14 @@ function Win95Checkbox({
 
 
       {/* ==================================
-          WIN95 CHECKBOX
+          WIN95 CHECKBOX VISUAL
       ================================== */}
 
       <span
         aria-hidden="true"
+
+        className="win95-checkbox-box"
+
         style={{
           position: 'relative',
 
@@ -93,6 +112,10 @@ function Win95Checkbox({
           display: 'block',
         }}
       >
+
+        {/* ==================================
+            CHECK MARK
+        ================================== */}
 
         {checked && (
           <span
@@ -128,9 +151,12 @@ function Win95Checkbox({
       ================================== */}
 
       <span
-        className="ui-font"
+        className="ui-font-reading"
+
         style={{
           display: 'block',
+
+          minWidth: 0,
 
           color: '#000000',
         }}
@@ -144,6 +170,26 @@ function Win95Checkbox({
 
 
 /* ======================================
+   FEATURE OPTION
+====================================== */
+
+function FeatureOption({
+  checked,
+  onChange,
+  title,
+}) {
+  return (
+    <Win95Checkbox
+      checked={checked}
+      onChange={onChange}
+    >
+      <b>{title}</b>
+    </Win95Checkbox>
+  );
+}
+
+
+/* ======================================
    INSTALLER WELCOME
 ====================================== */
 
@@ -151,9 +197,9 @@ export default function InstallerWelcome() {
 
   const [features, setFeatures] =
     useState({
-      portfolio: true,
-      design: true,
-      evolving: true,
+      visualDesign: true,
+      productDesign: true,
+      designEngineering: true,
     });
 
 
@@ -161,7 +207,7 @@ export default function InstallerWelcome() {
     <article
       aria-labelledby="perdana-pc-welcome-title"
 
-      className="ui-font"
+      className="ui-font-reading"
 
       style={{
         height: '100%',
@@ -176,11 +222,68 @@ export default function InstallerWelcome() {
     >
 
       {/* ======================================
+          MOBILE RESPONSIVE STYLE
+      ====================================== */}
+
+      <style>
+        {`
+          @media (max-width: 600px) {
+
+            .welcome-layout {
+              flex-direction: column !important;
+
+              gap: 12px !important;
+            }
+
+
+            .welcome-image {
+              width: 100% !important;
+              min-width: 0 !important;
+
+              height: 150px !important;
+
+              flex-shrink: 0 !important;
+            }
+
+
+            .welcome-content {
+              width: 100%;
+
+              padding-right: 2px !important;
+            }
+
+
+            .welcome-features {
+              padding-left: 12px !important;
+            }
+
+          }
+
+
+          /* ==============================
+             CHECKBOX FOCUS
+          ============================== */
+
+          .win95-checkbox-input:focus-visible
+          + .win95-checkbox-box {
+
+            outline:
+              1px dotted #000000;
+
+            outline-offset: 2px;
+          }
+        `}
+      </style>
+
+
+      {/* ======================================
           TWO COLUMN LAYOUT
       ====================================== */}
 
       <section
         aria-label="Perdana's Computer introduction"
+
+        className="welcome-layout"
 
         style={{
           display: 'flex',
@@ -200,6 +303,8 @@ export default function InstallerWelcome() {
 
         <div
           aria-label="Portrait of Perdana Kurniawan Arta"
+
+          className="welcome-image"
 
           style={{
             width: 170,
@@ -249,7 +354,10 @@ export default function InstallerWelcome() {
         ==================================== */}
 
         <div
-          className="ui-font"
+          className="
+            ui-font-reading
+            welcome-content
+          "
 
           style={{
             flex: 1,
@@ -278,17 +386,14 @@ export default function InstallerWelcome() {
 
           <header
             style={{
-              paddingBottom: 10,
-
-              borderBottom:
-                '1px solid #808080',
+              paddingBottom: 0,
             }}
           >
 
             <h2
               id="perdana-pc-welcome-title"
 
-              className="ui-font"
+              className="ui-font-reading"
 
               style={{
                 margin: '3px 0 0',
@@ -315,25 +420,23 @@ export default function InstallerWelcome() {
 
 
           {/* ==================================
-              INTRODUCTION
+              ABOUT INTRODUCTION
           ================================== */}
 
           <section
-            aria-labelledby="about-title"
+            aria-labelledby="about-introduction-title"
 
             style={{
-              paddingTop: 10,
+              paddingTop: 15,
+
+              boxSizing: 'border-box',
             }}
           >
 
-            {/* ==================================
-                ABOUT
-            ================================== */}
-
             <div
-              id="about-title"
+              id="about-introduction-title"
 
-              className="ui-font"
+              className="ui-font-reading"
 
               style={{
                 boxSizing: 'border-box',
@@ -343,7 +446,7 @@ export default function InstallerWelcome() {
             >
 
               {/* ==================================
-                  ABOUT — PARAGRAPH 1
+                  PARAGRAPH 1
               ================================== */}
 
               <p
@@ -362,7 +465,7 @@ export default function InstallerWelcome() {
 
 
               {/* ==================================
-                  ABOUT — PARAGRAPH 2
+                  PARAGRAPH 2
               ================================== */}
 
               <p
@@ -381,7 +484,7 @@ export default function InstallerWelcome() {
 
 
               {/* ==================================
-                  ABOUT — PARAGRAPH 3
+                  PARAGRAPH 3
               ================================== */}
 
               <p
@@ -400,7 +503,7 @@ export default function InstallerWelcome() {
 
 
               {/* ==================================
-                  ABOUT — PARAGRAPH 4
+                  PARAGRAPH 4
               ================================== */}
 
               <p
@@ -413,7 +516,9 @@ export default function InstallerWelcome() {
                 }}
               >
                 Think of it less like a portfolio and more like
-                a computer you can look around.
+                a computer you can look around. Explore the work,
+                trace the ideas, and see the things Perdana has
+                built, tested, and figured out along the way.
               </p>
 
             </div>
@@ -422,15 +527,13 @@ export default function InstallerWelcome() {
 
 
           {/* ==================================
-              INSIDE PERDANA'S COMPUTER
+              WHAT'S INSIDE
           ================================== */}
 
           <section
-            aria-labelledby="inside-title"
+            aria-labelledby="inside-computer-title"
 
             style={{
-              marginTop: 'auto',
-
               paddingTop: 12,
 
               boxSizing: 'border-box',
@@ -438,13 +541,30 @@ export default function InstallerWelcome() {
           >
 
             {/* ==================================
-                FIELDSET
+                INTRODUCTION
+            ================================== */}
+
+            <p
+              id="inside-computer-title"
+
+              style={{
+                margin: '0 0 10px',
+
+                textAlign: 'left',
+
+                color: '#000000',
+              }}
+            >
+              Inside Perdana’s computer, you’ll find:
+            </p>
+
+
+            {/* ==================================
+                FEATURE FIELDSET
             ================================== */}
 
             <Fieldset
-              className="ui-font"
-
-              legend="Inside Perdana's Computer"
+              className="ui-font-reading"
 
               style={{
                 width: '100%',
@@ -461,15 +581,19 @@ export default function InstallerWelcome() {
 
               <Frame
                 display="flex"
+
                 flexDirection="column"
 
-                className="ui-font"
+                className="
+                  ui-font-reading
+                  welcome-features
+                "
 
                 style={{
                   gap: 1,
 
                   padding:
-                    '2px 0',
+                    '0 0 0 15px',
 
                   background:
                     '#c0c0c0',
@@ -482,84 +606,105 @@ export default function InstallerWelcome() {
                     VISUAL DESIGN
                 ================================== */}
 
-                <Win95Checkbox
-                  checked={features.portfolio}
+                <FeatureOption
+                  checked={
+                    features.visualDesign
+                  }
 
                   onChange={(event) => {
                     setFeatures((current) => ({
                       ...current,
 
-                      portfolio:
+                      visualDesign:
                         event.target.checked,
                     }));
                   }}
-                >
-                  Visual Design &amp; Systems
-                </Win95Checkbox>
+
+                  title="Visual Design & Systems"
+                />
 
 
                 {/* ==================================
                     PRODUCT DESIGN
                 ================================== */}
 
-                <Win95Checkbox
-                  checked={features.design}
+                <FeatureOption
+                  checked={
+                    features.productDesign
+                  }
 
                   onChange={(event) => {
                     setFeatures((current) => ({
                       ...current,
 
-                      design:
+                      productDesign:
                         event.target.checked,
                     }));
                   }}
-                >
-                  Product Design &amp; UX
-                </Win95Checkbox>
+
+                  title="Product Design & UX"
+                />
 
 
                 {/* ==================================
                     DESIGN ENGINEERING
                 ================================== */}
 
-                <Win95Checkbox
-                  checked={features.evolving}
+                <FeatureOption
+                  checked={
+                    features.designEngineering
+                  }
 
                   onChange={(event) => {
                     setFeatures((current) => ({
                       ...current,
 
-                      evolving:
+                      designEngineering:
                         event.target.checked,
                     }));
                   }}
-                >
-                  Design Engineering &amp; Experiments
-                </Win95Checkbox>
+
+                  title="Design Engineering & Experiments"
+                />
 
               </Frame>
 
             </Fieldset>
 
+          </section>
 
-            {/* ==================================
-                INSIDE DESCRIPTION
-            ================================== */}
+
+          {/* ==================================
+              NOTE
+          ================================== */}
+
+          <section
+            aria-labelledby="welcome-note-title"
+
+            style={{
+              marginTop: 'auto',
+
+              paddingTop: 12,
+
+              boxSizing: 'border-box',
+            }}
+          >
 
             <div
-              className="ui-font"
+              className="ui-font-reading"
 
               style={{
                 paddingTop: 10,
 
-                boxSizing:
-                  'border-box',
+                boxSizing: 'border-box',
 
                 color: '#000000',
               }}
             >
 
               <p
+                id="welcome-note-title"
+
                 style={{
                   margin: 0,
 
@@ -568,8 +713,8 @@ export default function InstallerWelcome() {
                   color: '#000000',
                 }}
               >
-                Work, ideas, notes, experiments, and things built
-                along the way.
+                Note: Work, ideas, notes, experiments, and things
+                built along the way.
               </p>
 
             </div>

@@ -15,9 +15,23 @@
 }
 
 
+@font-face {
+  font-family: "Open Sans";
+
+  src: url("../assets/fonts/OpenSans-Bold.woff2")
+    format("woff2");
+
+  font-style: normal;
+  font-weight: 700;
+
+  font-display: swap;
+}
+
+
 /* ======================================
    FONT TOKENS
 ====================================== */
+
 :root {
   /* ------------------------------
      UI
@@ -29,6 +43,7 @@
     sans-serif;
 
   --font-ui-size: 12px;
+  --font-ui-reading-size: 13px;
   --font-ui-line-height: 18px;
 
 
@@ -64,6 +79,20 @@
   font-style: normal;
   font-weight: 400;
   font-size: var(--font-ui-size);
+  line-height: var(--font-ui-line-height);
+  color: #000000;
+}
+
+
+/* ======================================
+   UI FONT READING
+====================================== */
+
+.ui-font-reading {
+  font-family: var(--font-ui);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--font-ui-reading-size);
   line-height: var(--font-ui-line-height);
   color: #000000;
 }

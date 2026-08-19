@@ -120,7 +120,7 @@ export default function WelcomeInstallerLoading({
 
             fontSize: 14,
 
-            fontWeight: 'bold',
+      
 
             lineHeight: 1,
 

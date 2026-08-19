@@ -1,82 +1,272 @@
 import React from 'react';
-import { Computer } from '@react95/icons';
+
+import win95installimg
+  from './win95_install_illustration.png';
+
 
 export default function InstallerComplete() {
+
   return (
-    <div
+    <article
+      aria-labelledby="installation-complete-title"
+
+      className="ui-font-reading"
+
       style={{
         height: '100%',
 
         display: 'flex',
-
         flexDirection: 'column',
 
-        justifyContent: 'center',
+        color: '#000000',
 
-        alignItems: 'center',
-
-        textAlign: 'center',
-
-        fontFamily: '"MS Sans Serif", sans-serif',
-
-        color: '#000',
+        boxSizing: 'border-box',
       }}
     >
 
-      {/* ICON */}
+      {/* ======================================
+          MOBILE RESPONSIVE STYLE
+      ====================================== */}
 
-      <div
+      <style>
+        {`
+          @media (max-width: 600px) {
+
+            .complete-layout {
+              flex-direction: column !important;
+
+              gap: 12px !important;
+            }
+
+            .complete-image {
+              width: 100% !important;
+
+              min-width: 0 !important;
+
+              height: 150px !important;
+
+              flex-shrink: 0 !important;
+            }
+
+            .complete-content {
+              width: 100%;
+
+              padding-right: 2px !important;
+            }
+
+          }
+        `}
+      </style>
+
+
+      {/* ======================================
+          TWO COLUMN LAYOUT
+      ====================================== */}
+
+      <section
+        aria-label="Installation complete"
+
+        className="complete-layout"
+
         style={{
-          marginBottom: 8,
+          display: 'flex',
+
+          flex: 1,
+
+          minHeight: 0,
+
+          gap: 15,
+
+          boxSizing: 'border-box',
         }}
       >
-        <Computer variant="32x32_4" />
-      </div>
+
+        {/* ====================================
+            LEFT COLUMN
+        ==================================== */}
+
+        <div
+          aria-label="Windows 95 installation illustration"
+
+          className="complete-image"
+
+          style={{
+            width: 170,
+
+            minWidth: 170,
+
+            flexShrink: 0,
+
+            background: '#54A8A8',
+
+            border:
+              '2px inset #c0c0c0',
+
+            boxSizing: 'border-box',
+
+            overflow: 'hidden',
+
+            display: 'flex',
+
+            alignItems: 'center',
+
+            justifyContent: 'center',
+          }}
+        >
+
+          <img
+            src={win95installimg}
+
+            alt="Windows 95 installation illustration"
+
+            style={{
+              width: '100%',
+
+              height: '100%',
+
+              display: 'block',
+
+              objectFit: 'contain',
+
+              objectPosition: 'center',
+            }}
+          />
+
+        </div>
 
 
-      {/* TITLE */}
+        {/* ====================================
+            RIGHT COLUMN
+        ==================================== */}
 
-      <h2
-        style={{
-          margin: '10px 0',
+        <div
+          className="
+            ui-font-reading
+            complete-content
+          "
 
-          fontSize: 18,
+          style={{
+            flex: 1,
 
-          fontWeight: 'bold',
-        }}
-      >
-        Installation Complete
-      </h2>
+            minWidth: 0,
+
+            minHeight: 0,
+
+            display: 'flex',
+
+            flexDirection: 'column',
+
+            paddingRight: 6,
+
+            boxSizing: 'border-box',
+
+            textAlign: 'left',
+
+            color: '#000000',
+          }}
+        >
+
+          {/* ==================================
+              TITLE
+          ================================== */}
+
+          <header>
+
+            <h2
+              id="installation-complete-title"
+
+              className="ui-font-reading"
+
+              style={{
+                margin: '3px 0 0',
+
+                padding: 0,
+
+                fontSize: 16,
+
+                lineHeight: '20px',
+
+                letterSpacing:
+                  '-0.3px',
+
+                fontWeight: 700,
+
+                textAlign: 'left',
+
+                color: '#000000',
+              }}
+            >
+              Installation Complete
+            </h2>
+
+          </header>
 
 
-      {/* DESCRIPTION */}
+          {/* ==================================
+              COMPLETION MESSAGE
+          ================================== */}
 
-      <p
-        style={{
-          fontSize: 12,
+          <section
+            aria-label="Installation completion message"
 
-          lineHeight: 1.5,
+            style={{
+              paddingTop: 15,
 
-          maxWidth: 380,
+              boxSizing: 'border-box',
+            }}
+          >
 
-          margin: '0 0 10px',
-        }}
-      >
-        Perdana's PC has been successfully installed.
-        You can now explore the portfolio desktop.
-      </p>
+            <p
+              style={{
+                margin: 0,
+
+                textAlign: 'left',
+
+                color: '#000000',
+              }}
+            >
+              Perdana's Computer has been successfully
+              installed and is ready to explore. 
+            </p>
 
 
-      <p
-        style={{
-          fontSize: 12,
 
-          marginTop: 8,
-        }}
-      >
-        Click <strong>Finish</strong> to continue.
-      </p>
+          </section>
 
-    </div>
+
+          {/* ==================================
+              FINISH MESSAGE
+          ================================== */}
+<section
+  aria-label="Ready to continue"
+
+  style={{
+    marginTop: 'auto',
+
+    paddingTop: 10,
+
+    boxSizing: 'border-box',
+  }}
+>
+
+  <p
+    style={{
+      margin: '6px 0 0',
+
+      textAlign: 'left',
+
+      color: '#000000',
+    }}
+  >
+    Click <strong>Finish</strong> to start exploring.
+  </p>
+
+</section>
+
+        </div>
+
+      </section>
+
+    </article>
   );
 }

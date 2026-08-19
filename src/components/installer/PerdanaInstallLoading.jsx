@@ -1,54 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { Install } from '@react95/icons';
+
 import installerBackground from '../../assets/images/win95_install.jpg';
+
 
 function PerdanaInstallLoading({
   isMobile = false,
   isTablet = false,
+  winBackground,
+  onComplete,
 }) {
+  const [showWindow, setShowWindow] = useState(false);
+
+  const [currentBackground, setCurrentBackground] = useState(
+    installerBackground
+  );
+
+
+  // ==========================================
+  // WINDOW + BACKGROUND TIMING
+  // ==========================================
+
+  useEffect(() => {
+    // 300ms → window muncul
+    const showTimer = setTimeout(() => {
+      setShowWindow(true);
+    }, 300);
+
+
+    // 2500ms → window hilang
+    // DAN background berganti ke desktop
+    const changeBackgroundTimer = setTimeout(() => {
+      setShowWindow(false);
+
+      setCurrentBackground(winBackground);
+    }, 1900);
+
+
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(changeBackgroundTimer);
+    };
+  }, [winBackground]);
+
+
+  // ==========================================
+  // WINDOW SIZE
+  // ==========================================
+
   const getWindowStyle = () => {
-  // =========================
-  // SMARTPHONE
-  // =========================
-  if (isMobile) {
+    if (isMobile) {
+      return {
+        width: '90vw',
+        maxWidth: '90vw',
+      };
+    }
+
+    if (isTablet) {
+      return {
+        width: '70vw',
+        maxWidth: '70vw',
+      };
+    }
+
     return {
-      width: '90vw',
-      height: '30vh',
-
-      maxWidth: 'none',
-      maxHeight: 'none',
-
-      boxSizing: 'border-box',
+      width: '550px',
+      maxWidth: 'calc(100vw - 24px)',
     };
-  }
-
-  // =========================
-  // TABLET
-  // =========================
-  if (isTablet) {
-    return {
-      width: '60vw',
-      height: '30vh',
-
-      maxWidth: 'none',
-      maxHeight: 'none',
-
-      boxSizing: 'border-box',
-    };
-  }
-
-  // =========================
-  // DESKTOP
-  // =========================
-  return {
-    width: '420px',
-    height: '220px',
-
-    maxWidth: '90vw',
-    maxHeight: '90vh',
-
-    boxSizing: 'border-box',
   };
-};
 
 
   return (
@@ -62,7 +82,9 @@ function PerdanaInstallLoading({
 
         zIndex: 999999,
 
-        backgroundImage: `url(${installerBackground})`,
+        cursor: 'wait',
+
+        backgroundImage: `url(${currentBackground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -77,127 +99,136 @@ function PerdanaInstallLoading({
           '"MS Sans Serif", "Microsoft Sans Serif", sans-serif',
       }}
     >
-      <div
-        style={{
-          ...getWindowStyle(),
 
-          backgroundColor: '#c0c0c0',
+      {/* ==========================================
+          WINDOWS 95 WINDOW
+      ========================================== */}
 
-          borderTop: '2px solid #ffffff',
-          borderLeft: '2px solid #ffffff',
-          borderRight: '2px solid #000000',
-          borderBottom: '2px solid #000000',
-
-          padding: '3px',
-        }}
-      >
-        {/* TITLE BAR */}
+      {showWindow && (
         <div
           style={{
-            height: '22px',
+            ...getWindowStyle(),
 
-            backgroundColor: '#000080',
-            color: '#ffffff',
+            backgroundColor: '#c0c0c0',
+
+            borderTop: '2px solid #ffffff',
+            borderLeft: '2px solid #ffffff',
+            borderRight: '2px solid #000000',
+            borderBottom: '2px solid #000000',
+
+            padding: 3,
+
+            boxSizing: 'border-box',
 
             display: 'flex',
-            alignItems: 'center',
-
-            padding: '0 6px',
-
-            fontSize: '12px',
-            fontWeight: 'bold',
-
-            boxSizing: 'border-box',
-
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
+            flexDirection: 'column',
           }}
         >
-          Installing Windows 95
-        </div>
 
-        {/* CONTENT */}
-        <div
-          style={{
-            padding: isMobile
-              ? '20px 14px 18px'
-              : '24px 20px 20px',
+          {/* ==========================================
+              TITLE BAR
+          ========================================== */}
 
-            fontSize: '12px',
-
-            boxSizing: 'border-box',
-          }}
-        >
           <div
             style={{
-              marginBottom: '14px',
-              lineHeight: '16px',
-            }}
-          >
-            Please wait while Windows 95 is being installed...
-          </div>
+              height: 22,
 
-          {/* PROGRESS BAR */}
-          <div
-            style={{
-              width: '100%',
-              height: '18px',
+              backgroundColor: '#000080',
 
-              backgroundColor: '#ffffff',
+              color: '#ffffff',
 
-              borderTop: '2px solid #808080',
-              borderLeft: '2px solid #808080',
-              borderRight: '2px solid #ffffff',
-              borderBottom: '2px solid #ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
 
-              padding: '2px',
+              padding: '2px 8px 6px 8px',
+
+              fontSize: 14,
+              fontWeight: 'bold',
+
+              lineHeight: 1,
 
               boxSizing: 'border-box',
 
+              userSelect: 'none',
+
+              whiteSpace: 'nowrap',
               overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
           >
+            Setting up Perdana's Computer
+          </div>
+
+
+          {/* ==========================================
+              CONTENT
+          ========================================== */}
+
+          <main
+            style={{
+              backgroundColor: '#c0c0c0',
+
+              padding: isMobile
+                ? '22px 14px 20px'
+                : isTablet
+                ? '24px 20px 20px'
+                : '26px 30px 22px',
+
+              boxSizing: 'border-box',
+
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+
             <div
               style={{
-                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+
+                gap: 12,
+
+                marginBottom: 20,
+
                 width: '100%',
-
-                background:
-                  'repeating-linear-gradient(90deg, #000080 0px, #000080 8px, transparent 8px, transparent 10px)',
-
-                animation:
-                  'win95Loading 0.7s linear infinite',
+                boxSizing: 'border-box',
               }}
-            />
-          </div>
+            >
+              <Install
+                style={{
+                  width: 32,
+                  height: 32,
+                  flexShrink: 0,
+                }}
+              />
 
-          <div
-            style={{
-              marginTop: '12px',
-              textAlign: 'center',
+              <p
+                style={{
+                  margin: 0,
 
-              lineHeight: '16px',
-            }}
-          >
-            Setting up your desktop...
-          </div>
+                  color: '#000000',
+
+                  textAlign: 'left',
+
+                  lineHeight: 1.4,
+
+                  fontSize: 13,
+
+                  maxWidth: 360,
+                }}
+              >
+                Windows 95 is now finalizing settings for
+                Perdana's Computer.
+              </p>
+            </div>
+
+          </main>
+
         </div>
-      </div>
+      )}
 
-      <style>
-        {`
-          @keyframes win95Loading {
-            from {
-              transform: translateX(-10px);
-            }
-
-            to {
-              transform: translateX(10px);
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }

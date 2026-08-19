@@ -1,11 +1,15 @@
 import React from 'react';
 
 import {
-  ProgressBar,
 } from '@react95/core';
 
-import win95installimg from './win95_install_illustration.png';
+import win95installimg
+  from './win95_install_illustration.png';
 
+
+/* ======================================
+   INSTALLER LOADING
+====================================== */
 
 export default function InstallerLoading({
   progress = 0,
@@ -17,7 +21,12 @@ export default function InstallerLoading({
   );
 
 
+  /* ======================================
+     INSTALLATION STATUS
+  ====================================== */
+
   const getStatus = () => {
+
     if (safeProgress >= 100) {
       return 'Setup is complete.';
     }
@@ -43,94 +52,132 @@ export default function InstallerLoading({
 
 
   return (
-    <section
+    <article
       aria-labelledby="installer-loading-title"
+
+      className="ui-font-reading"
+
       style={{
-        width: '100%',
         height: '100%',
 
         display: 'flex',
         flexDirection: 'column',
 
+        color: '#000000',
+
         boxSizing: 'border-box',
-
-        backgroundColor: '#c0c0c0',
-
-        fontFamily:
-          '"MS Sans Serif", sans-serif',
-
-        color: '#000',
-
-        overflow: 'hidden',
       }}
     >
 
-      {/* =========================
-          HEADER
-      ========================= */}
+      {/* ======================================
+          MOBILE RESPONSIVE STYLE
+      ====================================== */}
 
-      <header
+      <style>
+        {`
+          @media (max-width: 600px) {
+
+            /* ==============================
+               MAIN LAYOUT
+            ============================== */
+
+            .loading-layout {
+              flex-direction: column !important;
+
+              gap: 12px !important;
+            }
+
+
+            /* ==============================
+               IMAGE
+            ============================== */
+
+            .loading-image {
+              width: 100% !important;
+
+              min-width: 0 !important;
+
+              height: 150px !important;
+
+              flex-shrink: 0 !important;
+            }
+
+
+            /* ==============================
+               CONTENT
+            ============================== */
+
+            .loading-content {
+              width: 100%;
+
+              padding-right: 2px !important;
+            }
+
+
+            /* ==============================
+               PROGRESS
+            ============================== */
+
+            .loading-progress {
+              max-width: 100% !important;
+            }
+
+
+            /* ==============================
+               PERCENTAGE
+            ============================== */
+
+            .loading-percentage {
+              max-width: 100% !important;
+            }
+
+          }
+        `}
+      </style>
+
+
+      {/* ======================================
+          TWO COLUMN LAYOUT
+      ====================================== */}
+
+      <section
+        aria-label="Installation progress"
+
+        className="loading-layout"
+
         style={{
-          height: 28,
-          minHeight: 28,
-
           display: 'flex',
-          alignItems: 'center',
 
-          padding: '4px 8px',
+          flex: 1,
 
-          boxSizing: 'border-box',
-
-          backgroundColor: '#c0c0c0',
-
-          borderBottom:
-            '1px solid #808080',
-
-          fontSize: 11,
-          fontWeight: 'bold',
-
-          userSelect: 'none',
-        }}
-      >
-        Perdana's Computer Setup
-      </header>
-
-
-      {/* =========================
-          MAIN
-      ========================= */}
-
-      <main
-        style={{
-          flex: '1 1 0',
-
-          minWidth: 0,
           minHeight: 0,
 
-          display: 'flex',
+          gap: 15,
 
           boxSizing: 'border-box',
-
-          overflow: 'hidden',
         }}
       >
 
-        {/* =========================
-            LEFT IMAGE
-        ========================= */}
+        {/* ====================================
+            LEFT COLUMN
+        ==================================== */}
 
-        <aside
+        <div
+          aria-label="Windows 95 installation illustration"
+
+          className="loading-image"
+
           style={{
             width: 170,
-            minWidth: 170,
 
-            height: '100%',
+            minWidth: 170,
 
             flexShrink: 0,
 
             background: '#54A8A8',
 
-            border: '2px inset #c0c0c0',
+            border:
+              '2px inset #c0c0c0',
 
             boxSizing: 'border-box',
 
@@ -139,14 +186,19 @@ export default function InstallerLoading({
             display: 'flex',
 
             alignItems: 'center',
+
             justifyContent: 'center',
           }}
         >
+
           <img
             src={win95installimg}
-            alt="Perdana's Computer Setup"
+
+            alt="Windows 95 installation illustration"
+
             style={{
               width: '100%',
+
               height: '100%',
 
               display: 'block',
@@ -154,134 +206,337 @@ export default function InstallerLoading({
               objectFit: 'contain',
 
               objectPosition: 'center',
+
+              transform: 'scale(1)',
             }}
           />
-        </aside>
-
-
-        {/* =========================
-            RIGHT CONTENT
-        ========================= */}
-
-        <div
-          style={{
-            flex: '1 1 0',
-
-            minWidth: 0,
-            minHeight: 0,
-
-            display: 'flex',
-            flexDirection: 'column',
-
-            justifyContent: 'center',
-
-            boxSizing: 'border-box',
-
-            padding: '20px 24px',
-
-            overflow: 'hidden',
-          }}
-        >
-
-          <h1
-            id="installer-loading-title"
-            style={{
-              margin: 0,
-
-              fontSize: 16,
-              lineHeight: '20px',
-
-              fontWeight: 'bold',
-            }}
-          >
-            Installing Perdana's Computer
-          </h1>
-
-
-          <p
-            style={{
-              margin: '10px 0 0',
-
-              fontSize: 11,
-              lineHeight: '16px',
-            }}
-          >
-            Setup is installing Perdana's Computer
-            on your computer.
-          </p>
-
-
-          {/* STATUS */}
-
-          <div
-            style={{
-              marginTop: 20,
-
-              fontSize: 11,
-              lineHeight: '16px',
-            }}
-          >
-            {getStatus()}
-          </div>
-
-
-          {/* PROGRESS BAR */}
-
-          <div
-            style={{
-              width: '100%',
-
-              maxWidth: 420,
-
-              marginTop: 5,
-            }}
-          >
-            <ProgressBar
-              percent={safeProgress}
-              width="100%"
-            />
-          </div>
-
-
-          {/* PERCENTAGE */}
-
-          <div
-            style={{
-              width: '100%',
-
-              maxWidth: 420,
-
-              marginTop: 3,
-
-              fontSize: 11,
-              lineHeight: '16px',
-
-              textAlign: 'right',
-            }}
-          >
-            {safeProgress}%
-          </div>
-
-
-          {/* NOTE */}
-
-          <div
-            style={{
-              marginTop: 16,
-
-              fontSize: 11,
-              lineHeight: '16px',
-            }}
-          >
-            {safeProgress >= 100
-              ? "Perdana's Computer has been installed successfully."
-              : 'Please wait while Setup completes the installation.'}
-          </div>
 
         </div>
 
-      </main>
 
-    </section>
+        {/* ====================================
+            RIGHT COLUMN
+        ==================================== */}
+
+        <div
+          className="
+            ui-font-reading
+            loading-content
+          "
+
+          style={{
+            flex: 1,
+
+            minWidth: 0,
+
+            minHeight: 0,
+
+            display: 'flex',
+
+            flexDirection: 'column',
+
+            overflowY: 'auto',
+
+            paddingRight: 6,
+
+            boxSizing: 'border-box',
+
+            textAlign: 'left',
+
+            color: '#000000',
+          }}
+        >
+
+          {/* ==================================
+              TITLE
+          ================================== */}
+
+          <header
+            style={{
+              paddingBottom: 0,
+            }}
+          >
+
+            <h2
+              id="installer-loading-title"
+
+              className="ui-font-reading"
+
+              style={{
+                margin: '3px 0 0',
+
+                padding: 0,
+
+                fontSize: 16,
+
+                lineHeight: '20px',
+
+                letterSpacing:
+                  '-0.3px',
+
+                fontWeight: 700,
+
+                textAlign: 'left',
+
+                color: '#000000',
+              }}
+            >
+              Installing Perdana's Computer
+            </h2>
+
+          </header>
+
+
+          {/* ==================================
+              INTRODUCTION
+          ================================== */}
+
+          <section
+            aria-labelledby="installation-introduction-title"
+
+            style={{
+              paddingTop: 15,
+
+              boxSizing: 'border-box',
+            }}
+          >
+
+            <div
+              id="installation-introduction-title"
+
+              className="ui-font-reading"
+
+              style={{
+                boxSizing: 'border-box',
+
+                color: '#000000',
+              }}
+            >
+
+              {/* ==================================
+                  INTRODUCTION TEXT
+              ================================== */}
+
+              <p
+                style={{
+                  margin: 0,
+
+                  textAlign: 'left',
+
+                  color: '#000000',
+                }}
+              >
+                Setup is installing Perdana's Computer
+                on your computer.
+              </p>
+
+
+              {/* ==================================
+                  INSTALLATION STATUS
+              ================================== */}
+
+              <section
+                aria-labelledby="installation-status-title"
+
+                style={{
+                  paddingTop: 18,
+
+                  boxSizing: 'border-box',
+                }}
+              >
+
+                <div
+                  id="installation-status-title"
+
+                  className="ui-font-reading"
+
+                  style={{
+                    boxSizing: 'border-box',
+
+                    color: '#000000',
+                  }}
+                >
+
+                  <p
+                    style={{
+                      margin: 0,
+
+                      textAlign: 'left',
+
+                      color: '#000000',
+                    }}
+                  >
+                    {getStatus()}
+                  </p>
+
+{/* ==================================
+    PROGRESS BAR
+================================== */}
+
+<div
+  className="loading-progress"
+
+  style={{
+    position: 'relative',
+
+    marginTop: 5,
+
+    width: '100%',
+
+  
+
+    height: 25,
+
+    padding: 0,
+
+    boxSizing: 'border-box',
+
+    background: '#ffffff',
+
+    border: '1.5px solid #000000',
+
+    overflow: 'hidden',
+  }}
+>
+
+{/* ==================================
+    BLUE PROGRESS
+================================== */}
+
+<div
+  style={{
+    width: `${safeProgress}%`,
+
+    height: '100%',
+
+    background: '#000080',
+
+    transition: 'width 30ms linear',
+  }}
+/>
+
+
+{/* ==================================
+    PERCENTAGE
+================================== */}
+
+<div
+  className="ui-font"
+  style={{
+    position: 'absolute',
+
+    inset: 0,
+
+    display: 'flex',
+
+    alignItems: 'center',
+
+    justifyContent: 'center',
+
+    color: safeProgress > 50
+      ? '#ffffff'
+      : '#000000',
+
+    fontSize: 13,
+
+    fontWeight: 'bold',
+
+    pointerEvents: 'none',
+
+    userSelect: 'none',
+
+    textShadow: safeProgress > 50
+      ? '1px 1px 0 #000'
+      : 'none',
+  }}
+>
+  {safeProgress}%
+</div>
+
+</div>
+
+                </div>
+
+              </section>
+
+            </div>
+
+          </section>
+
+
+          {/* ==================================
+              INSTALLATION NOTE
+          ================================== */}
+
+          <section
+            aria-labelledby="installation-note-title"
+
+            style={{
+              marginTop: 'auto',
+
+              paddingTop: 10,
+
+              boxSizing: 'border-box',
+            }}
+          >
+
+            <div
+              style={{
+                boxSizing: 'border-box',
+
+                color: '#000000',
+              }}
+            >
+
+              {/* ==================================
+                  NOTE TITLE
+              ================================== */}
+
+              <p
+                id="installation-note-title"
+
+                style={{
+                  margin: 0,
+
+                  fontWeight: 700,
+
+                  textAlign: 'left',
+
+                  color: '#000000',
+                }}
+              >
+                {safeProgress >= 100
+                  ? 'Installation complete.'
+                  : 'Please wait while Setup completes the installation.'}
+              </p>
+
+
+              {/* ==================================
+                  NOTE DESCRIPTION
+              ================================== */}
+
+              <p
+                style={{
+                  margin: '3px 0 0',
+
+                  textAlign: 'left',
+
+                  color: '#000000',
+                }}
+              >
+                {safeProgress >= 100
+                  ? "Perdana's Computer has been installed successfully."
+                  : 'Do not close this window while the installation is in progress.'}
+              </p>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </section>
+
+    </article>
   );
 }

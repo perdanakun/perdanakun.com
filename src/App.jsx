@@ -3,7 +3,7 @@ import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
 import './styles/fonts.css';
 import installerBackground from './assets/images/win95_install.jpg';
-import winBackground from './assets/images/win95clouds.jpeg';
+import winBackground from './assets/images/win_background2.jpg';
 import winDawn from './assets/images/1dawn.png';
 import winMorning from './assets/images/2morning.png';
 import winMidday from './assets/images/3midday.png';
@@ -417,9 +417,11 @@ const [pcScreen, setPcScreen] = useState(() => {
 });
 
 
-  // boot PC
+  // DEBUG Boot PC
 
-  useEffect(() => {
+
+useEffect(() => {
+
   if (pcScreen !== 'boot') {
     return;
   }
@@ -431,7 +433,9 @@ const [pcScreen, setPcScreen] = useState(() => {
   return () => {
     clearTimeout(bootTimer);
   };
+
 }, [pcScreen]);
+
 
 // ==========================================
 // PERDANA PC INSTALLER LIFECYCLE
@@ -906,7 +910,9 @@ const handleAttachmentTooLarge = (file) => {
     WINDOWS 95 INSTALL LOADING
 ========================= */}
 {pcScreen === 'desktop' && isInstalling && (
-  <PerdanaInstallLoading />
+  <PerdanaInstallLoading 
+  winBackground={winBackground}
+  />
 )}
 {/* =========================
     WINDOWS 95 INSTALL FLOW
