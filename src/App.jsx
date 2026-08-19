@@ -1,6 +1,7 @@
 import '@react95/core/GlobalStyle';
 import '@react95/core/themes/win95.css';
 import '@react95/icons/icons.css';
+import './styles/fonts.css';
 import installerBackground from './assets/images/win95_install.jpg';
 import winBackground from './assets/images/win95clouds.jpeg';
 import winDawn from './assets/images/1dawn.png';
@@ -25,11 +26,12 @@ import AiAssistant from "./components/AiAssistant";
 import AiAssistantSphere from "./components/AiAssistantSphere";
 import ImageViewer from './components/ImageViewer';
 import WelcomeInstaller from './components/installer/WelcomeInstaller';
+import WelcomeInstallerLoading from './components/installer/WelcomeInstallerLoading';
 import PerdanaInstaller from './components/installer/PerdanaInstaller';
+import PerdanaInstallLoading from './components/installer/PerdanaInstallLoading';
 import BlogContent from './components/BlogContent';
 import WelcomeModal from './components/WelcomeModal';
 import PerdanaBootScreen from './components/boot/PerdanaBootScreen';
-import PerdanaInstallLoading from './components/installer/PerdanaInstallLoading';
 import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
@@ -591,7 +593,9 @@ useEffect(() => {
 
 // Perdana PC Installer
 const [welcomeInstallerVisible, setWelcomeInstallerVisible] = useState(false);
+const [welcomeInstallerLoadingVisible, setWelcomeInstallerLoadingVisible] = useState(false);
 const [installerVisible, setInstallerVisible] = useState(false);
+
 
 // Desktop Icon Installer
 const openInstaller = () => {
@@ -600,7 +604,11 @@ const openInstaller = () => {
 };
 
 
-// Installer loading state
+
+
+// ==========================================
+// PERDANA INSTALLER LOADING
+// ==========================================
 const [isInstalling, setIsInstalling] = useState(false);
 
 useEffect(() => {
@@ -904,7 +912,12 @@ const handleAttachmentTooLarge = (file) => {
     WINDOWS 95 INSTALL FLOW
 ========================= */}
 
-{pcScreen === 'desktop' && (welcomeInstallerVisible || installerVisible) ? (
+{pcScreen === 'desktop' && (
+  welcomeInstallerVisible ||
+  welcomeInstallerLoadingVisible ||
+  installerVisible
+) ? (
+
   <div
     style={{
       position: 'fixed',
@@ -967,16 +980,34 @@ const handleAttachmentTooLarge = (file) => {
   isMobile={isMobile}
   isTablet={isTablet}
 
-  onContinue={() => {
-    setWelcomeInstallerVisible(false);
-    setInstallerVisible(true);
-  }}
+onContinue={() => {
+  setWelcomeInstallerVisible(false);
+  setWelcomeInstallerLoadingVisible(true);
+}}
+
 
   onClose={() => {
     setWelcomeInstallerVisible(false);
   }}
 />
       )}
+
+      {/* =========================
+    WELCOME INSTALLER LOADING
+========================= */}
+
+{welcomeInstallerLoadingVisible && (
+  <WelcomeInstallerLoading
+    isMobile={isMobile}
+    isTablet={isTablet}
+
+    onComplete={() => {
+      setWelcomeInstallerLoadingVisible(false);
+      setInstallerVisible(true);
+    }}
+  />
+)}
+
 
       {/* =========================
           PERDANA INSTALLER
@@ -1006,7 +1037,12 @@ const handleAttachmentTooLarge = (file) => {
 {/* =========================
     INSTALLATION NOTE
 ========================= */}
-{(welcomeInstallerVisible || installerVisible) && (
+{(
+  welcomeInstallerVisible ||
+  welcomeInstallerLoadingVisible ||
+  installerVisible
+) && (
+
   <div
     style={{
       position: 'absolute',

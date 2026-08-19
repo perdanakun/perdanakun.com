@@ -5,17 +5,22 @@ import {
   Frame,
 } from '@react95/core';
 
-import perdanaImage from './perdana.png';
-import win95installimg from './win95_install_illustration.png';
+import win95installimg
+  from './win95_install_illustration.png';
 
 
 /* ======================================
    WINDOWS 95 CHECKBOX
 ====================================== */
 
-function Win95Checkbox({ checked, onChange, children }) {
+function Win95Checkbox({
+  checked,
+  onChange,
+  children,
+}) {
   return (
     <label
+      className="ui-font"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -27,18 +32,16 @@ function Win95Checkbox({ checked, onChange, children }) {
         cursor: 'pointer',
         userSelect: 'none',
 
-        fontFamily: '"MS Sans Serif", sans-serif',
-        fontSize: 12,
-        lineHeight: '18px',
-
         color: '#000000',
       }}
     >
+
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange}
         aria-label={children}
+
         style={{
           position: 'absolute',
 
@@ -51,7 +54,10 @@ function Win95Checkbox({ checked, onChange, children }) {
         }}
       />
 
-      {/* WIN95 CHECKBOX */}
+
+      {/* ==================================
+          WIN95 CHECKBOX
+      ================================== */}
 
       <span
         aria-hidden="true"
@@ -67,10 +73,17 @@ function Win95Checkbox({ checked, onChange, children }) {
 
           background: '#ffffff',
 
-          borderTop: '1px solid #808080',
-          borderLeft: '1px solid #808080',
-          borderRight: '1px solid #ffffff',
-          borderBottom: '1px solid #ffffff',
+          borderTop:
+            '1px solid #808080',
+
+          borderLeft:
+            '1px solid #808080',
+
+          borderRight:
+            '1px solid #ffffff',
+
+          borderBottom:
+            '1px solid #ffffff',
 
           boxShadow: `
             inset 1px 1px 0 #000000,
@@ -92,12 +105,17 @@ function Win95Checkbox({ checked, onChange, children }) {
               left: 3,
               top: 1,
 
-              borderRight: '2px solid #000000',
-              borderBottom: '2px solid #000000',
+              borderRight:
+                '2px solid #000000',
 
-              transform: 'rotate(45deg)',
+              borderBottom:
+                '2px solid #000000',
 
-              boxSizing: 'border-box',
+              transform:
+                'rotate(45deg)',
+
+              boxSizing:
+                'border-box',
             }}
           />
         )}
@@ -105,15 +123,14 @@ function Win95Checkbox({ checked, onChange, children }) {
       </span>
 
 
-      {/* LABEL */}
+      {/* ==================================
+          LABEL
+      ================================== */}
 
       <span
+        className="ui-font"
         style={{
           display: 'block',
-
-          fontFamily: '"MS Sans Serif", sans-serif',
-          fontSize: 12,
-          lineHeight: '18px',
 
           color: '#000000',
         }}
@@ -131,22 +148,27 @@ function Win95Checkbox({ checked, onChange, children }) {
 ====================================== */
 
 export default function InstallerWelcome() {
-  const [features, setFeatures] = useState({
-    portfolio: true,
-    design: true,
-    evolving: true,
-  });
+
+  const [features, setFeatures] =
+    useState({
+      portfolio: true,
+      design: true,
+      evolving: true,
+    });
+
 
   return (
     <article
-      aria-labelledby="identity-title"
+      aria-labelledby="perdana-pc-welcome-title"
+
+      className="ui-font"
+
       style={{
         height: '100%',
 
         display: 'flex',
         flexDirection: 'column',
 
-        fontFamily: '"MS Sans Serif", sans-serif',
         color: '#000000',
 
         boxSizing: 'border-box',
@@ -159,6 +181,7 @@ export default function InstallerWelcome() {
 
       <section
         aria-label="Perdana's Computer introduction"
+
         style={{
           display: 'flex',
 
@@ -177,6 +200,7 @@ export default function InstallerWelcome() {
 
         <div
           aria-label="Portrait of Perdana Kurniawan Arta"
+
           style={{
             width: 170,
             minWidth: 170,
@@ -185,20 +209,25 @@ export default function InstallerWelcome() {
 
             background: '#54A8A8',
 
-            border: '2px inset #c0c0c0',
+            border:
+              '2px inset #c0c0c0',
 
             boxSizing: 'border-box',
 
             overflow: 'hidden',
 
             display: 'flex',
+
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
+
           <img
             src={win95installimg}
+
             alt="Perdana Kurniawan Arta, Visual Designer"
+
             style={{
               width: '100%',
               height: '100%',
@@ -211,6 +240,7 @@ export default function InstallerWelcome() {
               transform: 'scale(1)',
             }}
           />
+
         </div>
 
 
@@ -219,6 +249,8 @@ export default function InstallerWelcome() {
         ==================================== */}
 
         <div
+          className="ui-font"
+
           style={{
             flex: 1,
 
@@ -234,11 +266,9 @@ export default function InstallerWelcome() {
 
             boxSizing: 'border-box',
 
-            fontFamily: '"MS Sans Serif", sans-serif',
-            fontSize: 12,
-            lineHeight: '18px',
-
             textAlign: 'left',
+
+            color: '#000000',
           }}
         >
 
@@ -250,22 +280,28 @@ export default function InstallerWelcome() {
             style={{
               paddingBottom: 10,
 
-              borderBottom: '1px solid #808080',
+              borderBottom:
+                '1px solid #808080',
             }}
           >
 
             <h2
               id="perdana-pc-welcome-title"
+
+              className="ui-font"
+
               style={{
                 margin: '3px 0 0',
 
-                letterSpacing: '-0.3px',
+                padding: 0,
 
-                fontFamily: '"MS Sans Serif", sans-serif',
                 fontSize: 16,
                 lineHeight: '20px',
 
-                fontWeight: 'bold',
+                letterSpacing:
+                  '-0.3px',
+
+                fontWeight: 700,
 
                 textAlign: 'left',
 
@@ -283,105 +319,104 @@ export default function InstallerWelcome() {
           ================================== */}
 
           <section
-            aria-labelledby="identity-title"
+            aria-labelledby="about-title"
+
             style={{
               paddingTop: 10,
             }}
           >
 
-
-
             {/* ==================================
                 ABOUT
             ================================== */}
 
-            <section
-              aria-labelledby="about-title"
+            <div
+              id="about-title"
+
+              className="ui-font"
+
+              style={{
+                boxSizing: 'border-box',
+
+                color: '#000000',
+              }}
             >
-              <div
+
+              {/* ==================================
+                  ABOUT — PARAGRAPH 1
+              ================================== */}
+
+              <p
                 style={{
-                  boxSizing: 'border-box',
+                  margin: 0,
+
+                  textAlign: 'left',
+
+                  color: '#000000',
                 }}
               >
-
-                {/* ABOUT — PARAGRAPH 1 */}
-
-                <p
-                  style={{
-                    margin: 0,
-
-                    fontFamily: '"MS Sans Serif", sans-serif',
-                    fontSize: 12,
-                    lineHeight: '18px',
-
-                    textAlign: 'left',
-
-                    color: '#000000',
-                  }}
-                >
-                  This is Perdana's personal computer — a place
-                  to explore his work, experience, ideas, and
-                  experiments.
-                </p>
+                This is Perdana's personal computer — a place
+                to explore his work, experience, ideas, and
+                experiments.
+              </p>
 
 
-                {/* ABOUT — PARAGRAPH 2 */}
+              {/* ==================================
+                  ABOUT — PARAGRAPH 2
+              ================================== */}
 
-                <p
-                  style={{
-                    margin: '10px 0 0',
+              <p
+                style={{
+                  margin: '10px 0 0',
 
-                    fontFamily: '"MS Sans Serif", sans-serif',
-                    fontSize: 12,
-                    lineHeight: '18px',
+                  textAlign: 'left',
 
-                    textAlign: 'left',
-
-                    color: '#000000',
-                  }}
-                >
- Inside, you'll find work shaped by years of visual design, alongside newer explorations into product design, UX, and design engineering.
-                </p>
+                  color: '#000000',
+                }}
+              >
+                Inside, you'll find work shaped by years of
+                visual design, alongside newer explorations
+                into product design, UX, and design engineering.
+              </p>
 
 
-                {/* ABOUT — PARAGRAPH 3 */}
+              {/* ==================================
+                  ABOUT — PARAGRAPH 3
+              ================================== */}
 
-                <p
-                  style={{
-                    margin: '10px 0 0',
+              <p
+                style={{
+                  margin: '10px 0 0',
 
-                    fontFamily: '"MS Sans Serif", sans-serif',
-                    fontSize: 12,
-                    lineHeight: '18px',
+                  textAlign: 'left',
 
-                    textAlign: 'left',
+                  color: '#000000',
+                }}
+              >
+                Not everything here is a finished product.
+                Some projects are built, some are being explored,
+                and some are simply ideas worth following.
+              </p>
 
-                    color: '#000000',
-                  }}
-                >
-                Not everything here is a finished product. Some projects are built, some are being explored, and some are simply ideas worth following.
-                </p>
 
-                                {/* ABOUT — PARAGRAPH 4 */}
+              {/* ==================================
+                  ABOUT — PARAGRAPH 4
+              ================================== */}
 
-                <p
-                  style={{
-                    margin: '10px 0 0',
+              <p
+                style={{
+                  margin: '10px 0 0',
 
-                    fontFamily: '"MS Sans Serif", sans-serif',
-                    fontSize: 12,
-                    lineHeight: '18px',
+                  textAlign: 'left',
 
-                    textAlign: 'left',
+                  color: '#000000',
+                }}
+              >
+                Think of it less like a portfolio and more like
+                a computer you can look around.
+              </p>
 
-                    color: '#000000',
-                  }}
-                >
-Think of it less like a portfolio and more like a computer you can look around.    </p>
-
-              </div>
-
-            </section>
+            </div>
 
           </section>
 
@@ -392,6 +427,7 @@ Think of it less like a portfolio and more like a computer you can look around. 
 
           <section
             aria-labelledby="inside-title"
+
             style={{
               marginTop: 'auto',
 
@@ -401,8 +437,15 @@ Think of it less like a portfolio and more like a computer you can look around. 
             }}
           >
 
+            {/* ==================================
+                FIELDSET
+            ================================== */}
+
             <Fieldset
+              className="ui-font"
+
               legend="Inside Perdana's Computer"
+
               style={{
                 width: '100%',
 
@@ -410,38 +453,44 @@ Think of it less like a portfolio and more like a computer you can look around. 
 
                 margin: 0,
 
-                fontFamily: '"MS Sans Serif", sans-serif',
-                fontSize: 12,
-                lineHeight: '18px',
-
                 background: '#c0c0c0',
+
+                color: '#000000',
               }}
             >
 
               <Frame
                 display="flex"
                 flexDirection="column"
+
+                className="ui-font"
+
                 style={{
                   gap: 1,
 
-                  padding: '2px 0',
+                  padding:
+                    '2px 0',
 
-                  fontFamily: '"MS Sans Serif", sans-serif',
-                  fontSize: 12,
-                  lineHeight: '18px',
+                  background:
+                    '#c0c0c0',
 
-                  background: '#c0c0c0',
+                  color: '#000000',
                 }}
               >
 
-                {/* VISUAL DESIGN */}
+                {/* ==================================
+                    VISUAL DESIGN
+                ================================== */}
 
                 <Win95Checkbox
                   checked={features.portfolio}
+
                   onChange={(event) => {
                     setFeatures((current) => ({
                       ...current,
-                      portfolio: event.target.checked,
+
+                      portfolio:
+                        event.target.checked,
                     }));
                   }}
                 >
@@ -449,14 +498,19 @@ Think of it less like a portfolio and more like a computer you can look around. 
                 </Win95Checkbox>
 
 
-                {/* PRODUCT DESIGN */}
+                {/* ==================================
+                    PRODUCT DESIGN
+                ================================== */}
 
                 <Win95Checkbox
                   checked={features.design}
+
                   onChange={(event) => {
                     setFeatures((current) => ({
                       ...current,
-                      design: event.target.checked,
+
+                      design:
+                        event.target.checked,
                     }));
                   }}
                 >
@@ -464,14 +518,19 @@ Think of it less like a portfolio and more like a computer you can look around. 
                 </Win95Checkbox>
 
 
-                {/* DESIGN ENGINEERING */}
+                {/* ==================================
+                    DESIGN ENGINEERING
+                ================================== */}
 
                 <Win95Checkbox
                   checked={features.evolving}
+
                   onChange={(event) => {
                     setFeatures((current) => ({
                       ...current,
-                      evolving: event.target.checked,
+
+                      evolving:
+                        event.target.checked,
                     }));
                   }}
                 >
@@ -483,22 +542,26 @@ Think of it less like a portfolio and more like a computer you can look around. 
             </Fieldset>
 
 
-            {/* INSIDE DESCRIPTION */}
+            {/* ==================================
+                INSIDE DESCRIPTION
+            ================================== */}
 
             <div
+              className="ui-font"
+
               style={{
                 paddingTop: 10,
 
-                boxSizing: 'border-box',
+                boxSizing:
+                  'border-box',
+
+                color: '#000000',
               }}
             >
+
               <p
                 style={{
                   margin: 0,
-
-                  fontFamily: '"MS Sans Serif", sans-serif',
-                  fontSize: 12,
-                  lineHeight: '18px',
 
                   textAlign: 'left',
 
@@ -508,6 +571,7 @@ Think of it less like a portfolio and more like a computer you can look around. 
                 Work, ideas, notes, experiments, and things built
                 along the way.
               </p>
+
             </div>
 
           </section>

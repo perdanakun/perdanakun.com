@@ -62,164 +62,78 @@ export default function InstallerContent({
 
         backgroundColor: '#c0c0c0',
 
-        fontFamily:
-          '"MS Sans Serif", sans-serif',
-
         color: '#000000',
       }}
     >
 
       {/* =====================================================
           MENU BAR
-          
-          Same visual language as ProjectFolderContent
       ===================================================== */}
 
-      <div
-        style={{
-          display: 'flex',
-
-          alignItems: 'center',
-
-          gap: 6,
-
-          padding: '2px 6px',
-
-          height: 20,
-          minHeight: 20,
-
-          boxSizing: 'border-box',
-
-          backgroundColor: '#c0c0c0',
-
-          borderBottom:
-            '1px solid #808080',
-
-          fontFamily:
-            '"MS Sans Serif", sans-serif',
-
-          fontSize: 11,
-
-          lineHeight: '14px',
-
-          color: '#000000',
-
-          userSelect: 'none',
-
-          flexShrink: 0,
-        }}
-      >
-
-        <span
-          style={{
-            padding: '1px 4px',
-
-            boxSizing: 'border-box',
-          }}
-        >
-          <u>F</u>ile
-        </span>
-
-
-        <span
-          style={{
-            padding: '1px 4px',
-
-            boxSizing: 'border-box',
-          }}
-        >
-          <u>V</u>iew
-        </span>
-
-
-        <span
-          style={{
-            padding: '1px 4px',
-
-            boxSizing: 'border-box',
-          }}
-        >
-          <u>H</u>elp
-        </span>
-
-      </div>
-
+ 
 
       {/* =====================================================
           EXPLORER CONTENT FRAME
-          
-          No tree here.
-          InstallerTree is handled by PerdanaInstaller.
       ===================================================== */}
 
-      <div
-        style={{
-          flex: 1,
+<div
+  style={{
+    flex: 1,
 
-          minWidth: 0,
-          minHeight: 0,
+    minWidth: 0,
+    minHeight: 0,
 
-          backgroundColor: '#ffffff',
+    backgroundColor: '#ffffff',
 
-          overflow: 'hidden',
+    overflow: 'hidden',
 
-          margin: 2,
+    margin: 2,
 
-          boxSizing: 'border-box',
+    boxSizing: 'border-box',
 
-          boxShadow:
-            'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
+    boxShadow:
+      'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
 
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+    display: 'flex',
+    flexDirection: 'column',
+  }}
+>
+
+
 
         {/* ===================================================
             CONTENT SCROLL AREA
         =================================================== */}
 
-        <main
-          aria-labelledby="installer-content-title"
+<main
+  aria-labelledby="installer-content-title"
+  className="reading-font"
+  style={{
+    flex: 1,
 
-          style={{
-            flex: 1,
+    minWidth: 0,
+    minHeight: 0,
 
-            minWidth: 0,
-            minHeight: 0,
+    backgroundColor: '#ffffff',
 
-            backgroundColor: '#ffffff',
+    padding: 12,
 
-            padding: 12,
+    boxSizing: 'border-box',
 
-            boxSizing: 'border-box',
+    overflowY: 'auto',
+    overflowX: 'hidden',
 
-            overflowY: 'auto',
-            overflowX: 'hidden',
+    color: '#000000',
 
-            fontFamily:
-              '"MS Sans Serif", sans-serif',
+    textAlign: 'left',
 
-            fontStyle: 'normal',
+    touchAction: 'pan-y',
+  }}
+>
 
-            fontWeight: 100,
-
-            fontSize: 14,
-
-            lineHeight: '20px',
-
-            color: '#000000',
-
-            textAlign: 'left',
-
-            touchAction: 'pan-y',
-          }}
-        >
 
           {/* ===============================================
               PAGE TITLE
-              
-              Same scale as Welcome to Perdana's Computer
           =============================================== */}
 
           <header
@@ -237,17 +151,17 @@ export default function InstallerContent({
 
             <h2
               id="installer-content-title"
+
+              className="ui-font"
+
               style={{
                 margin: '3px 0 0',
 
                 padding: 0,
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
                 fontSize: 16,
 
-                lineHeight: 1.25,
+                lineHeight: '20px',
 
                 fontWeight: 'bold',
 
@@ -269,23 +183,13 @@ export default function InstallerContent({
           {ContentComponent ? (
 
             <div
+
               style={{
                 width: '100%',
 
                 minWidth: 0,
 
                 boxSizing: 'border-box',
-
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontStyle: 'normal',
-
-                fontWeight: 100,
-
-                fontSize: 14,
-
-                lineHeight: '20px',
 
                 color: '#000000',
 
@@ -298,15 +202,10 @@ export default function InstallerContent({
           ) : (
 
             <p
+              className="reading-font"
+
               style={{
                 margin: 0,
-
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
 
                 color: '#000000',
 

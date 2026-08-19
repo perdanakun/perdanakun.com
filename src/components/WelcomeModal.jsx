@@ -17,10 +17,6 @@ import win95Pc
   from '../assets/images/win95_pc.png';
 
 
-const FONT =
-  '"MS Sans Serif", "Microsoft Sans Serif", sans-serif';
-
-
 /* ======================================
    SHORTCUT LABEL
 ====================================== */
@@ -71,6 +67,7 @@ function Win95Checkbox({
 }) {
   return (
     <label
+      className="ui-font"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -81,11 +78,6 @@ function Win95Checkbox({
 
         cursor: 'pointer',
         userSelect: 'none',
-
-        fontFamily: FONT,
-
-        fontSize: 12,
-        lineHeight: '18px',
 
         color: '#000000',
 
@@ -116,7 +108,6 @@ function Win95Checkbox({
 
       <span
         aria-hidden="true"
-
         style={{
           position: 'relative',
 
@@ -175,6 +166,7 @@ function Win95Checkbox({
         )}
       </span>
 
+
       {/* ==================================
           LABEL TEXT
       ================================== */}
@@ -182,13 +174,6 @@ function Win95Checkbox({
       <span
         style={{
           display: 'block',
-
-          fontFamily: FONT,
-
-          fontSize: 12,
-
-          lineHeight: '18px',
-
           color: '#000000',
         }}
       >
@@ -261,13 +246,6 @@ export default function WelcomeModal({
   };
 
 
-  const handleProductCatalog = () => {
-    window.alert(
-      'Product Catalog is not available yet.'
-    );
-  };
-
-
   const handleNextTip = () => {
     window.alert(
       'Next Tip is not available yet.'
@@ -334,10 +312,10 @@ export default function WelcomeModal({
               top:
                 'calc((100vh - 28px) / 2)',
 
-              width: '78vw',
-              height: '68vh',
+              width: '85vw',
+              height: 'auto',
 
-              maxWidth: '90vw',
+              maxWidth: '85vw',
               maxHeight:
                 'calc(100vh - 28px)',
 
@@ -354,8 +332,8 @@ export default function WelcomeModal({
               top:
                 'calc((100vh - 28px) / 2)',
 
-              width: '700px',
-              height: '320px',
+              width: 'auto',
+              height: 'auto',
 
               maxWidth:
                 'calc(100vw - 20px)',
@@ -386,6 +364,7 @@ export default function WelcomeModal({
       ================================== */}
 
       <Modal.Content
+        className="ui-font"
         style={{
           padding: 0,
 
@@ -409,7 +388,7 @@ export default function WelcomeModal({
 
         <article
           aria-labelledby="welcome-title"
-
+          className="ui-font"
           style={{
             width: '100%',
             height: '100%',
@@ -420,11 +399,6 @@ export default function WelcomeModal({
             boxSizing: 'border-box',
 
             backgroundColor: '#c0c0c0',
-
-            color: '#000',
-
-            fontFamily: FONT,
-            fontSize: 11,
 
             overflow: 'hidden',
 
@@ -488,7 +462,7 @@ export default function WelcomeModal({
 
                 letterSpacing: '-0.7px',
 
-                color: '#000',
+                color: '#000000',
 
                 flexShrink: 0,
               }}
@@ -538,27 +512,26 @@ export default function WelcomeModal({
                 MAIN ROW
             ================================== */}
 
-<div
-  style={{
-    flex: '1 1 auto',
+            <div
+              style={{
+                flex: '1 1 auto',
 
-    minWidth: 0,
-    minHeight: 0,
+                minWidth: 0,
+                minHeight: 0,
 
-    display: 'flex',
+                display: 'flex',
 
-    flexDirection: isMobile
-      ? 'column'
-      : 'row',
+                flexDirection: isMobile
+                  ? 'column'
+                  : 'row',
 
-    alignItems: 'stretch',
+                alignItems: 'stretch',
 
-    gap: isMobile ? 8 : 10,
+                gap: isMobile ? 8 : 10,
 
-    overflow: 'hidden',
-  }}
->
-
+                overflow: 'hidden',
+              }}
+            >
 
               {/* ==================================
                   INFORMATION PANEL
@@ -574,7 +547,7 @@ export default function WelcomeModal({
                   minHeight: 0,
 
                   backgroundColor:
-                    '#ffffdf',
+                    '#ffffff',
 
                   borderTop:
                     '1px solid #808080',
@@ -603,361 +576,325 @@ export default function WelcomeModal({
                 }}
               >
 
-          {/* ==================================
-    DID YOU KNOW
-================================== */}
+                {/* ==================================
+                    DID YOU KNOW
+                ================================== */}
 
-<div
-  style={{
-    display: isMobile
-      ? 'block'
-      : 'flex',
+                <div
+                  style={{
+                    display: isMobile
+                      ? 'block'
+                      : 'flex',
 
-    alignItems: 'flex-start',
+                    alignItems:
+                      'flex-start',
 
-    width: '100%',
+                    width: '100%',
 
-    minWidth: 0,
-  }}
->
+                    minWidth: 0,
+                  }}
+                >
 
-  {/* ==================================
-      ICON
-  ================================== */}
+                  {/* ==================================
+                      ICON
+                  ================================== */}
 
-  <div
-    aria-hidden="true"
+                  <div
+                    aria-hidden="true"
 
-    style={{
-      width: 64,
-      minWidth: 64,
+                    style={{
+                      width: 64,
+                      minWidth: 64,
 
-      height: 64,
+                      height: 64,
 
-      marginRight: isMobile
-        ? 12
-        : 12,
+                      marginRight: 12,
 
-      marginTop: -10,
+                      marginTop: -10,
 
-      padding: 0,
+                      padding: 0,
 
-      display: isMobile
-        ? 'inline-flex'
-        : 'flex',
+                      display: isMobile
+                        ? 'inline-flex'
+                        : 'flex',
 
-      alignItems:
-        'flex-start',
+                      alignItems:
+                        'flex-start',
 
-      justifyContent:
-        'flex-start',
+                      justifyContent:
+                        'flex-start',
 
-      flexShrink: 0,
+                      flexShrink: 0,
 
-      boxSizing:
-        'border-box',
+                      boxSizing:
+                        'border-box',
 
-      verticalAlign:
-        'top',
-    }}
-  >
+                      verticalAlign:
+                        'top',
+                    }}
+                  >
+                    <img
+                      src={didYouKnowIcon}
+                      alt=""
 
-    <img
-      src={didYouKnowIcon}
-      alt=""
+                      width={64}
+                      height={64}
 
-      width={64}
-      height={64}
+                      style={{
+                        width: 64,
+                        height: 64,
 
-      style={{
-        width: 64,
-        height: 64,
+                        display: 'block',
 
-        display: 'block',
+                        imageRendering:
+                          'pixelated',
+                      }}
+                    />
+                  </div>
 
-        imageRendering:
-          'pixelated',
-      }}
-    />
 
-  </div>
+                  {/* ==================================
+                      DESKTOP / TABLET TEXT
+                  ================================== */}
 
+                  {!isMobile && (
+                    <div
+                      style={{
+                        display: 'block',
 
-  {/* ==================================
-      TEXT AREA
-  ================================== */}
+                        width: 'auto',
 
-  <div
-    style={{
-      display: isMobile
-        ? 'inline-block'
-        : 'block',
+                        flex: '1 1 auto',
 
-      verticalAlign:
-        'top',
+                        minWidth: 0,
 
-      width: isMobile
-        ? 'calc(100% - 80px)'
-        : 'auto',
+                        paddingTop: 10,
 
-      flex: isMobile
-        ? 'none'
-        : '1 1 auto',
+                        boxSizing:
+                          'border-box',
 
-      minWidth: 0,
+                        textAlign: 'left',
+                      }}
+                    >
 
-      paddingTop: 10,
+                      {/* DID YOU KNOW */}
 
-      boxSizing:
-        'border-box',
+                      <strong
+                        className="ui-font"
+                        style={{
+                          display: 'block',
 
-      textAlign: 'left',
-    }}
-  >
+                          margin: 0,
+                          padding: 0,
 
-    {/* DID YOU KNOW */}
+                          fontWeight: 700,
 
-    <strong
-      style={{
-        display: 'block',
+                          color: '#000000',
+                        }}
+                      >
+                        Did you know...
+                      </strong>
 
-        margin: 0,
-        padding: 0,
 
-        fontFamily: FONT,
+                      {/* INTRODUCTION */}
 
-        fontSize: 12,
+                      <p
+                        className="reading-font"
+                        style={{
+                          margin:
+                            '20px 30px 0 0',
 
-        lineHeight:
-          '15px',
+                          padding: 0,
 
-        fontWeight: 'bold',
+                          maxWidth: 480,
 
-        color: '#000',
-      }}
-    >
-      Did you know...
-    </strong>
+                          textAlign: 'left',
 
+                          color: '#000000',
+                        }}
+                      >
+                        Perdana Kurniawan Arta
+                        is a Visual Designer
+                        and Design Lead
+                        currently exploring
+                        Product Design, UX,
+                        and Design Engineering.
+                      </p>
 
-    {/* ==================================
-        DESKTOP/TABLET TEXT
-    ================================== */}
 
-    {!isMobile && (
-      <>
-        <p
-          style={{
-            margin:
-              '25px 0 0',
+                      {/* EXPERIENCE */}
 
-            padding: 0,
+                      <p
+                        className="reading-font"
+                        style={{
+                          margin:
+                            '11px 30px 15px 0',
 
-            maxWidth: 480,
+                          padding: 0,
 
-            fontFamily: FONT,
+                          maxWidth: 480,
 
-            fontSize: 12,
+                          textAlign: 'left',
 
-            lineHeight:
-              '16px',
+                          color: '#000000',
+                        }}
+                      >
+                        With 10+ years of
+                        experience across
+                        visual design, visual
+                        systems, iconography,
+                        illustration, and design
+                        direction, he now
+                        explores how design,
+                        interaction, and code
+                        can come together to
+                        build functional digital
+                        experiences.
+                      </p>
 
-            color: '#000',
+                    </div>
+                  )}
 
-            textAlign: 'left',
-          }}
-        >
-          Perdana Kurniawan Arta
-          is a Visual Designer
-          and Design Lead
-          currently exploring
-          Product Design, UX,
-          and Design Engineering.
-        </p>
 
+                  {/* ==================================
+                      MOBILE TEXT
+                  ================================== */}
 
-        <p
-          style={{
-            margin:
-              '11px 0 0',
+                  {isMobile && (
+                    <div
+                      style={{
+                        width: '100%',
 
-            padding: 0,
+                        marginTop: 12,
 
-            maxWidth: 480,
+                        boxSizing:
+                          'border-box',
 
-            fontFamily: FONT,
+                        textAlign: 'left',
+                      }}
+                    >
 
-            fontSize: 12,
+                      <p
+                        className="reading-font"
+                        style={{
+                          margin: 0,
 
-            lineHeight:
-              '16px',
+                          padding: 0,
 
-            color: '#000',
+                          width: '100%',
 
-            textAlign: 'left',
-          }}
-        >
-          With 10+ years of
-          experience across
-          visual design, visual
-          systems, iconography,
-          illustration, and design
-          direction, he now
-          explores how design,
-          interaction, and code
-          can come together to
-          build functional digital
-          experiences.
-        </p>
-      </>
-    )}
+                          maxWidth: 480,
 
-  </div>
+                          textAlign: 'left',
 
+                          color: '#000000',
+                        }}
+                      >
+                        Perdana Kurniawan Arta
+                        is a Visual Designer
+                        and Design Lead
+                        currently exploring
+                        Product Design, UX,
+                        and Design Engineering.
+                      </p>
 
-  {/* ==================================
-      MOBILE TEXT
-  ================================== */}
 
-  {isMobile && (
-    <div
-      style={{
-        width: '100%',
+                      <p
+                        className="reading-font"
+                        style={{
+                          margin:
+                            '11px 0 0',
 
-        marginTop: 12,
+                          padding: 0,
 
-        boxSizing: 'border-box',
+                          width: '100%',
 
-        textAlign: 'left',
-      }}
-    >
+                          maxWidth: 480,
 
-      <p
-        style={{
-          margin: 0,
+                          textAlign: 'left',
 
-          padding: 0,
+                          color: '#000000',
+                        }}
+                      >
+                        With 10+ years of
+                        experience across
+                        visual design, visual
+                        systems, iconography,
+                        illustration, and design
+                        direction, he now
+                        explores how design,
+                        interaction, and code
+                        can come together to
+                        build functional digital
+                        experiences.
+                      </p>
 
-          width: '100%',
+                    </div>
+                  )}
 
-          maxWidth: 480,
+                </div>
 
-          fontFamily: FONT,
 
-          fontSize: 12,
+                {/* ==================================
+                    WINDOWS 95 PC IMAGE
+                ================================== */}
 
-          lineHeight:
-            '16px',
+                {isMobile && (
+                  <div
+                    aria-hidden="true"
 
-          color: '#000',
+                    style={{
+                      flex: '1 1 auto',
 
-          textAlign: 'left',
-        }}
-      >
-        Perdana Kurniawan Arta
-        is a Visual Designer
-        and Design Lead
-        currently exploring
-        Product Design, UX,
-        and Design Engineering.
-      </p>
+                      minWidth: 0,
+                      minHeight: 0,
 
+                      width: '100%',
 
-      <p
-        style={{
-          margin:
-            '11px 0 0',
+                      display: 'flex',
 
-          padding: 0,
+                      alignItems:
+                        'flex-end',
 
-          width: '100%',
+                      justifyContent:
+                        'center',
 
-          maxWidth: 480,
+                      padding:
+                        '8px 0 0',
 
-          fontFamily: FONT,
+                      boxSizing:
+                        'border-box',
 
-          fontSize: 12,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <img
+                      src={win95Pc}
+                      alt=""
 
-          lineHeight:
-            '16px',
+                      style={{
+                        display: 'block',
 
-          color: '#000',
+                        width: 'auto',
+                        height: 'auto',
 
-          textAlign: 'left',
-        }}
-      >
-        With 10+ years of
-        experience across
-        visual design, visual
-        systems, iconography,
-        illustration, and design
-        direction, he now
-        explores how design,
-        interaction, and code
-        can come together to
-        build functional digital
-        experiences.
-      </p>
+                        maxWidth: '75%',
+                        maxHeight: '75%',
 
-    </div>
-  )}
+                        objectFit:
+                          'contain',
 
-</div>
+                        imageRendering:
+                          'pixelated',
 
-{/* ==================================
-    OPTIONAL WINDOWS 95 PC IMAGE
-================================== */}
+                        flexShrink: 1,
 
-{isMobile && (
-  <div
-    aria-hidden="true"
-    style={{
-      flex: '1 1 auto',
-
-      minWidth: 0,
-      minHeight: 0,
-
-      width: '100%',
-
-      display: 'flex',
-
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-
-      padding:
-        '8px 0 0',
-
-      boxSizing: 'border-box',
-
-      overflow: 'hidden',
-    }}
-  >
-    <img
-      src={win95Pc}
-      alt=""
-
-      style={{
-        display: 'block',
-
-        width: 'auto',
-        height: 'auto',
-
-        maxWidth: '75%',
-        maxHeight: '75%',
-
-        objectFit: 'contain',
-
-        imageRendering: 'pixelated',
-
-        flexShrink: 1,
-
-        transform:
-          'translateY(-20%)',
-      }}
-    />
-  </div>
-)}
-
+                        transform:
+                          'translateY(-20%)',
+                      }}
+                    />
+                  </div>
+                )}
 
               </section>
 
@@ -966,32 +903,33 @@ export default function WelcomeModal({
                   RIGHT BUTTONS
               ================================== */}
 
-<aside
-  aria-label="Welcome actions"
+              <aside
+                aria-label="Welcome actions"
 
-  style={{
-    width: isMobile
-      ? '100%'
-      : 140,
+                className="ui-font"
 
-    minWidth: isMobile
-      ? 0
-      : 140,
+                style={{
+                  width: isMobile
+                    ? '100%'
+                    : 140,
 
-    flexShrink: 0,
+                  minWidth: isMobile
+                    ? 0
+                    : 140,
 
-    gap: 8,
+                  flexShrink: 0,
 
-    display: 'flex',
+                  gap: 8,
 
-    flexDirection:
-      'column',
+                  display: 'flex',
 
-    boxSizing:
-      'border-box',
-  }}
->
+                  flexDirection:
+                    'column',
 
+                  boxSizing:
+                    'border-box',
+                }}
+              >
 
                 <Button
                   onClick={
@@ -1103,6 +1041,7 @@ export default function WelcomeModal({
             ================================== */}
 
             <div
+              className="ui-font"
               style={{
                 flexShrink: 0,
 

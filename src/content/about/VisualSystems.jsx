@@ -5,6 +5,7 @@ import {
 } from '@react95/icons';
 
 export default function VisualSystems() {
+
   const sectionStyle = {
     display: 'grid',
     gridTemplateColumns: '24px 1fr',
@@ -18,19 +19,8 @@ export default function VisualSystems() {
     marginTop: '1px',
   };
 
-  const headingStyle = {
-    margin: '0 0 8px',
-    fontSize: '14px',
-    lineHeight: '18px',
-    fontWeight: 700,
-  };
-
   const paragraphStyle = {
     margin: '0 0 12px',
-  };
-
-  const strongStyle = {
-    fontWeight: 700,
   };
 
   const linkStyle = {
@@ -43,10 +33,9 @@ export default function VisualSystems() {
       aria-label="Visual Systems"
       style={{
         display: 'block',
-        fontFamily: '"MS Sans Serif", sans-serif',
-        fontSize: '12px',
-        lineHeight: '18px',
-        fontWeight: 400,
+        width: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box',
         color: '#000000',
       }}
     >
@@ -56,6 +45,7 @@ export default function VisualSystems() {
       ================================== */}
 
       <p
+        className="reading-font"
         style={{
           margin: '0 0 18px',
         }}
@@ -75,6 +65,7 @@ export default function VisualSystems() {
         aria-labelledby="iconography-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -82,17 +73,32 @@ export default function VisualSystems() {
           <Wangimg128 variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="iconography-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 8px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Iconography
           </h3>
 
-          <p style={paragraphStyle}>
+
+          <p
+            className="reading-font"
+            style={paragraphStyle}
+          >
             Perdana has designed and developed{' '}
-            <strong style={strongStyle}>
+            <strong className="reading-heading">
               thousands of icons
             </strong>{' '}
             for digital products, websites, applications, and visual
@@ -100,7 +106,11 @@ export default function VisualSystems() {
             consistency, grid systems, visual weight, and scalability.
           </p>
 
-          <p style={paragraphStyle}>
+
+          <p
+            className="reading-font"
+            style={paragraphStyle}
+          >
             <a
               href="https://holo.health"
               target="_blank"
@@ -111,7 +121,13 @@ export default function VisualSystems() {
             </a>
           </p>
 
-          <p style={{ margin: 0 }}>
+
+          <p
+            className="reading-font"
+            style={{
+              margin: 0,
+            }}
+          >
             <a
               href="https://www.shipfasterui.com/components/icons"
               target="_blank"
@@ -121,7 +137,9 @@ export default function VisualSystems() {
               View Shipfaster UI →
             </a>
           </p>
+
         </div>
+
       </section>
 
 
@@ -133,6 +151,7 @@ export default function VisualSystems() {
         aria-labelledby="illustration-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -140,24 +159,43 @@ export default function VisualSystems() {
           <Notepad2 variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="illustration-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 8px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Illustration
           </h3>
 
-          <p style={{ margin: 0 }}>
+
+          <p
+            className="reading-font"
+            style={{
+              margin: 0,
+            }}
+          >
             His illustration work explores how{' '}
-            <strong style={strongStyle}>
+            <strong className="reading-heading">
               visual language
             </strong>{' '}
             can communicate information, personality, and product
             context while remaining systematic enough to work across
             different formats and applications.
           </p>
+
         </div>
+
       </section>
 
 
@@ -172,6 +210,7 @@ export default function VisualSystems() {
           margin: 0,
         }}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -179,33 +218,56 @@ export default function VisualSystems() {
           <Folder variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="design-systems-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 8px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Design Systems
           </h3>
 
-          <p style={paragraphStyle}>
+
+          <p
+            className="reading-font"
+            style={paragraphStyle}
+          >
             Working with large collections of visual assets has led
             Perdana to think beyond individual graphics and toward{' '}
-            <strong style={strongStyle}>
+            <strong className="reading-heading">
               reusable systems, components, rules, and guidelines
             </strong>.
           </p>
 
-          <p style={{ margin: 0 }}>
+
+          <p
+            className="reading-font"
+            style={{
+              margin: 0,
+            }}
+          >
             This systems-oriented approach now informs his transition
             into{' '}
-            <strong style={strongStyle}>
+            <strong className="reading-heading">
               product design
             </strong>
             , where visual consistency becomes part of a broader
             system involving UX, interaction, components, and
             implementation.
           </p>
+
         </div>
+
       </section>
 
     </section>

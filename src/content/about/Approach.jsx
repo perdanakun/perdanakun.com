@@ -7,6 +7,7 @@ import {
 } from '@react95/icons';
 
 export default function Approach() {
+
   const sectionStyle = {
     display: 'grid',
     gridTemplateColumns: '24px 1fr',
@@ -20,17 +21,6 @@ export default function Approach() {
     marginTop: '2px',
   };
 
-  const headingStyle = {
-    margin: '0 0 10px',
-    fontSize: '14px',
-    lineHeight: '18px',
-    fontWeight: 700,
-  };
-
-  const paragraphStyle = {
-    margin: '0 0 16px',
-  };
-
   const linkStyle = {
     color: '#000080',
     textDecoration: 'underline',
@@ -41,17 +31,19 @@ export default function Approach() {
       aria-label="Design Approach"
       style={{
         display: 'block',
-        fontFamily: '"Open Sans", sans-serif',
-        fontSize: '12px',
-        lineHeight: '18px',
+        width: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box',
         color: '#000000',
       }}
     >
+
       {/* ==================================
           INTRODUCTION
       ================================== */}
 
       <p
+        className="reading-font"
         style={{
           margin: '0 0 20px',
         }}
@@ -70,6 +62,7 @@ export default function Approach() {
         aria-labelledby="understand-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -77,15 +70,28 @@ export default function Approach() {
           <Folder variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="understand-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 10px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Understand the Problem
           </h3>
 
+
           <p
+            className="reading-font"
             style={{
               margin: 0,
             }}
@@ -94,7 +100,9 @@ export default function Approach() {
             requirements, constraints, users, and the reason a design
             problem exists in the first place.
           </p>
+
         </div>
+
       </section>
 
 
@@ -106,6 +114,7 @@ export default function Approach() {
         aria-labelledby="people-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -113,15 +122,28 @@ export default function Approach() {
           <User variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="people-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 10px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Design for People
           </h3>
 
+
           <p
+            className="reading-font"
             style={{
               margin: 0,
             }}
@@ -130,7 +152,9 @@ export default function Approach() {
             complexity. Visual decisions should help people understand
             what something is, what they can do, and what happens next.
           </p>
+
         </div>
+
       </section>
 
 
@@ -142,6 +166,7 @@ export default function Approach() {
         aria-labelledby="reality-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -149,15 +174,28 @@ export default function Approach() {
           <Computer variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="reality-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 10px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Build for Reality
           </h3>
 
+
           <p
+            className="reading-font"
             style={{
               margin: 0,
             }}
@@ -167,7 +205,9 @@ export default function Approach() {
             performance, and real-world production are part of the
             design problem.
           </p>
+
         </div>
+
       </section>
 
 
@@ -179,6 +219,7 @@ export default function Approach() {
         aria-labelledby="systems-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -186,15 +227,28 @@ export default function Approach() {
           <Wangimg128 variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="systems-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 10px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Systems Over One-Offs
           </h3>
 
+
           <p
+            className="reading-font"
             style={{
               margin: 0,
             }}
@@ -203,7 +257,9 @@ export default function Approach() {
             that can be reused, maintained, and scaled instead of
             repeatedly solving the same problem from scratch.
           </p>
+
         </div>
+
       </section>
 
 
@@ -218,6 +274,7 @@ export default function Approach() {
           margin: 0,
         }}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -225,23 +282,40 @@ export default function Approach() {
           <WindowsExplorer variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="ship-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 10px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Design, Build, and Ship
           </h3>
 
+
           <p
-            style={paragraphStyle}
+            className="reading-font"
+            style={{
+              margin: '0 0 16px',
+            }}
           >
             The current direction of his practice is to move closer to
             implementation: design the idea, build it, test it, learn
             from the result, and ship the experience.
           </p>
 
+
           <p
+            className="reading-font"
             style={{
               margin: 0,
             }}
@@ -255,8 +329,11 @@ export default function Approach() {
               See this approach in practice →
             </a>
           </p>
+
         </div>
+
       </section>
+
     </section>
   );
 }

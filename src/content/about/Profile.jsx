@@ -1,10 +1,7 @@
 export default function Profile() {
+
   const paragraphStyle = {
     margin: '0 0 16px',
-  };
-
-  const boldStyle = {
-    fontWeight: 700,
   };
 
   const linkStyle = {
@@ -17,18 +14,21 @@ export default function Profile() {
       aria-label="Profile"
       style={{
         display: 'block',
-        fontFamily: '"MS Sans Serif", sans-serif',
-        fontSize: 12,
-        lineHeight: '18px',
-        fontWeight: 400,
+        width: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box',
         color: '#000000',
       }}
     >
+
       {/* ==================================
           INTRODUCTION
       ================================== */}
 
-      <p style={paragraphStyle}>
+      <p
+        className="reading-font"
+        style={paragraphStyle}
+      >
         Perdana Kurniawan Arta is a visual designer from Indonesia
         specializing in visual systems, iconography, illustration,
         and visual communication.
@@ -39,13 +39,16 @@ export default function Profile() {
           EXPERIENCE
       ================================== */}
 
-      <p style={paragraphStyle}>
+      <p
+        className="reading-font"
+        style={paragraphStyle}
+      >
         With{' '}
-        <strong style={boldStyle}>
+        <strong className="reading-heading">
           10+ years of experience
         </strong>
         , he has worked across more than{' '}
-        <strong style={boldStyle}>
+        <strong className="reading-heading">
           3,000 design projects
         </strong>{' '}
         for founders, startups, and businesses worldwide,
@@ -58,7 +61,10 @@ export default function Profile() {
           PROFESSIONAL PRACTICE
       ================================== */}
 
-      <p style={paragraphStyle}>
+      <p
+        className="reading-font"
+        style={paragraphStyle}
+      >
         His professional design practice has included work through{' '}
         <a
           href="https://www.fiverr.com/conania"
@@ -77,9 +83,12 @@ export default function Profile() {
           CURRENT DIRECTION
       ================================== */}
 
-      <p style={paragraphStyle}>
+      <p
+        className="reading-font"
+        style={paragraphStyle}
+      >
         Today, his practice is expanding into{' '}
-        <strong style={boldStyle}>
+        <strong className="reading-heading">
           Product Design and Design Engineering
         </strong>
         , with a focus on UX, interaction design, design systems,
@@ -91,7 +100,10 @@ export default function Profile() {
           DESIGN + DEVELOPMENT
       ================================== */}
 
-      <p style={paragraphStyle}>
+      <p
+        className="reading-font"
+        style={paragraphStyle}
+      >
         He is exploring how design and development can work as one
         process, using code to prototype, test, and refine digital
         experiences rather than treating implementation as a separate
@@ -103,12 +115,16 @@ export default function Profile() {
           CURRENT PRINCIPLE
       ================================== */}
 
-      <p style={{ margin: 0 }}>
+      <p
+        className="reading-font"
+        style={{ margin: 0 }}
+      >
         His current direction can be summarized as:{' '}
-        <strong style={boldStyle}>
+        <strong className="reading-heading">
           Design, Build, and Ship.
         </strong>
       </p>
+
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import win95installimg from './win95_install_illustration.png';
+import { Install } from '@react95/icons';
 
 
 
@@ -10,23 +11,20 @@ import win95installimg from './win95_install_illustration.png';
 
 function Win95Checkbox({ checked, onChange, children }) {
   return (
-    <label
-      style={{
-        display: 'flex',
-        alignItems: 'center',
+<label
+  className="ui-font"
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
 
-        gap: 6,
+    cursor: 'pointer',
+    userSelect: 'none',
 
-        cursor: 'pointer',
-        userSelect: 'none',
+    color: '#000000',
+  }}
+>
 
-        fontFamily: '"MS Sans Serif", sans-serif',
-        fontSize: 12,
-        lineHeight: '18px',
-
-        color: '#000000',
-      }}
-    >
 
       <input
         type="checkbox"
@@ -119,29 +117,27 @@ export default function InstallerWelcome() {
   const [accepted, setAccepted] = useState(false);
 
   return (
-    <article
-      aria-labelledby="perdana-pc-license-title"
+  <article
+  aria-labelledby="perdana-pc-license-title"
+  className="ui-font"
+  style={{
+    width: '100%',
+    height: '100%',
 
-      style={{
-        width: '100%',
-        height: '100%',
+    minWidth: 0,
+    minHeight: 0,
 
-        minWidth: 0,
-        minHeight: 0,
+    boxSizing: 'border-box',
 
-        boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
 
-        display: 'flex',
-        flexDirection: 'column',
+    background: '#c0c0c0',
 
-        background: '#c0c0c0',
+    color: '#000000',
+  }}
+>
 
-        fontFamily:
-          '"MS Sans Serif", sans-serif',
-
-        color: '#000000',
-      }}
-    >
 
 
       {/* =====================================================
@@ -150,77 +146,77 @@ export default function InstallerWelcome() {
           This section sits OUTSIDE the white frame.
       ===================================================== */}
 
-      <header
+<header
+  style={{
+    flex: '0 0 auto',
+    minWidth: 0,
+    padding: '10px 12px 8px',
+    boxSizing: 'border-box',
+    background: '#c0c0c0',
+    color: '#000000',
+  }}
+>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+    }}
+  >
+    <Install
+      style={{
+        width: 32,
+        height: 32,
+        flexShrink: 0,
+      }}
+    />
+
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
+    >
+      <h1
+        id="perdana-pc-license-title"
+        className="ui-font"
         style={{
-          flex: '0 0 auto',
+          margin: 0,
+          padding: 0,
 
-          minWidth: 0,
+          fontSize: 16,
+          lineHeight: '20px',
+          fontWeight: 'bold',
 
-          padding: '10px 12px 8px',
+          letterSpacing: '-0.5px',
 
-          boxSizing: 'border-box',
-
-          background: '#c0c0c0',
-
-          fontFamily:
-            '"MS Sans Serif", sans-serif',
-
+          textAlign: 'left',
           color: '#000000',
         }}
       >
+        Welcome to Perdana's Computer
+      </h1>
 
-        <h1
-          id="perdana-pc-license-title"
+      <p
+        className="ui-font"
+        style={{
+          margin: '4px 0 0',
+          padding: 0,
 
-          style={{
-            margin: 0,
+          fontSize: 13,
+          lineHeight: '18px',
+          fontWeight: 'normal',
 
-            padding: 0,
-
-            fontFamily:
-              '"MS Sans Serif", sans-serif',
-
-            fontSize: 16,
-
-            lineHeight: '20px',
-
-            fontWeight: 'bold',
-
-            letterSpacing: '-0.3px',
-
-            textAlign: 'left',
-
-            color: '#000000',
-          }}
-        >
-          Welcome to Perdana's Computer
-        </h1>
-
-
-        <p
-          style={{
-            margin: '4px 0 0',
-
-            padding: 0,
-
-            fontFamily:
-              '"MS Sans Serif", sans-serif',
-
-            fontSize: 13,
-
-            lineHeight: '18px',
-
-            fontWeight: 'normal',
-
-            textAlign: 'left',
-
-            color: '#000000',
-          }}
-        >
-Before exploring the work, start with the person behind it.
-        </p>
-
-      </header>
+          textAlign: 'left',
+          color: '#000000',
+        }}
+      >
+        Before exploring the work, start with the person behind it.
+      </p>
+    </div>
+  </div>
+</header>
 
 
       {/* =====================================================
@@ -266,39 +262,32 @@ Before exploring the work, start with the person behind it.
             SCROLLABLE CONTENT
         ================================================= */}
 
-        <main
-          aria-labelledby="license-content-title"
+  <main
+  aria-labelledby="license-content-title"
+  className="reading-font"
+  style={{
+    flex: '1 1 auto',
 
-          style={{
-            flex: '1 1 auto',
+    minWidth: 0,
+    minHeight: 0,
 
-            minWidth: 0,
-            minHeight: 0,
+    background: '#ffffff',
 
-            background: '#ffffff',
+    padding: 12,
 
-            padding: 12,
+    boxSizing: 'border-box',
 
-            boxSizing: 'border-box',
+    overflowY: 'auto',
+    overflowX: 'hidden',
 
-            overflowY: 'auto',
+    color: '#000000',
 
-            overflowX: 'hidden',
+    textAlign: 'left',
 
-            fontFamily:
-              '"MS Sans Serif", sans-serif',
+    touchAction: 'pan-y',
+  }}
+>
 
-            fontSize: 14,
-
-            lineHeight: '20px',
-
-            color: '#000000',
-
-            textAlign: 'left',
-
-            touchAction: 'pan-y',
-          }}
-        >
 
 
           {/* ===============================================
@@ -318,32 +307,24 @@ Before exploring the work, start with the person behind it.
             }}
           >
 
-            <h1
-              id="license-content-title"
+        <h1
+  id="license-content-title"
+  className="reading-heading"
+  style={{
+    margin: '3px 0 0',
+    padding: 0,
 
-              style={{
-                margin: '3px 0 0',
+    fontSize: 16,
+    lineHeight: '20px',
 
-                padding: 0,
+    letterSpacing: '-0.3px',
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
+    textAlign: 'left',
+  }}
+>
+  Perdana Kurniawan Arta
+</h1>
 
-                fontSize: 16,
-
-                lineHeight: '20px',
-
-                fontWeight: 'bold',
-
-                letterSpacing: '-0.3px',
-
-                textAlign: 'left',
-
-                color: '#000000',
-              }}
-            >
-              Perdana Kurniawan Arta
-            </h1>
 
           </header>
 
@@ -368,43 +349,30 @@ Before exploring the work, start with the person behind it.
             {/* =============================================
                 AGREEMENT INTRO
             ============================================= */}
+<h2
+  className="reading-heading"
+  style={{
+    margin: '0 0 20px',
 
-            <h2
-              style={{
-                margin: '0 0 20px',
+    fontSize: 14,
+    lineHeight: '20px',
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                color: '#000000',
-
-                textAlign: 'left',
-              }}
-            >
-          Visual Designer exploring Product Design, UX, and Design Engineering
-           </h2>
+    textAlign: 'left',
+  }}
+>
+  Visual Designer exploring Product Design, UX, and Design Engineering
+</h2>
 
 
-            <p
-              style={{
-                margin: '0 0 14px',
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
+<p
+  className="reading-font"
+  style={{
+    margin: '0 0 14px',
+    textAlign: 'left',
+  }}
+>
 
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                color: '#000000',
-
-                textAlign: 'left',
-              }}
-            >
 Perdana is a Visual Designer and Design Lead 
 with 10+ years of experience in visual systems, 
 iconography, illustration, and graphic design.
@@ -417,49 +385,31 @@ to design and build digital experiences.      </p>
             {/* =============================================
                 SECTION 1
             ============================================= */}
+<h3
+  className="reading-heading"
+  style={{
+    margin: '0 0 8px',
+    padding: 0,
 
-            <h3
-              id="agreement-title"
+    fontSize: 14,
+    lineHeight: '20px',
 
-              style={{
-                margin: '0 0 8px',
-
-                padding: 0,
-
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'bold',
-
-                color: '#000000',
-              }}
-            >
-              01. The Foundation
-            </h3>
+    color: '#000000',
+  }}
+>
+  01. The Foundation
+</h3>
 
 
-            <p
-              style={{
-                margin: '0 0 14px',
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
+<p
+  className="reading-font"
+  style={{
+    margin: '0 0 14px',
+    textAlign: 'left',
+  }}
+>
 
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'normal',
-
-                color: '#000000',
-
-                textAlign: 'left',
-              }}
-            >
 A decade of making things visual — 
 building an eye for systems, detail, composition, and visual language.
             </p>
@@ -469,46 +419,30 @@ building an eye for systems, detail, composition, and visual language.
                 SECTION 2
             ============================================= */}
 
-            <h3
-              style={{
-                margin: '0 0 8px',
+<h3
+  className="reading-heading"
+  style={{
+    margin: '0 0 8px',
+    padding: 0,
 
-                padding: 0,
+    fontSize: 14,
+    lineHeight: '20px',
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'bold',
-
-                color: '#000000',
-              }}
-            >
+    color: '#000000',
+  }}
+>
               02. The Exploration
             </h3>
 
 
-            <p
-              style={{
-                margin: '0 0 14px',
+<p
+  className="reading-font"
+  style={{
+    margin: '0 0 14px',
+    textAlign: 'left',
+  }}
+>
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'normal',
-
-                color: '#000000',
-
-                textAlign: 'left',
-              }}
-            >
 Exploring what happens when that visual foundation meets products, people, 
 interaction, and the way digital experiences are used.
             </p>
@@ -519,46 +453,30 @@ interaction, and the way digital experiences are used.
                 SECTION 3
             ============================================= */}
 
-            <h3
-              style={{
-                margin: '0 0 8px',
+<h3
+  className="reading-heading"
+  style={{
+    margin: '0 0 8px',
+    padding: 0,
 
-                padding: 0,
+    fontSize: 14,
+    lineHeight: '20px',
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'bold',
-
-                color: '#000000',
-              }}
-            >
+    color: '#000000',
+  }}
+>
               03. The Build
             </h3>
 
 
-            <p
-              style={{
-                margin: '0 0 14px',
+<p
+  className="reading-font"
+  style={{
+    margin: '0 0 14px',
+    textAlign: 'left',
+  }}
+>
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'normal',
-
-                color: '#000000',
-
-                textAlign: 'left',
-              }}
-            >
 Going beyond the canvas to turn ideas into interfaces — 
 learning through code, experimentation, and design in code.
             </p>
@@ -568,46 +486,30 @@ learning through code, experimentation, and design in code.
                 SECTION 4
             ============================================= */}
 
-            <h3
-              style={{
-                margin: '0 0 8px',
+<h3
+  className="reading-heading"
+  style={{
+    margin: '0 0 8px',
+    padding: 0,
 
-                padding: 0,
+    fontSize: 14,
+    lineHeight: '20px',
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'bold',
-
-                color: '#000000',
-              }}
-            >
+    color: '#000000',
+  }}
+>
               04. The Next Chapter
             </h3>
 
 
-            <p
-              style={{
-                margin: '0 0 14px',
+<p
+  className="reading-font"
+  style={{
+    margin: '0 0 14px',
+    textAlign: 'left',
+  }}
+>
 
-                fontFamily:
-                  '"MS Sans Serif", sans-serif',
-
-                fontSize: 14,
-
-                lineHeight: '20px',
-
-                fontWeight: 'normal',
-
-                color: '#000000',
-
-                textAlign: 'left',
-              }}
-            >
 Moving toward Product Design and Design Engineering, where visual craft, product thinking,
  and implementation can become part of the same process.
             </p>
@@ -634,25 +536,18 @@ Moving toward Product Design and Design Engineering, where visual craft, product
               }}
             >
 
-              <p
-                style={{
-                  margin: 0,
-
-                  fontFamily:
-                    '"MS Sans Serif", sans-serif',
-
-                  fontSize: 13,
-
-                  lineHeight: '20px',
-
-                  fontWeight: 'normal',
-
-                  color: '#000000',
-
-                  textAlign: 'left',
-                }}
-              >
-By continuing, you acknowledge that you have read, understood, and probably skimmed through this introduction.       </p>
+<p
+  className="reading-font"
+  style={{
+    margin: 0,
+    fontSize: 13,
+    lineHeight: '20px',
+    textAlign: 'left',
+  }}
+>
+  By continuing, you acknowledge that you have read, understood,
+  and probably skimmed through this introduction.
+</p>
 
             </section>
 
@@ -671,30 +566,25 @@ By continuing, you acknowledge that you have read, understood, and probably skim
           This section sits OUTSIDE the white frame.
       ===================================================== */}
 
-      <footer
-        style={{
-          flex: '0 0 auto',
+<footer
+  className="ui-font"
+  style={{
+    flex: '0 0 auto',
 
-          minWidth: 0,
+    minWidth: 0,
 
-          padding: '8px 12px 10px',
+    padding: '8px 12px 10px',
 
-          boxSizing: 'border-box',
+    boxSizing: 'border-box',
 
-          background: '#c0c0c0',
+    background: '#c0c0c0',
 
-          fontFamily:
-            '"MS Sans Serif", sans-serif',
+    color: '#000000',
 
-          fontSize: 12,
+    textAlign: 'left',
+  }}
+>
 
-          lineHeight: '18px',
-
-          color: '#000000',
-
-          textAlign: 'left',
-        }}
-      >
 
 <Win95Checkbox
   checked={accepted}
@@ -702,8 +592,8 @@ By continuing, you acknowledge that you have read, understood, and probably skim
     setAccepted(event.target.checked);
   }}
 >
-  I probably skimmed through this little introduction
-  and would like to continue anyway.
+After skimming through this little introduction, 
+I’d like to continue anyway.
 </Win95Checkbox>
 
       </footer>

@@ -5,6 +5,7 @@ import {
 } from '@react95/icons';
 
 export default function ProductDesign() {
+
   const sectionStyle = {
     display: 'grid',
     gridTemplateColumns: '24px 1fr',
@@ -18,19 +19,8 @@ export default function ProductDesign() {
     marginTop: '1px',
   };
 
-  const headingStyle = {
-    margin: '0 0 8px',
-    fontSize: '14px',
-    lineHeight: '18px',
-    fontWeight: 700,
-  };
-
   const paragraphStyle = {
     margin: '0 0 16px',
-  };
-
-  const strongStyle = {
-    fontWeight: 700,
   };
 
   const linkStyle = {
@@ -43,27 +33,33 @@ export default function ProductDesign() {
       aria-label="Product Design"
       style={{
         display: 'block',
-        fontFamily: '"MS Sans Serif", sans-serif',
-        fontSize: 12,
-        lineHeight: '18px',
-        fontWeight: 400,
+        width: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box',
         color: '#000000',
       }}
     >
+
       {/* ==================================
           INTRODUCTION
       ================================== */}
 
-      <p style={paragraphStyle}>
+      <p
+        className="reading-font"
+        style={paragraphStyle}
+      >
         Product design is the direction Perdana is currently exploring
         as he extends his background in visual design into user
         experience, interaction, and digital product development.
       </p>
 
 
-      <p style={paragraphStyle}>
+      <p
+        className="reading-font"
+        style={paragraphStyle}
+      >
         His transition is built on an existing foundation in{' '}
-        <strong style={strongStyle}>
+        <strong className="reading-heading">
           visual systems
         </strong>
         , but moves the focus from individual visual assets toward
@@ -79,6 +75,7 @@ export default function ProductDesign() {
         aria-labelledby="visuals-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -86,20 +83,39 @@ export default function ProductDesign() {
           <Globe variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="visuals-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 8px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             From Visuals to Experiences
           </h3>
 
-          <p style={{ margin: 0 }}>
+
+          <p
+            className="reading-font"
+            style={{
+              margin: 0,
+            }}
+          >
             Instead of focusing only on how an interface looks, Perdana
             is exploring how users understand, navigate, interact with,
             and complete tasks within a product.
           </p>
+
         </div>
+
       </section>
 
 
@@ -111,6 +127,7 @@ export default function ProductDesign() {
         aria-labelledby="ux-heading"
         style={sectionStyle}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -118,21 +135,42 @@ export default function ProductDesign() {
           <WindowsExplorer variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="ux-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 8px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             UX &amp; Interaction
           </h3>
 
-          <p style={paragraphStyle}>
+
+          <p
+            className="reading-font"
+            style={paragraphStyle}
+          >
             His current learning and practice include user experience,
             information architecture, interaction design, prototyping,
             usability, and interface systems.
           </p>
 
-          <p style={{ margin: 0 }}>
+
+          <p
+            className="reading-font"
+            style={{
+              margin: 0,
+            }}
+          >
             <a
               href="https://www.perdanakun.com/"
               target="_blank"
@@ -142,7 +180,9 @@ export default function ProductDesign() {
               Explore the current product experiment →
             </a>
           </p>
+
         </div>
+
       </section>
 
 
@@ -157,6 +197,7 @@ export default function ProductDesign() {
           margin: 0,
         }}
       >
+
         <div
           aria-hidden="true"
           style={iconStyle}
@@ -164,30 +205,54 @@ export default function ProductDesign() {
           <Folder variant="16x16_4" />
         </div>
 
-        <div>
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
+
           <h3
             id="product-thinking-heading"
-            style={headingStyle}
+            className="reading-heading"
+            style={{
+              margin: '0 0 8px',
+              fontSize: '14px',
+              lineHeight: '18px',
+            }}
           >
             Product Thinking
           </h3>
 
-          <p style={paragraphStyle}>
+
+          <p
+            className="reading-font"
+            style={paragraphStyle}
+          >
             The goal is to connect user needs, business requirements,
             visual communication, and{' '}
-            <strong style={strongStyle}>
+            <strong className="reading-heading">
               technical constraints
             </strong>{' '}
             rather than treating them as isolated design problems.
           </p>
 
-          <p style={{ margin: 0 }}>
+
+          <p
+            className="reading-font"
+            style={{
+              margin: 0,
+            }}
+          >
             This is an ongoing transition from designing individual
             deliverables toward designing systems and experiences that
             can be built, tested, measured, and improved.
           </p>
+
         </div>
+
       </section>
+
     </section>
   );
 }

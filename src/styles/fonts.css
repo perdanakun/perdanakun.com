@@ -1,0 +1,106 @@
+/* ======================================
+   FONT FACES
+====================================== */
+
+@font-face {
+  font-family: "Open Sans";
+
+  src: url("../assets/fonts/OpenSans-Regular.woff2")
+    format("woff2");
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-display: swap;
+}
+
+
+/* ======================================
+   FONT TOKENS
+====================================== */
+:root {
+  /* ------------------------------
+     UI
+  ------------------------------ */
+
+  --font-ui:
+    "MS Sans Serif",
+    "Microsoft Sans Serif",
+    sans-serif;
+
+  --font-ui-size: 12px;
+  --font-ui-line-height: 18px;
+
+
+  /* ------------------------------
+     READING
+  ------------------------------ */
+
+  --font-reading:
+    "Open Sans",
+    Arial,
+    sans-serif;
+
+  --font-reading-size: 14px;
+  --font-reading-line-height: 22px;
+
+
+  /* ------------------------------
+     MONOSPACE
+  ------------------------------ */
+
+  --font-mono:
+    "Courier New",
+    monospace;
+}
+
+
+/* ======================================
+   UI FONT
+====================================== */
+
+.ui-font {
+  font-family: var(--font-ui);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--font-ui-size);
+  line-height: var(--font-ui-line-height);
+  color: #000000;
+}
+
+
+/* ======================================
+   READING FONT
+====================================== */
+
+.reading-font {
+  font-family: var(--font-reading);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--font-reading-size);
+  line-height: var(--font-reading-line-height);
+  color: #0a0a0a;
+}
+
+
+/* ======================================
+   READING HEADING
+====================================== */
+
+.reading-heading {
+  font-family: var(--font-reading);
+  font-style: normal;
+  font-weight: 700;
+  color: #000000;
+}
+
+
+/* ======================================
+   MONOSPACE
+====================================== */
+
+.mono-font {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 400;
+}

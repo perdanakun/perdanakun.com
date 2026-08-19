@@ -1,18 +1,14 @@
 import React from 'react';
 
 import {
-  Computer,
   Bookmark,
   Shell32135,
-  Globe,
-  Bulb,
-  Brush,
-  TimerFont,
-  Mshtml32528,
   Drvspace7,
+  Brush,
 } from '@react95/icons';
 
-import win95installimg from './win95_install_illustration.png';
+import win95installimg
+  from './win95_install_illustration.png';
 
 
 /* ======================================
@@ -35,10 +31,17 @@ function Win95RadioButton() {
 
         background: '#ffffff',
 
-        borderTop: '1px solid #808080',
-        borderLeft: '1px solid #808080',
-        borderRight: '1px solid #ffffff',
-        borderBottom: '1px solid #ffffff',
+        borderTop:
+          '1px solid #808080',
+
+        borderLeft:
+          '1px solid #808080',
+
+        borderRight:
+          '1px solid #ffffff',
+
+        borderBottom:
+          '1px solid #ffffff',
 
         borderRadius: '50%',
 
@@ -51,7 +54,9 @@ function Win95RadioButton() {
       }}
     >
 
-      {/* WIN95 RADIO DOT */}
+      {/* ==================================
+          WIN95 RADIO DOT
+      ================================== */}
 
       <span
         style={{
@@ -87,7 +92,8 @@ function RequirementOption({
 }) {
   return (
     <div
-      className="requirement-option"
+      className="requirement-option ui-font"
+
       style={{
         display: 'flex',
 
@@ -101,6 +107,8 @@ function RequirementOption({
         padding: '5px 0',
 
         gap: 8,
+
+        color: '#000000',
       }}
     >
 
@@ -111,6 +119,7 @@ function RequirementOption({
       <div
         aria-hidden="true"
         className="requirement-icon"
+
         style={{
           width: 32,
           minWidth: 32,
@@ -142,6 +151,7 @@ function RequirementOption({
 
       <div
         className="requirement-radio"
+
         style={{
           paddingTop: 6,
 
@@ -163,6 +173,7 @@ function RequirementOption({
 
       <div
         className="requirement-text"
+
         style={{
           minWidth: 0,
 
@@ -179,12 +190,7 @@ function RequirementOption({
 
         <div
           style={{
-            fontFamily: '"MS Sans Serif", sans-serif',
-
-            fontSize: 12,
-            lineHeight: '18px',
-
-            fontWeight: 'bold',
+            fontWeight: 700,
 
             color: '#000000',
 
@@ -200,15 +206,6 @@ function RequirementOption({
         <div
           style={{
             marginTop: 6,
-
-            fontFamily: '"MS Sans Serif", sans-serif',
-
-            fontSize: 11,
-            lineHeight: '16px',
-
-            fontWeight: 'normal',
-
-            color: '#000000',
 
             textAlign: 'left',
           }}
@@ -228,16 +225,18 @@ function RequirementOption({
 ====================================== */
 
 export default function InstallerSystemRequirements() {
+
   return (
     <article
       aria-labelledby="system-requirements-title"
+
+      className="ui-font"
+
       style={{
         height: '100%',
 
         display: 'flex',
         flexDirection: 'column',
-
-        fontFamily: '"MS Sans Serif", sans-serif',
 
         color: '#000000',
 
@@ -249,103 +248,102 @@ export default function InstallerSystemRequirements() {
           MOBILE RESPONSIVE STYLE
       ====================================== */}
 
-<style>
-  {`
-    @media (max-width: 600px) {
+      <style>
+        {`
+          @media (max-width: 600px) {
 
-      .requirement-option {
-        display: grid !important;
+            .requirement-option {
+              display: grid !important;
 
-        grid-template-columns: 32px minmax(0, 1fr);
+              grid-template-columns:
+                32px minmax(0, 1fr);
 
-        grid-template-rows: auto auto;
+              grid-template-rows:
+                auto auto;
 
-        column-gap: 8px;
+              column-gap: 8px;
+              row-gap: 2px;
 
-        row-gap: 2px;
+              align-items: start;
 
-        align-items: start;
-
-        padding: 7px 0 !important;
-      }
-
-
-      /* ==============================
-         ICON
-      ============================== */
-
-      .requirement-icon {
-        grid-column: 1;
-        grid-row: 1;
-
-        width: 32px !important;
-        min-width: 32px !important;
-
-        height: 32px !important;
-
-        display: flex !important;
-
-        align-items: flex-start;
-        justify-content: center;
-
-        padding-top: 0;
-
-        box-sizing: border-box;
-
-        align-self: start;
-      }
+              padding: 7px 0 !important;
+            }
 
 
-      /* ==============================
-         RADIO
-      ============================== */
+            /* ==============================
+               ICON
+            ============================== */
 
-      .requirement-radio {
-        grid-column: 1;
-        grid-row: 2;
+            .requirement-icon {
+              grid-column: 1;
+              grid-row: 1;
 
-        margin: 0 !important;
+              width: 32px !important;
+              min-width: 32px !important;
 
-        padding: 0 !important;
+              height: 32px !important;
 
-        width: 32px;
+              display: flex !important;
 
-        display: flex;
+              align-items: flex-start;
+              justify-content: center;
 
-        align-items: flex-start;
-        justify-content: center;
+              padding-top: 0;
 
-        align-self: start;
-      }
+              box-sizing: border-box;
+
+              align-self: start;
+            }
 
 
-      /* ==============================
-         TEXT
-      ============================== */
+            /* ==============================
+               RADIO
+            ============================== */
 
-      .requirement-text {
-        grid-column: 2;
+            .requirement-radio {
+              grid-column: 1;
+              grid-row: 2;
 
-        grid-row: 1 / 3;
+              width: 32px;
 
-        min-width: 0;
+              margin: 0 !important;
+              padding: 0 !important;
 
-        display: flex;
+              display: flex;
 
-        flex-direction: column;
+              align-items: flex-start;
+              justify-content: center;
 
-        justify-content: flex-start;
+              align-self: start;
+            }
 
-        padding-right: 4px !important;
 
-        box-sizing: border-box;
+            /* ==============================
+               TEXT
+            ============================== */
 
-        align-self: start;
-      }
+            .requirement-text {
+              grid-column: 2;
+              grid-row: 1 / 3;
 
-    }
-  `}
-</style>
+              min-width: 0;
+
+              display: flex;
+
+              flex-direction: column;
+
+              justify-content: flex-start;
+
+              padding-right: 4px !important;
+
+              box-sizing: border-box;
+
+              align-self: start;
+            }
+
+          }
+        `}
+      </style>
 
 
       {/* ======================================
@@ -354,6 +352,7 @@ export default function InstallerSystemRequirements() {
 
       <section
         aria-label="System Requirements introduction"
+
         style={{
           display: 'flex',
 
@@ -372,6 +371,7 @@ export default function InstallerSystemRequirements() {
 
         <div
           aria-label="Windows 95 installation illustration"
+
           style={{
             width: 170,
             minWidth: 170,
@@ -380,7 +380,8 @@ export default function InstallerSystemRequirements() {
 
             background: '#54A8A8',
 
-            border: '2px inset #c0c0c0',
+            border:
+              '2px inset #c0c0c0',
 
             boxSizing: 'border-box',
 
@@ -395,7 +396,9 @@ export default function InstallerSystemRequirements() {
 
           <img
             src={win95installimg}
+
             alt="Windows 95 installation illustration"
+
             style={{
               width: '100%',
               height: '100%',
@@ -417,6 +420,8 @@ export default function InstallerSystemRequirements() {
         ==================================== */}
 
         <div
+          className="ui-font"
+
           style={{
             flex: 1,
 
@@ -432,12 +437,9 @@ export default function InstallerSystemRequirements() {
 
             boxSizing: 'border-box',
 
-            fontFamily: '"MS Sans Serif", sans-serif',
-
-            fontSize: 12,
-            lineHeight: '18px',
-
             textAlign: 'left',
+
+            color: '#000000',
           }}
         >
 
@@ -449,22 +451,28 @@ export default function InstallerSystemRequirements() {
             style={{
               paddingBottom: 10,
 
-              borderBottom: '1px solid #808080',
+              borderBottom:
+                '1px solid #808080',
             }}
           >
 
             <h2
               id="system-requirements-title"
+
+              className="ui-font"
+
               style={{
                 margin: '3px 0 0',
-                letterSpacing: '-0.3px',
 
-                fontFamily: '"MS Sans Serif", sans-serif',
+                padding: 0,
 
                 fontSize: 16,
                 lineHeight: '20px',
 
-                fontWeight: 'bold',
+                letterSpacing:
+                  '-0.3px',
+
+                fontWeight: 700,
 
                 textAlign: 'left',
 
@@ -483,6 +491,7 @@ export default function InstallerSystemRequirements() {
 
           <section
             aria-label="System requirements introduction"
+
             style={{
               paddingTop: 10,
             }}
@@ -491,11 +500,6 @@ export default function InstallerSystemRequirements() {
             <p
               style={{
                 margin: '0 0 12px',
-
-                fontFamily: '"MS Sans Serif", sans-serif',
-
-                fontSize: 12,
-                lineHeight: '18px',
 
                 textAlign: 'left',
 
@@ -513,6 +517,7 @@ export default function InstallerSystemRequirements() {
 
             <div
               aria-label="System requirements"
+
               style={{
                 width: '100%',
 
@@ -526,8 +531,10 @@ export default function InstallerSystemRequirements() {
 
               <RequirementOption
                 icon={Drvspace7}
+
                 title="Curiosity to Explore"
-                description="Good design starts with asking questions. This computer is a place to explore how visual design, interaction, and technology can come together"
+
+                description="Good design starts with asking questions. This computer is a place to explore how visual design, interaction, and technology can come together."
               />
 
 
@@ -537,7 +544,9 @@ export default function InstallerSystemRequirements() {
 
               <RequirementOption
                 icon={Brush}
+
                 title="A Visual Design Foundation"
+
                 description="Built from more than a decade of working with visual design, visual systems, iconography, illustration, and design direction."
               />
 
@@ -548,7 +557,9 @@ export default function InstallerSystemRequirements() {
 
               <RequirementOption
                 icon={Shell32135}
+
                 title="Room to Discover"
+
                 description="This is an ongoing exploration into product design, UX, and design engineering. Some things are finished, others are still being figured out."
               />
 
@@ -559,7 +570,9 @@ export default function InstallerSystemRequirements() {
 
               <RequirementOption
                 icon={Bookmark}
+
                 title="An Open Mind"
+
                 description="After years of focusing on how things look, the next question is how they work, behave, and become something people can actually use."
               />
 
@@ -574,6 +587,7 @@ export default function InstallerSystemRequirements() {
 
           <section
             aria-label="Ready to explore"
+
             style={{
               marginTop: 'auto',
 
@@ -587,7 +601,8 @@ export default function InstallerSystemRequirements() {
               style={{
                 paddingTop: 8,
 
-                borderTop: '1px solid #808080',
+                borderTop:
+                  '1px solid #808080',
 
                 boxSizing: 'border-box',
               }}
@@ -599,12 +614,7 @@ export default function InstallerSystemRequirements() {
                 style={{
                   margin: 0,
 
-                  fontFamily: '"MS Sans Serif", sans-serif',
-
-                  fontSize: 12,
-                  lineHeight: '18px',
-
-                  fontWeight: 'bold',
+                  fontWeight: 700,
 
                   textAlign: 'left',
 
@@ -621,11 +631,6 @@ export default function InstallerSystemRequirements() {
                 style={{
                   margin: '3px 0 0',
 
-                  fontFamily: '"MS Sans Serif", sans-serif',
-
-                  fontSize: 12,
-                  lineHeight: '18px',
-
                   textAlign: 'left',
 
                   color: '#000000',
@@ -640,11 +645,6 @@ export default function InstallerSystemRequirements() {
               <p
                 style={{
                   margin: '8px 0 0',
-
-                  fontFamily: '"MS Sans Serif", sans-serif',
-
-                  fontSize: 12,
-                  lineHeight: '18px',
 
                   textAlign: 'left',
 

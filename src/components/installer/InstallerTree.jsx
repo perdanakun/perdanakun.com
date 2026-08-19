@@ -6,24 +6,25 @@ import {
 } from '@react95/icons';
 
 
+/* ======================================
+   INSTALLER TREE
+====================================== */
+
 export default function InstallerTree({
   steps = [],
   currentStep = 0,
   onSelectStep,
 }) {
-
   return (
     <aside
       aria-label="Installation sections"
+      className="ui-font"
       style={{
-        width: 180,
-        minWidth: 180,
+        width: 175,
+        minWidth: 175,
 
         height: '100%',
 
-        /*
-          Classic Windows 95 window background
-        */
         backgroundColor: '#c0c0c0',
 
         boxSizing: 'border-box',
@@ -35,20 +36,15 @@ export default function InstallerTree({
 
         borderRight: '1px solid #808080',
 
-        fontFamily:
-          '"MS Sans Serif", sans-serif',
-
-        fontSize: 11,
-
         color: '#000000',
 
         touchAction: 'pan-y',
       }}
     >
 
-      {/* =========================================
+      {/* ======================================
           ROOT
-      ========================================= */}
+      ====================================== */}
 
       <div
         style={{
@@ -58,11 +54,12 @@ export default function InstallerTree({
         }}
       >
 
-        {/* =======================================
+        {/* ====================================
             ROOT FOLDER
-        ======================================= */}
+        ==================================== */}
 
         <div
+          className="ui-font"
           style={{
             display: 'flex',
 
@@ -80,7 +77,12 @@ export default function InstallerTree({
           }}
         >
 
+          {/* ==================================
+              FOLDER ICON
+          ================================== */}
+
           <div
+            aria-hidden="true"
             style={{
               width: 16,
               height: 16,
@@ -103,14 +105,13 @@ export default function InstallerTree({
           </div>
 
 
+          {/* ==================================
+              ROOT TITLE
+          ================================== */}
+
           <span
             style={{
               whiteSpace: 'nowrap',
-
-              fontFamily:
-                '"MS Sans Serif", sans-serif',
-
-              fontSize: 11,
 
               lineHeight: '16px',
 
@@ -123,11 +124,12 @@ export default function InstallerTree({
         </div>
 
 
-        {/* =======================================
+        {/* ====================================
             CHILDREN
-        ======================================= */}
+        ==================================== */}
 
         <div
+          role="list"
           style={{
             marginLeft: 16,
 
@@ -149,123 +151,128 @@ export default function InstallerTree({
                   index
                 }
 
-                role="button"
-
-                tabIndex={0}
-
-                aria-current={
-                  isSelected
-                    ? 'page'
-                    : undefined
-                }
-
-                onClick={() => {
-                  onSelectStep?.(index);
-                }}
-
-                onKeyDown={(event) => {
-
-                  if (
-                    event.key === 'Enter' ||
-                    event.key === ' '
-                  ) {
-                    event.preventDefault();
-
-                    onSelectStep?.(index);
-                  }
-
-                }}
-
-                style={{
-                  display: 'flex',
-
-                  alignItems: 'center',
-
-                  width: '100%',
-
-                  minHeight: 20,
-
-                  padding: '1px 3px',
-
-                  boxSizing: 'border-box',
-
-                  cursor: 'pointer',
-
-                  userSelect: 'none',
-
-                  backgroundColor:
-                    isSelected
-                      ? '#000080'
-                      : 'transparent',
-
-                  color:
-                    isSelected
-                      ? '#ffffff'
-                      : '#000000',
-
-                  touchAction:
-                    'manipulation',
-                }}
+                role="listitem"
               >
 
-                {/* =================================
-                    FILE ICON
-                ================================= */}
+                {/* ==================================
+                    STEP
+                ================================== */}
 
-                <div
+                <button
+                  type="button"
+
+                  aria-current={
+                    isSelected
+                      ? 'page'
+                      : undefined
+                  }
+
+                  onClick={() => {
+                    onSelectStep?.(index);
+                  }}
+
+                  className="ui-font"
+
                   style={{
-                    width: 16,
-                    height: 16,
-
-                    flexShrink: 0,
+                    appearance: 'none',
 
                     display: 'flex',
 
                     alignItems: 'center',
-                    justifyContent: 'center',
 
-                    marginRight: 3,
+                    width: '100%',
 
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <FileText
-                    variant="16x16_4"
-                  />
-                </div>
+                    minHeight: 20,
 
+                    padding: '3px 3px',
 
-                {/* =================================
-                    TITLE
-                ================================= */}
+                    margin: 0,
 
-                <span
-                  style={{
-                    minWidth: 0,
+                    border: 0,
 
-                    overflow: 'hidden',
+                    borderRadius: 0,
 
-                    textOverflow: 'ellipsis',
+                    boxSizing: 'border-box',
 
-                    whiteSpace: 'nowrap',
+                    cursor: 'pointer',
 
-                    fontFamily:
-                      '"MS Sans Serif", sans-serif',
+                    userSelect: 'none',
 
-                    fontSize: 11,
+                    textAlign: 'left',
 
-                    lineHeight: '16px',
+                    font: 'inherit',
+
+                    backgroundColor:
+                      isSelected
+                        ? '#000080'
+                        : 'transparent',
 
                     color:
                       isSelected
                         ? '#ffffff'
                         : '#000000',
 
-                    pointerEvents: 'none',
+                    touchAction:
+                      'manipulation',
                   }}
                 >
-                  {step.title}
-                </span>
+
+                  {/* =================================
+                      FILE ICON
+                  ================================= */}
+
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: 16,
+                      height: 16,
+
+                      flexShrink: 0,
+
+                      display: 'flex',
+
+                      alignItems: 'center',
+                      justifyContent: 'center',
+
+                      marginRight: 3,
+
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <FileText
+                      variant="16x16_4"
+                    />
+                  </span>
+
+
+                  {/* =================================
+                      STEP TITLE
+                  ================================= */}
+
+                  <span
+                    style={{
+                      minWidth: 0,
+
+                      overflow: 'hidden',
+
+                      textOverflow: 'ellipsis',
+
+                      whiteSpace: 'nowrap',
+
+                      lineHeight: '16px',
+
+                      color:
+                        isSelected
+                          ? '#ffffff'
+                          : '#000000',
+
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {step.title}
+                  </span>
+
+                </button>
 
               </div>
             );

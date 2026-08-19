@@ -5,6 +5,8 @@ import {
   Frame,
 } from '@react95/core';
 
+import { Install } from '@react95/icons';
+
 
 export default function WelcomeInstaller({
   isMobile,
@@ -24,6 +26,7 @@ export default function WelcomeInstaller({
 
   return (
     <div
+      className="ui-font"
       style={{
         position: 'fixed',
 
@@ -35,15 +38,12 @@ export default function WelcomeInstaller({
         width: isMobile
           ? '90vw'
           : isTablet
-          ? '55vw'
-          : '600px',
+          ? '70vw'
+          : '700px',
 
         maxWidth: 'calc(100vw - 24px)',
 
         zIndex: 100000,
-
-        fontFamily:
-          '"MS Sans Serif", Arial, sans-serif',
       }}
     >
 
@@ -77,6 +77,7 @@ export default function WelcomeInstaller({
         ========================================== */}
 
         <div
+          className="ui-font"
           style={{
             height: 22,
 
@@ -90,9 +91,6 @@ export default function WelcomeInstaller({
             background: '#000080',
 
             color: '#ffffff',
-
-            fontFamily:
-              '"MS Sans Serif", Arial, sans-serif',
 
             fontSize: 14,
 
@@ -123,11 +121,12 @@ export default function WelcomeInstaller({
           style={{
             background: '#ffffff',
 
-            padding: isMobile
-              ? '24px 20px'
-              : isTablet
-              ? '26px 26px'
-              : '28px 30px',
+padding: isMobile
+  ? '18px 20px 14px'
+  : isTablet
+  ? '20px 20px 16px'
+  : '20px 30px 16px',
+
 
             boxSizing: 'border-box',
 
@@ -141,28 +140,40 @@ export default function WelcomeInstaller({
           {/* ==========================================
               WELCOME TITLE
           ========================================== */}
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    margin: '0 0 18px',
+  }}
+>
+  <Install
+    style={{
+      width: 32,
+      height: 32,
+      flexShrink: 0,
+    }}
+  />
 
-          <h1
-            style={{
-              margin: '0 0 18px',
-              letterSpacing: '-0.5px',
+  <h1
+  
+    className="ui-font"
+    style={{
+      transform: 'translateY(-3px)',
 
-              color: '#000000',
-
-              fontFamily:
-                '"MS Sans Serif", Arial, sans-serif',
-
-              fontSize: 16,
-
-              fontWeight: 'bold',
-
-              lineHeight: 1.2,
-
-              textAlign: 'left',
-            }}
-          >
-            Welcome to Windows 95 Setup
-          </h1>
+      margin: 0,
+      letterSpacing: '-0.5px',
+      color: '#000000',
+      fontSize: 16,
+      fontWeight: 'bold',
+      lineHeight: '20px',
+      textAlign: 'left',
+    }}
+  >
+    Welcome to Windows 95 Setup!
+  </h1>
+</div>
 
 
           {/* ==========================================
@@ -170,19 +181,11 @@ export default function WelcomeInstaller({
           ========================================== */}
 
           <p
+            className="reading-font"
             style={{
               margin: 0,
 
               color: '#000000',
-
-              fontFamily:
-                '"MS Sans Serif", Arial, sans-serif',
-
-              fontSize: 13,
-
-              fontWeight: 'normal',
-
-              lineHeight: 1.5,
 
               textAlign: 'left',
             }}
@@ -196,27 +199,19 @@ export default function WelcomeInstaller({
           ========================================== */}
 
           <p
+            className="reading-font"
             style={{
               margin: '12px 0 0',
 
               color: '#000000',
 
-              fontFamily:
-                '"MS Sans Serif", Arial, sans-serif',
-
-              fontSize: 13,
-
-              fontWeight: 'normal',
-
-              lineHeight: 1.5,
-
               textAlign: 'left',
             }}
           >
-            This is Perdana's Computer — a personal space
+            This is <b>Perdana's Computer</b> — a personal space
             for his work, experience, ideas, and experiments
-            as he explores the intersection of design,
-            products, interaction, and code.
+            as he explores the intersection of <b>design,
+            products, interaction, and code.</b> 
           </p>
 
 
@@ -225,19 +220,11 @@ export default function WelcomeInstaller({
           ========================================== */}
 
           <p
+            className="reading-font"
             style={{
               margin: '12px 0 0',
 
               color: '#000000',
-
-              fontFamily:
-                '"MS Sans Serif", Arial, sans-serif',
-
-              fontSize: 13,
-
-              fontWeight: 'normal',
-
-              lineHeight: 1.5,
 
               textAlign: 'left',
             }}
@@ -253,19 +240,11 @@ export default function WelcomeInstaller({
           ========================================== */}
 
           <p
+            className="reading-font"
             style={{
               margin: '12px 0 0',
 
               color: '#000000',
-
-              fontFamily:
-                '"MS Sans Serif", Arial, sans-serif',
-
-              fontSize: 13,
-
-              fontWeight: 'normal',
-
-              lineHeight: 1.5,
 
               textAlign: 'left',
             }}
@@ -280,10 +259,9 @@ export default function WelcomeInstaller({
 
           <div
             style={{
-              marginTop: 20,
+              marginTop: 15,
 
               paddingTop: 0,
-
 
               display: 'flex',
 
@@ -303,16 +281,12 @@ export default function WelcomeInstaller({
 
             <Button
               onClick={onContinue}
+              className="ui-font"
               style={{
-                minWidth: 75,
-
-                fontFamily:
-                  '"MS Sans Serif", Arial, sans-serif',
-
-                fontSize: 12,
+                minWidth: 90,
               }}
             >
-              Continue
+            <strong> <u>C</u>ontinue </strong>
             </Button>
 
 
@@ -322,16 +296,12 @@ export default function WelcomeInstaller({
 
             <Button
               onClick={handleCancel}
+              className="ui-font"
               style={{
-                minWidth: 75,
-
-                fontFamily:
-                  '"MS Sans Serif", Arial, sans-serif',
-
-                fontSize: 12,
+                minWidth: 90,
               }}
             >
-              Exit Setup
+             <strong> E<u>x</u>it Setup</strong>
             </Button>
 
           </div>
