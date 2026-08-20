@@ -1,6 +1,4 @@
-import React, {
-  useState,
-} from 'react';
+import React, { useState } from 'react';
 
 import {
   Modal,
@@ -17,6 +15,13 @@ export default function ProjectWindowModal({
   onClose,
 
   // =========================================================
+  // BROWSER
+  // =========================================================
+
+  url = 'https://www.perdanakun.com/',
+  statusText = 'Done',
+
+  // =========================================================
   // NORMAL WINDOW
   // =========================================================
 
@@ -26,41 +31,37 @@ export default function ProjectWindowModal({
   top = '50%',
   left = '50%',
 
-  transform =
-    'translate(-50%, -50%)',
+  transform = 'translate(-50%, -50%)',
 
   children,
 }) {
-
   // =========================================================
   // MAXIMIZE STATE
   // =========================================================
 
-  const [
-    isMaximized,
-    setIsMaximized,
-  ] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
 
+  // =========================================================
+  // ADDRESS STATE
+  // =========================================================
+
+  const [address, setAddress] = useState(url);
 
   // =========================================================
   // MAXIMIZE
   // =========================================================
 
   const toggleMaximize = () => {
-    setIsMaximized(
-      previous => !previous
-    );
+    setIsMaximized((previous) => !previous);
   };
-
 
   // =========================================================
   // WINDOW STYLE
   // =========================================================
 
   const getWindowStyle = () => {
-
     // =======================================================
-    // SMARTPHONE
+    // MOBILE
     // =======================================================
 
     if (isMobile) {
@@ -76,17 +77,17 @@ export default function ProjectWindowModal({
         height: 'auto',
 
         maxWidth: '100vw',
-        maxHeight:
-          'calc(100vh - 28px)',
+        maxHeight: 'calc(100vh - 28px)',
+
+        minWidth: 0,
+        minHeight: 0,
 
         transform: 'none',
         margin: 0,
 
-        boxSizing:
-          'border-box',
+        boxSizing: 'border-box',
       };
     }
-
 
     // =======================================================
     // MAXIMIZED
@@ -98,23 +99,26 @@ export default function ProjectWindowModal({
 
         top: 0,
         left: 0,
+        right: 0,
+        bottom: '28px',
 
         width: '100vw',
-        height:
-          'calc(100vh - 28px)',
+        height: 'auto',
 
-        maxWidth: '100vw',
-        maxHeight:
-          'calc(100vh - 28px)',
+        maxWidth: 'none',
+        maxHeight: 'none',
+
+        minWidth: 0,
+        minHeight: 0,
 
         transform: 'none',
         margin: 0,
 
-        boxSizing:
-          'border-box',
+        boxSizing: 'border-box',
+
+        inset: '0 0 28px 0',
       };
     }
-
 
     // =======================================================
     // TABLET
@@ -131,16 +135,16 @@ export default function ProjectWindowModal({
         height: '70vh',
 
         maxWidth: '90vw',
-        maxHeight:
-          'calc(100vh - 40px)',
+        maxHeight: 'calc(100vh - 40px)',
+
+        minWidth: 0,
+        minHeight: 0,
 
         transform,
 
-        boxSizing:
-          'border-box',
+        boxSizing: 'border-box',
       };
     }
-
 
     // =======================================================
     // DESKTOP
@@ -155,19 +159,72 @@ export default function ProjectWindowModal({
       width,
       height,
 
-      maxWidth:
-        'calc(100vw - 20px)',
+      maxWidth: 'calc(100vw - 20px)',
+      maxHeight: 'calc(100vh - 50px)',
 
-      maxHeight:
-        'calc(100vh - 50px)',
+      minWidth: 0,
+      minHeight: 0,
 
       transform,
 
-      boxSizing:
-        'border-box',
+      boxSizing: 'border-box',
     };
   };
 
+  // =========================================================
+  // ADDRESS SUBMIT
+  // =========================================================
+
+  const handleAddressSubmit = (event) => {
+    event.preventDefault();
+
+    const value = address.trim();
+
+    if (!value) {
+      return;
+    }
+
+    let target = value;
+
+    if (
+      !target.startsWith('http://') &&
+      !target.startsWith('https://')
+    ) {
+      target = `https://${target}`;
+    }
+
+    setAddress(target);
+  };
+
+  // =========================================================
+  // MENU ITEM STYLE
+  // =========================================================
+
+  const menuItemStyle = {
+    display: 'inline-flex',
+
+    alignItems: 'center',
+
+    height: '18px',
+
+    padding: '1px 6px',
+
+    boxSizing: 'border-box',
+
+    whiteSpace: 'nowrap',
+
+    fontFamily: 'MS Sans Serif, sans-serif',
+
+    fontSize: '11px',
+
+    lineHeight: '12px',
+
+    color: '#000000',
+
+    userSelect: 'none',
+
+    cursor: 'default',
+  };
 
   // =========================================================
   // RENDER
@@ -177,237 +234,337 @@ export default function ProjectWindowModal({
     <Modal
       icon={icon}
       title={title}
-
-      style={
-        getWindowStyle()
-      }
-
+      style={getWindowStyle()}
       titleBarOptions={
         <>
-
           {/* =================================================
               MINIMIZE
           ================================================= */}
 
           <Modal.Minimize />
 
-
           {/* =================================================
-              MAXIMIZE
+              MAXIMIZE / RESTORE
           ================================================= */}
 
-          {!isMobile && (
-            <button
-              type="button"
-
-              aria-label={
-                isMaximized
-                  ? 'Restore'
-                  : 'Maximize'
-              }
-
-              title={
-                isMaximized
-                  ? 'Restore'
-                  : 'Maximize'
-              }
-
-              onClick={
-                toggleMaximize
-              }
-
-              style={{
-                width: '16px',
-                height: '14px',
-
-                padding: 0,
-                margin: 0,
-
-                display: 'flex',
-
-                alignItems:
-                  'center',
-
-                justifyContent:
-                  'center',
-
-                backgroundColor:
-                  '#c0c0c0',
-
-                border: 'none',
-
-                boxShadow:
-                  'inset 1px 1px 0 #ffffff, inset -1px -1px 0 #000000',
-
-                cursor:
-                  'pointer',
-
-                boxSizing:
-                  'border-box',
-
-                fontFamily:
-                  'MS Sans Serif, sans-serif',
-
-                fontSize:
-                  '9px',
-
-                lineHeight:
-                  '1',
-
-                userSelect:
-                  'none',
-              }}
-
-              onMouseDown={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              {isMaximized
-                ? '❐'
-                : '□'}
-            </button>
-          )}
-
+          {!isMobile &&
+            (isMaximized ? (
+              <TitleBar.Restore
+                onClick={toggleMaximize}
+              />
+            ) : (
+              <TitleBar.Maximize
+                onClick={toggleMaximize}
+              />
+            ))}
 
           {/* =================================================
               CLOSE
           ================================================= */}
 
           <TitleBar.Close
-            onClick={
-              onClose
-            }
+            onClick={onClose}
           />
-
         </>
       }
     >
-
       {/* =====================================================
-          MENU BAR
+          WINDOW BODY
+
+          Seluruh browser chrome dibuat sebagai satu layout
+          vertikal agar menu → address → content → status
+          terasa seperti aplikasi Win95.
       ===================================================== */}
 
       <div
         style={{
+          position: 'relative',
+
           display: 'flex',
 
-          alignItems:
-            'center',
+          flexDirection: 'column',
 
-          gap:
-            isMobile
-              ? '4px'
-              : '6px',
+          width: '100%',
 
-          padding:
-            isMobile
-              ? '3px 5px'
+          height: '100%',
+
+          minWidth: 0,
+
+          minHeight: 0,
+
+          padding: 6,
+
+          margin: 0,
+
+          backgroundColor: '#c0c0c0',
+
+          boxSizing: 'border-box',
+
+          overflow: 'hidden',
+        }}
+      >
+        {/* ===================================================
+            MENU BAR
+        =================================================== */}
+
+        <div
+          style={{
+            display: 'flex',
+
+            alignItems: 'center',
+
+            gap: isMobile ? '2px' : '4px',
+
+            width: '100%',
+
+            minHeight: '22px',
+
+            height: '22px',
+
+            padding: isMobile
+              ? '2px 4px'
               : '2px 6px',
 
-          height:
-            '22px',
+            boxSizing: 'border-box',
 
-          boxSizing:
-            'border-box',
+            backgroundColor: '#c0c0c0',
 
-          backgroundColor:
-            '#c0c0c0',
+            borderBottom: '1px solid #808080',
 
-          borderBottom:
-            '1px solid #808080',
+            fontFamily:
+              'MS Sans Serif, sans-serif',
 
-          fontSize:
-            '11px',
+            fontSize: '11px',
 
-          fontFamily:
-            'MS Sans Serif, sans-serif',
+            lineHeight: '12px',
 
-          userSelect:
-            'none',
+            userSelect: 'none',
 
-          flexShrink:
-            0,
-        }}
-      >
+            flexShrink: 0,
 
-        <span
-          style={{
-            padding:
-              '1px 4px',
+            overflow: 'hidden',
           }}
         >
-          <u>F</u>ile
-        </span>
+          {/* FILE */}
 
-        <span
+          <span style={menuItemStyle}>
+            <u>F</u>ile
+          </span>
+
+          {/* EDIT */}
+
+          <span style={menuItemStyle}>
+            <u>E</u>dit
+          </span>
+
+          {/* VIEW */}
+
+          <span style={menuItemStyle}>
+            <u>V</u>iew
+          </span>
+
+          {/* FAVORITES */}
+
+          {!isMobile && (
+            <span style={menuItemStyle}>
+              Favorites
+            </span>
+          )}
+
+          {/* TOOLS */}
+
+          {!isMobile && (
+            <span style={menuItemStyle}>
+              <u>T</u>ools
+            </span>
+          )}
+
+          {/* HELP */}
+
+          <span style={menuItemStyle}>
+            <u>H</u>elp
+          </span>
+        </div>
+
+        {/* ===================================================
+            ADDRESS BAR
+        =================================================== */}
+
+        <div
           style={{
-            padding:
-              '1px 4px',
+            display: 'flex',
+
+            alignItems: 'center',
+
+            gap: '5px',
+
+            width: '100%',
+
+            minHeight: isMobile
+              ? '28px'
+              : '29px',
+
+            height: isMobile
+              ? '28px'
+              : '29px',
+
+            padding: isMobile
+              ? '3px 4px'
+              : '3px 6px',
+
+            boxSizing: 'border-box',
+
+            backgroundColor: '#c0c0c0',
+
+            borderBottom: '1px solid #808080',
+
+            fontFamily:
+              'MS Sans Serif, sans-serif',
+
+            fontSize: '11px',
+
+            flexShrink: 0,
           }}
         >
-          <u>N</u>ew
-        </span>
+          {/* ADDRESS LABEL */}
 
-        <span
-          style={{
-            padding:
-              '1px 4px',
-          }}
-        >
-          <u>V</u>iew
-        </span>
+          <span
+            style={{
+              flexShrink: 0,
 
-        <span
-          style={{
-            padding:
-              '1px 4px',
-          }}
-        >
-          <u>H</u>elp
-        </span>
+              whiteSpace: 'nowrap',
 
-      </div>
+              fontFamily:
+                'MS Sans Serif, sans-serif',
 
+              fontSize: '11px',
 
-      {/* =====================================================
-          WHITE CONTENT AREA
-      ===================================================== */}
+              color: '#000000',
+            }}
+          >
+            Address
+          </span>
 
-      <div
-        style={{
-          width:
-            '100%',
+          {/* ADDRESS FORM */}
 
-          height:
-            'calc(100% - 22px)',
+          <form
+            onSubmit={handleAddressSubmit}
+            style={{
+              display: 'flex',
 
-          minWidth:
-            0,
+              flex: 1,
 
-          minHeight:
-            0,
+              minWidth: 0,
 
-          backgroundColor:
-            '#ffffff',
+              height: '20px',
 
-          overflow:
-            'auto',
+              margin: 0,
 
-          boxSizing:
-            'border-box',
+              padding: 0,
+            }}
+          >
+            <input
+              type="text"
+              value={address}
+              onChange={(event) => {
+                setAddress(
+                  event.target.value
+                );
+              }}
+              aria-label="Address"
+              spellCheck={false}
+              style={{
+                width: '100%',
 
-          boxShadow:
-            'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
+                minWidth: 0,
 
-          fontFamily:
-            'MS Sans Serif, sans-serif',
-        }}
-      >
+                height: '20px',
 
-        {children}
+                padding: '1px 4px',
 
-      </div>
+                border: '1px solid #808080',
 
+                borderRadius: 0,
+
+                outline: 'none',
+
+                boxSizing: 'border-box',
+
+                backgroundColor: '#ffffff',
+
+                color: '#000000',
+
+                fontFamily:
+                  'MS Sans Serif, sans-serif',
+
+                fontSize: '11px',
+
+                lineHeight: '16px',
+
+                caretColor: '#000000',
+
+                boxShadow:
+                  'inset 1px 1px 0 #000000, inset -1px -1px 0 #ffffff',
+              }}
+            />
+          </form>
+        </div>
+{/* ===================================================
+    BROWSER CONTENT
+=================================================== */}
+
+<div
+  style={{
+    flex: '1 1 0',
+
+    minWidth: 0,
+    minHeight: 0,
+
+    width: '100%',
+    height: '100%',
+
+    boxSizing: 'border-box',
+
+    backgroundColor: '#ffffff',
+
+    /*
+      INI AREA SCROLL
+    */
+    overflowY: 'scroll',
+    overflowX: 'hidden',
+
+    /*
+      WIN95 BORDER
+    */
+    borderTop: '2px solid #808080',
+    borderLeft: '2px solid #808080',
+    borderRight: '2px solid #ffffff',
+    borderBottom: '2px solid #ffffff',
+
+    boxShadow: `
+      inset 1px 1px 0 #000000,
+      inset -1px -1px 0 #dfdfdf
+    `,
+
+    fontFamily: 'MS Sans Serif, sans-serif',
+
+    color: '#000000',
+
+    touchAction: 'pan-y',
+
+    WebkitOverflowScrolling: 'touch',
+
+    /*
+      Supaya scrollbar tidak hilang
+      di browser modern.
+    */
+    scrollbarWidth: 'auto',
+  }}
+>
+  {children}
+</div>
+
+        </div>
     </Modal>
   );
 }

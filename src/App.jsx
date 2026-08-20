@@ -1480,11 +1480,19 @@ INI ENDING KODE INACTIVE*/}
           <Folder variant="16x16_4" />
         }
 
+        style={{
+          zIndex: 200,
+        }}
+
         isMobile={isMobile}
         isTablet={isTablet}
 
-        width="60%"
+        width="75%"
         height="80%"
+        
+       
+              
+        
 
         onClose={() =>
           toggleWindow(
@@ -2092,7 +2100,15 @@ INI ENDING KODE INACTIVE*/}
 
 
         {/* --- TASKBAR BAWAH BAWAAN REACT95 --- */}
-        <TaskBar
+<TaskBar
+  style={{
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    zIndex: 99999,
+  }}
           list={
             <List style={{ width: '240px' }}>
 <List.Item
