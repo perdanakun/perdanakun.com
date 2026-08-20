@@ -1671,8 +1671,8 @@ INI ENDING KODE INACTIVE*/}
     // DESKTOP
     // CENTER SCREEN
     // =========================
-    desktopWidth="50%"
-    desktopHeight="70%"
+    desktopWidth="45%"
+    desktopHeight="60%"
     desktopTop="50%"
     desktopLeft="50%"
     desktopRight="auto"
