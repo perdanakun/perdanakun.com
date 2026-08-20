@@ -28,10 +28,18 @@ import ImageViewer from './components/ImageViewer';
 import WelcomeInstaller from './components/installer/WelcomeInstaller';
 import WelcomeInstallerLoading from './components/installer/WelcomeInstallerLoading';
 import PerdanaInstaller from './components/installer/PerdanaInstaller';
-import PerdanaInstallLoading from './components/installer/PerdanaInstallLoading';
 import BlogContent from './components/BlogContent';
 import WelcomeModal from './components/WelcomeModal';
 import PerdanaBootScreen from './components/boot/PerdanaBootScreen';
+import PerdanaInstallLoading from './components/installer/PerdanaInstallLoading';
+
+import ProjectWindowModal from './components/ProjectWindowModal';
+
+import HoloHealthContent from './project/HoloHealthContent';
+import ShipUIContent from './project/ShipUIContent';
+import MayoraContent from './project/MayoraContent';
+import PerdanaComputerProductContent from './project/PerdanaComputerProductContent';
+
 import { getAIResponse } from "./services/aiService";
 import { Frame, TitleBar, Button, TaskBar, List, Modal, useModal } from '@react95/core';
 import { 
@@ -556,7 +564,41 @@ const [windows, setWindows] = useState({
   recycleBin: false,
   imageViewer: false,
   blog: false,
+
+    // Project windows
+  holohealth: false,
+  'ship-ui': false,
+   mayora: false,
+   'perdana-computer-product': false,
 });
+
+// Window Porject Modal
+
+useEffect(() => {
+  const handleOpenProjectWindow = (event) => {
+    const windowName =
+      event.detail?.windowName;
+
+    if (!windowName) return;
+
+    setWindows((prev) => ({
+      ...prev,
+      [windowName]: true,
+    }));
+  };
+
+  window.addEventListener(
+    'open-project-window',
+    handleOpenProjectWindow
+  );
+
+  return () => {
+    window.removeEventListener(
+      'open-project-window',
+      handleOpenProjectWindow
+    );
+  };
+}, []);
 
 // ==========================================
 // WINDOWS BOOT SESSION
@@ -673,6 +715,12 @@ const handleRestart = () => {
     recycleBin: false,
     imageViewer: false,
     blog: false,
+
+// Project windows
+  holohealth: false,
+  'ship-ui': false,
+  mayora: false,
+  'perdana-computer-product': false,
   });
 
   // Reset boot session supaya Welcome muncul lagi
@@ -682,6 +730,37 @@ const handleRestart = () => {
   setPcScreen('boot');
 };
 
+// Mapping Content Project
+
+const projectWindows = {
+  holohealth: {
+    title: 'HoloHealth.exe',
+    content: (
+      <HoloHealthContent />
+    ),
+  },
+
+  'ship-ui': {
+    title: 'Ship UI.exe',
+    content: (
+      <ShipUIContent />
+    ),
+  },
+
+  mayora: {
+    title: 'Mayora.exe',
+    content: (
+      <MayoraContent />
+    ),
+  },
+
+  'perdana-computer-product': {
+    title: "Perdana's Computer.exe",
+    content: (
+      <PerdanaComputerProductContent />
+    ),
+  },
+};
 
 
 //restore minimize AIsphere AI assistant
@@ -1379,6 +1458,47 @@ onContinue={() => {
 )} 
 
 INI ENDING KODE INACTIVE*/}
+
+
+
+{/* =========================
+    Jendela Project
+========================= */}
+
+{/* =========================================================
+    JENDELA PROJECT INSIDE
+========================================================= */}
+{Object.entries(projectWindows).map(
+  ([windowName, project]) =>
+    windows[windowName] && (
+      <ProjectWindowModal
+        key={windowName}
+
+        title={project.title}
+
+        icon={
+          <Folder variant="16x16_4" />
+        }
+
+        isMobile={isMobile}
+        isTablet={isTablet}
+
+        width="60%"
+        height="80%"
+
+        onClose={() =>
+          toggleWindow(
+            windowName,
+            false
+          )
+        }
+      >
+        {project.content}
+      </ProjectWindowModal>
+    )
+)}
+
+
 {/* =========================
     Jendela Welcome
 ========================= */}

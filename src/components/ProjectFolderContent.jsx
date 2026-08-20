@@ -1,13 +1,13 @@
 import React, {
   useRef,
   useState,
+  useEffect,
 } from 'react';
 
 import {
   FileText,
   Folder,
   FolderOpen,
-  Inetcpl1313,
   Notepad2,
   FolderRename,
   Shdocvw272,
@@ -18,12 +18,54 @@ import githubIcon from '../icons/github.svg';
 import instagramIcon from '../icons/instagram.svg';
 import figmaIcon from '../icons/figma.svg';
 
-
 import LocalTree from './LocalTree';
 
 export default function ProjectFolderContent({
   isTouchDevice,
 }) {
+  // =========================================================
+  // RESPONSIVE STATE
+  // =========================================================
+
+  const [
+    isMobile,
+    setIsMobile,
+  ] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(
+        window.innerWidth <= 700
+      );
+    };
+
+    checkScreenSize();
+
+    window.addEventListener(
+      'resize',
+      checkScreenSize
+    );
+
+    return () => {
+      window.removeEventListener(
+        'resize',
+        checkScreenSize
+      );
+    };
+  }, []);
+
+  // =========================================================
+  // DEVICE MODE
+  // =========================================================
+
+  const isTouch =
+    isTouchDevice ||
+    isMobile;
+
+  // =========================================================
+  // STATE
+  // =========================================================
+
   const [
     currentFolder,
     setCurrentFolder,
@@ -34,280 +76,557 @@ export default function ProjectFolderContent({
     setSelectedItem,
   ] = useState(null);
 
-  // Tree expansion
   const [
     expandedIds,
     setExpandedIds,
   ] = useState([]);
 
-  // Reset Tree
   const [
     resetTree,
     setResetTree,
   ] = useState(false);
 
-  // Touch state
-  const lastTapRef = useRef({
-    type: null,
-    id: null,
-    time: 0,
-  });
-
-  const DOUBLE_TAP_DELAY = 300;
-
   // =========================================================
   // PROJECT DATA
   // =========================================================
-const projects = [
-{
-  id: 1,
-  name: 'This Website',
+
+  const projects = [
+    {
+      id: 'visual-design',
+      name: 'Visual Design',
+      type: 'folder',
+      iconType: 'folder',
+      isLocked: false,
+      message: '',
+      children: [
+        {
+  id: 'holohealth',
+  name: 'HoloHealth',
+  type: 'folder',
   iconType: 'folder',
   isLocked: false,
   message: '',
-  files: [
+  openWindow: 'holohealth',
+// children: [
+  // {
+  //   id: 'holohealth-overview',
+  //   name: 'Overview',
+  //   type: 'file',
+  //   iconType: 'caseStudy',
+  //   openWindow: 'holohealth',
+  // },
+  // {
+  //   id: 'holohealth-icon-system',
+  //   name: 'Icon System',
+  //   type: 'file',
+  //   iconType: 'documentation',
+  // },
+  // {
+  //   id: 'holohealth-visual-language',
+  //   name: 'Visual Language',
+  //   type: 'file',
+  //   iconType: 'documentation',
+  // },
+  // {
+  //   id: 'holohealth-outcome',
+  //   name: 'Outcome',
+  //   type: 'file',
+  //   iconType: 'caseStudy',
+  // },
+// ],
+        },
+
         {
-      id: 104,
-      name: 'Case Study',
-      iconType: 'caseStudy',
-      link: 'https://app.notion.com/p/Design-in-Code-Personal-Portfolio-as-an-Interactive-Desktop-System-3ae3e6c8962380dd941def5566e614c4?source=copy_link',
+          id: 'ship-ui',
+          name: 'Ship UI',
+          type: 'folder',
+          iconType: 'folder',
+          isLocked: false,
+          message: '',
+          openWindow: 'ship-ui',
+     // children: [
+//   {
+//     id: 'ship-ui-overview',
+//     name: 'Overview',
+//     type: 'file',
+//     iconType: 'caseStudy',
+//     link: 'https://www.shipfasterui.com/components/icons',
+//   },
+//   {
+//     id: 'ship-ui-iconography',
+//     name: 'Iconography',
+//     type: 'file',
+//     iconType: 'figma',
+//     link: 'https://www.figma.com/design/0oLNU1icRnTTjeiScs6eXa/Shipfaster-UI---v2.7.1--LIVE----29-7?node-id=6-8&t=rZHIT5kjvZiofFEO-1',
+//   },
+//   {
+//     id: 'ship-ui-ui-system',
+//     name: 'UI System',
+//     type: 'file',
+//     iconType: 'documentation',
+//   },
+//   {
+//     id: 'ship-ui-outcome',
+//     name: 'Outcome',
+//     type: 'file',
+//     iconType: 'caseStudy',
+//   },
+// ],
+        },
+
+        {
+          id: 'mayora',
+          name: 'Mayora',
+          type: 'folder',
+          iconType: 'folder',
+          isLocked: false,
+          message: '',
+          openWindow: 'mayora',
+       // children: [
+//   {
+//     id: 'mayora-overview',
+//     name: 'Overview',
+//     type: 'file',
+//     iconType: 'caseStudy',
+//     link: 'https://honorable-slicer-cf7.notion.site/Mayora-Unwrapped-Strategic-Social-Media-in-Action-2d13e6c89623802aaf4fe1ed7c23ae28?pvs=143',
+//   },
+//   {
+//     id: 'mayora-research-strategy',
+//     name: 'Research & Strategy',
+//     type: 'file',
+//     iconType: 'documentation',
+//   },
+//   {
+//     id: 'mayora-content-experiments',
+//     name: 'Content Experiments',
+//     type: 'file',
+//     iconType: 'documentation',
+//   },
+//   {
+//     id: 'mayora-visual-system',
+//     name: 'Visual System',
+//     type: 'file',
+//     iconType: 'documentation',
+//   },
+//   {
+//     id: 'mayora-outcome',
+//     name: 'Outcome',
+//     type: 'file',
+//     iconType: 'caseStudy',
+//   },
+// ],
+        },
+      ],
     },
 
     {
-      id: 102,
-      name: 'Documentation',
-      iconType: 'documentation',
-      link: 'https://app.notion.com/p/Design-in-Code-Personal-Portfolio-as-an-Interactive-Desktop-System-3ae3e6c8962380dd941def5566e614c4?source=copy_link',
-    },
-
-    {
-      id: 101,
-      name: 'Github.url',
-      iconType: 'github',
-      link: 'https://github.com/perdanakun/perdanakun.com',
-    },
-    {
-      id: 103,
-      name: 'Live Website',
-      iconType: 'website',
-      link: 'https://www.perdanakun.com/',
-    },
-  ],
-},
-
-  {
-    id: 2,
-    name: 'HoloHealth',
-    iconType: 'folder',
-    isLocked: false,
-    message: '',
-    files: [
-      {
-        id: 201,
-        name: 'HoloHealth',
-        iconType: 'website',
-        link: 'https://holo.health',
-      },
-    ],
-  },
-
-  {
-    id: 3,
-    name: 'Shipfaster UI',
-    iconType: 'folder',
-    isLocked: false,
-    message: '',
-    files: [
-      {
-        id: 301,
-        name: 'Live Preview',
-        iconType: 'figma',
-        link: 'https://www.figma.com/design/0oLNU1icRnTTjeiScs6eXa/Shipfaster-UI---v2.7.1--LIVE----29-7?node-id=6-8&t=rZHIT5kjvZiofFEO-1',
-      },
+      id: 'product-design',
+      name: 'Product Design',
+      type: 'folder',
+      iconType: 'folder',
+      isLocked: false,
+      message: '',
+      children: [
+        {
+          id: 'perdana-computer-product',
+          name: "Perdana's Computer",
+          type: 'folder',
+          iconType: 'folder',
+          isLocked: false,
+          message: '',
+          children: [
             {
-        id: 302,
-        name: 'Shipfaster UI',
-        iconType: 'website',
-        link: 'https://www.shipfasterui.com/components/icons',
-      },
-    ],
-  },
+              id: 'pc-product-overview',
+              name: 'Overview',
+              type: 'file',
+              iconType: 'caseStudy',
+            },
+            {
+              id: 'pc-product-thinking',
+              name: 'Product Thinking',
+              type: 'file',
+              iconType: 'documentation',
+            },
+            {
+              id: 'pc-features',
+              name: 'Features',
+              type: 'folder',
+              iconType: 'folder',
+              isLocked: false,
+              message: '',
+              children: [
+                {
+                  id: 'pc-installer',
+                  name: 'Installer',
+                  type: 'file',
+                  iconType: 'documentation',
+                },
+                {
+                  id: 'pc-project-folder',
+                  name: 'Project Folder',
+                  type: 'file',
+                  iconType: 'documentation',
+                },
+                {
+                  id: 'pc-ai-chat',
+                  name: 'AI Chat',
+                  type: 'file',
+                  iconType: 'documentation',
+                },
+                {
+                  id: 'pc-contact',
+                  name: 'Contact',
+                  type: 'file',
+                  iconType: 'documentation',
+                },
+                {
+                  id: 'pc-writing',
+                  name: 'Writing',
+                  type: 'file',
+                  iconType: 'documentation',
+                },
+                {
+                  id: 'pc-did-you-know',
+                  name: 'Did You Know?',
+                  type: 'file',
+                  iconType: 'documentation',
+                },
+                {
+                  id: 'pc-gimmicks',
+                  name: 'Gimmicks & Easter Eggs',
+                  type: 'file',
+                  iconType: 'caseStudy',
+                },
+              ],
+            },
+            {
+              id: 'pc-learnings',
+              name: 'Learnings',
+              type: 'file',
+              iconType: 'documentation',
+            },
+          ],
+        },
+      ],
+    },
 
-  {
-    id: 4,
-    name: 'Mayora',
-    iconType: 'folder',
-    isLocked: false,
-    message: '',
-    files: [
-      {
-        id: 402,
-        name: 'Case Study',
-        iconType: 'caseStudy',
-        link: 'https://honorable-slicer-cf7.notion.site/Mayora-Unwrapped-Strategic-Social-Media-in-Action-2d13e6c89623802aaf4fe1ed7c23ae28?pvs=143',
-      },
-      {
-        id: 401,
-        name: 'Instagram',
-        iconType: 'instagram',
-        link: 'https://www.instagram.com/mayoraofficial/?hl=id',
-      },
-    ],
-  },
-];
+    {
+      id: 'design-engineering',
+      name: 'Design Engineering',
+      type: 'folder',
+      iconType: 'folder',
+      isLocked: false,
+      message: '',
+      children: [
+        {
+          id: 'perdana-computer-engineering',
+          name: "Perdana's Computer",
+          type: 'folder',
+          iconType: 'folder',
+          isLocked: false,
+          message: '',
+          children: [
+            {
+              id: 'pc-engineering-overview',
+              name: 'Overview',
+              type: 'file',
+              iconType: 'caseStudy',
+            },
+            {
+              id: 'pc-architecture',
+              name: 'Architecture',
+              type: 'file',
+              iconType: 'documentation',
+            },
+            {
+              id: 'pc-design-system',
+              name: 'Design System',
+              type: 'file',
+              iconType: 'documentation',
+            },
+            {
+              id: 'pc-interaction',
+              name: 'Interaction',
+              type: 'file',
+              iconType: 'documentation',
+            },
+            {
+              id: 'pc-build',
+              name: 'Build',
+              type: 'file',
+              iconType: 'github',
+              link: 'https://github.com/perdanakun/perdanakun.com',
+            },
+          ],
+        },
+      ],
+    },
+
+  // {
+//   id: 'this-website',
+//   name: 'This Website',
+//   type: 'folder',
+//   iconType: 'folder',
+//   isLocked: false,
+//   message: '',
+//   children: [
+//     {
+//       id: 'website-case-study',
+//       name: 'Case Study',
+//       type: 'file',
+//       iconType: 'caseStudy',
+//       link: 'https://app.notion.com/p/Design-in-Code-Personal-Portfolio-as-an-Interactive-Desktop-System-3ae3e6c8962380dd941def5566e614c4?source=copy_link',
+//     },
+//     {
+//       id: 'website-documentation',
+//       name: 'Documentation',
+//       type: 'file',
+//       iconType: 'documentation',
+//       link: 'https://app.notion.com/p/Design-in-Code-Personal-Portfolio-as-an-Interactive-Desktop-System-3ae3e6c8962380dd941def5566e614c4?source=copy_link',
+//     },
+//     {
+//       id: 'website-github',
+//       name: 'Github.url',
+//       type: 'file',
+//       iconType: 'github',
+//       link: 'https://github.com/perdanakun/perdanakun.com',
+//     },
+//     {
+//       id: 'website-live',
+//       name: 'Live Website',
+//       type: 'file',
+//       iconType: 'website',
+//       link: 'https://www.perdanakun.com/',
+//     },
+//   ],
+// },
+
+  ];
+
+  // =========================================================
+  // HELPERS
+  // =========================================================
+
+  const getChildren = (
+    folder
+  ) => {
+    if (!folder) {
+      return [];
+    }
+
+    return Array.isArray(
+      folder.children
+    )
+      ? folder.children
+      : [];
+  };
+
+  // Back to Children Folder
+
+  const findParentFolder = (
+  items,
+  targetId,
+  parent = null
+) => {
+  if (!Array.isArray(items)) {
+    return null;
+  }
+
+  for (const item of items) {
+    if (item.type !== 'folder') {
+      continue;
+    }
+
+    if (item.id === targetId) {
+      return parent;
+    }
+
+    const result = findParentFolder(
+      item.children,
+      targetId,
+      item
+    );
+
+    if (result !== null) {
+      return result;
+    }
+  }
+
+  return null;
+};
 
   // =========================================================
   // TREE DATA
   // =========================================================
 
-  const treeData = projects.map(
-    (project) => ({
-      treeId: `folder-${project.id}`,
+  const buildTreeData = (
+    items
+  ) => {
+    if (!Array.isArray(items)) {
+      return [];
+    }
 
-      type: 'folder',
+    return items.map(
+      (item) => {
+        const isFolder =
+          item.type === 'folder';
 
-      id: project.id,
+        return {
+          treeId:
+            `${isFolder ? 'folder' : 'file'}-${item.id}`,
 
-      name: project.name,
+          type:
+            item.type,
 
-      isLocked:
-        project.isLocked,
+          id:
+            item.id,
 
-      message:
-        project.message,
+          name:
+            item.name,
 
-      source: project,
+          link:
+            item.link,
 
-      children:
-        project.files.map(
-          (file) => ({
-            treeId:
-              `file-${file.id}`,
+          iconType:
+            item.iconType,
 
-            type: 'file',
+          isLocked:
+            item.isLocked ||
+            false,
 
-            id: file.id,
+          message:
+            item.message ||
+            '',
 
-            name: file.name,
+          source:
+            item,
 
-            link: file.link,
+          children:
+            isFolder
+              ? buildTreeData(
+                  item.children
+                )
+              : [],
+        };
+      }
+    );
+  };
 
-            source: file,
-          })
-        ),
-    })
-  );
-// =========================================================
-// ICON
-// =========================================================
+  const treeData =
+    buildTreeData(projects);
 
-// ICON FOLDER
-const renderIcon = (type) => {
-  switch (type) {
-    case 'folderRename':
-      return (
-        <FolderRename
-          variant="32x32_4"
-        />
-      );
+  // =========================================================
+  // ICONS
+  // =========================================================
 
-    case 'folderOpen':
-      return (
-        <FolderOpen
-          variant="32x32_4"
-        />
-      );
+  const renderIcon = (
+    type
+  ) => {
+    switch (type) {
+      case 'folderRename':
+        return (
+          <FolderRename
+            variant="32x32_4"
+          />
+        );
 
-    case 'folder':
-    default:
-      return (
-        <Folder
-          variant="32x32_4"
-        />
-      );
-  }
-};
+      case 'folderOpen':
+        return (
+          <FolderOpen
+            variant="32x32_4"
+          />
+        );
 
+      case 'folder':
+      default:
+        return (
+          <Folder
+            variant="32x32_4"
+          />
+        );
+    }
+  };
 
-// ICON FILE
-const renderFileIcon = (type) => {
-  switch (type) {
-    case 'github':
-      return (
-        <img
-          src={githubIcon}
-          alt="GitHub"
-          style={{
-            width: '32px',
-            height: '32px',
-            objectFit: 'contain',
-          }}
-        />
-      );
+  const renderFileIcon = (
+    type
+  ) => {
+    switch (type) {
+      case 'github':
+        return (
+          <img
+            src={githubIcon}
+            alt="GitHub"
+            style={{
+              width: '32px',
+              height: '32px',
+              objectFit: 'contain',
+            }}
+          />
+        );
 
-    case 'instagram':
-      return (
-        <img
-          src={instagramIcon}
-          alt="Instagram"
-          style={{
-            width: '32px',
-            height: '32px',
-            objectFit: 'contain',
-          }}
-        />
-      );
-
-
+      case 'instagram':
+        return (
+          <img
+            src={instagramIcon}
+            alt="Instagram"
+            style={{
+              width: '32px',
+              height: '32px',
+              objectFit: 'contain',
+            }}
+          />
+        );
 
       case 'figma':
-      return (
-        <img
-          src={figmaIcon}
-          alt="Figma"
-          style={{
-            width: '32px',
-            height: '32px',
-            objectFit: 'contain',
-          }}
-        />
-      );
+        return (
+          <img
+            src={figmaIcon}
+            alt="Figma"
+            style={{
+              width: '32px',
+              height: '32px',
+              objectFit: 'contain',
+            }}
+          />
+        );
 
-    case 'website':
-      return (
-        <Shdocvw272
-          variant="32x32_4"
-        />
-      );
+      case 'website':
+        return (
+          <Shdocvw272
+            variant="32x32_4"
+          />
+        );
 
-    case 'caseStudy':
-      return (
-        <Notepad2
-          variant="32x32_4"
-        />
-      );
+      case 'caseStudy':
+        return (
+          <Notepad2
+            variant="32x32_4"
+          />
+        );
 
-          case 'documentation':
-      return (
-        <Wordpad
-          variant="32x32_4"
-        />
-      );
+      case 'documentation':
+        return (
+          <Wordpad
+            variant="32x32_4"
+          />
+        );
 
-    default:
-      return (
-        <FileText
-          variant="32x32_4"
-        />
-      );
-  }
-};
+      default:
+        return (
+          <FileText
+            variant="32x32_4"
+          />
+        );
+    }
+  };
 
   // =========================================================
-  // OPEN EXTERNAL LINK
+  // OPEN LINK
   // =========================================================
 
-  const openExternalLink = (url) => {
+  const openExternalLink = (
+    url
+  ) => {
     if (!url) return;
 
     window.open(
@@ -318,17 +637,33 @@ const renderFileIcon = (type) => {
   };
 
   // =========================================================
-  // EXPAND TREE
+  // OPEN FOLDER
   // =========================================================
 
-  const expandFolder = (
-    projectId
+  const openFolder = (
+    folder
   ) => {
-    const treeId =
-      `folder-${projectId}`;
+    if (!folder) return;
+
+    if (folder.isLocked) {
+      alert(
+        `${folder.name}\n\n${folder.message}`
+      );
+
+      return;
+    }
+
+    setCurrentFolder(
+      folder
+    );
+
+    setSelectedItem(null);
 
     setExpandedIds(
       (previous) => {
+        const treeId =
+          `folder-${folder.id}`;
+
         if (
           previous.includes(
             treeId
@@ -346,145 +681,230 @@ const renderFileIcon = (type) => {
   };
 
   // =========================================================
-  // COLLAPSE TREE
-  // =========================================================
-
-  const collapseFolder = (
-    projectId
-  ) => {
-    const treeId =
-      `folder-${projectId}`;
-
-    setExpandedIds(
-      (previous) =>
-        previous.filter(
-          (id) =>
-            id !== treeId
-        )
-    );
-  };
-
-  // =========================================================
   // FOLDER CLICK
   // =========================================================
-
   const handleFolderClick = (
-    project
-  ) => {
-    if (!project) return;
+  folder
+) => {
+  if (!folder) return;
 
-    setSelectedItem({
-      type: 'folder',
-      id: project.id,
-    });
-  };
+  // =========================================
+  // MOBILE / TOUCH
+  // =========================================
 
-  // =========================================================
-  // FOLDER DOUBLE CLICK
-  // =========================================================
-
-  const handleFolderDoubleClick = (
-    project
-  ) => {
-    if (!project) return;
-
-    // Locked project
-    if (project.isLocked) {
-      alert(
-        `${project.name}\n\n${project.message}`
+  if (isTouch) {
+    // Project folder → langsung buka window
+    if (folder.openWindow) {
+      window.dispatchEvent(
+        new CustomEvent(
+          'open-project-window',
+          {
+            detail: {
+              windowName:
+                folder.openWindow,
+            },
+          }
+        )
       );
 
       return;
     }
 
-    // Pastikan Tree ikut terbuka
-    expandFolder(project.id);
+    // Folder biasa → buka folder
+    openFolder(folder);
 
-    // Buka folder di Explorer
-    setCurrentFolder(project);
+    return;
+  }
 
-    setSelectedItem(null);
+  // =========================================
+  // DESKTOP
+  // =========================================
 
-    // Reset touch
-    lastTapRef.current = {
-      type: null,
-      id: null,
-      time: 0,
-    };
-  };
+  // Desktop: single click hanya select
+  setSelectedItem({
+    type: 'folder',
+    id: folder.id,
+  });
+};
+
+  // =========================================================
+  // FOLDER DOUBLE CLICK
+  // =========================================================
+const handleFolderDoubleClick = (
+  folder
+) => {
+  if (!folder) return;
+
+  // =========================================
+  // MOBILE / TOUCH
+  // =========================================
+
+  if (isTouch) {
+    return;
+  }
+
+  // =========================================
+  // DESKTOP
+  // =========================================
+
+  // Project folder → buka project window
+  if (folder.openWindow) {
+    window.dispatchEvent(
+      new CustomEvent(
+        'open-project-window',
+        {
+          detail: {
+            windowName:
+              folder.openWindow,
+          },
+        }
+      )
+    );
+
+    return;
+  }
+
+  // Folder biasa → masuk folder
+  openFolder(folder);
+};
 
   // =========================================================
   // FILE CLICK
   // =========================================================
+const handleFileClick = (
+  file
+) => {
+  if (!file) return;
 
-  const handleFileClick = (
-    file
-  ) => {
-    if (!file) return;
+  // =======================================================
+  // MOBILE / TOUCH
+  // =======================================================
 
-    setSelectedItem({
-      type: 'file',
-      id: file.id,
-    });
-  };
+  if (isTouch) {
+
+    if (file.openWindow) {
+      window.dispatchEvent(
+        new CustomEvent(
+          'open-project-window',
+          {
+            detail: {
+              windowName:
+                file.openWindow,
+            },
+          }
+        )
+      );
+
+      return;
+    }
+
+    if (file.link) {
+      openExternalLink(
+        file.link
+      );
+    }
+
+    return;
+  }
+
+  // =======================================================
+  // DESKTOP
+  // =======================================================
+
+  setSelectedItem({
+    type: 'file',
+    id: file.id,
+  });
+};
 
   // =========================================================
   // FILE DOUBLE CLICK
   // =========================================================
+const handleFileDoubleClick = (
+  file
+) => {
+  if (!file) return;
 
-  const handleFileDoubleClick = (
-    file
-  ) => {
-    if (!file) return;
+  if (isTouch) {
+    return;
+  }
 
+  // =======================================================
+  // OPEN INTERNAL PROJECT WINDOW
+  // =======================================================
+
+  if (file.openWindow) {
+    window.dispatchEvent(
+      new CustomEvent(
+        'open-project-window',
+        {
+          detail: {
+            windowName:
+              file.openWindow,
+          },
+        }
+      )
+    );
+
+    return;
+  }
+
+  // =======================================================
+  // OPEN EXTERNAL LINK
+  // =======================================================
+
+  if (file.link) {
     openExternalLink(
       file.link
     );
-  };
+  }
+};
 
   // =========================================================
-  // TREE FOLDER CLICK
+  // TREE FOLDER
   // =========================================================
 
   const handleTreeFolderClick = (
-    project
+    item
   ) => {
+    if (!item) return;
+
     handleFolderClick(
-      project
+      item.source || item
     );
   };
-
-  // =========================================================
-  // TREE FOLDER DOUBLE CLICK
-  // =========================================================
 
   const handleTreeFolderDoubleClick = (
-    project
+    item
   ) => {
+    if (!item) return;
+
     handleFolderDoubleClick(
-      project
+      item.source || item
     );
   };
 
   // =========================================================
-  // TREE FILE CLICK
+  // TREE FILE
   // =========================================================
 
   const handleTreeFileClick = (
-    file
+    item
   ) => {
-    handleFileClick(file);
+    if (!item) return;
+
+    handleFileClick(
+      item.source || item
+    );
   };
 
-  // =========================================================
-  // TREE FILE DOUBLE CLICK
-  // =========================================================
-
   const handleTreeFileDoubleClick = (
-    file
+    item
   ) => {
+    if (!item) return;
+
     handleFileDoubleClick(
-      file
+      item.source || item
     );
   };
 
@@ -502,126 +922,50 @@ const renderFileIcon = (type) => {
   };
 
   // =========================================================
-  // TOUCH
-  // =========================================================
-
-  const handleTouchEnd = (
-    type,
-    item,
-    e
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const now =
-      Date.now();
-
-    const sameItem =
-      lastTapRef.current.type ===
-        type &&
-      lastTapRef.current.id ===
-        item.id;
-
-    const isDoubleTap =
-      sameItem &&
-      now -
-        lastTapRef.current.time <
-        DOUBLE_TAP_DELAY;
-
-    if (isDoubleTap) {
-      lastTapRef.current = {
-        type: null,
-        id: null,
-        time: 0,
-      };
-
-      if (
-        type === 'folder'
-      ) {
-        handleFolderDoubleClick(
-          item
-        );
-      }
-
-      if (
-        type === 'file'
-      ) {
-        handleFileDoubleClick(
-          item
-        );
-      }
-
-      return;
-    }
-
-    lastTapRef.current = {
-      type,
-      id: item.id,
-      time: now,
-    };
-
-    if (
-      type === 'folder'
-    ) {
-      handleFolderClick(
-        item
-      );
-    }
-
-    if (
-      type === 'file'
-    ) {
-      handleFileClick(
-        item
-      );
-    }
-  };
-
-  // =========================================================
   // BACK
   // =========================================================
+const handleBack = () => {
+  if (!currentFolder) {
+    return;
+  }
 
-  const handleBack = () => {
-    // Close current Explorer folder
-    setCurrentFolder(null);
+  const parentFolder =
+    findParentFolder(
+      projects,
+      currentFolder.id
+    );
 
-    // Clear selection
-    setSelectedItem(null);
+  setCurrentFolder(
+    parentFolder
+  );
 
-    // Collapse ALL Tree folders
-    setExpandedIds([]);
-
-    // Force LocalTree internal state reset
-    setResetTree(true);
-
-    // Reset trigger
-    setTimeout(() => {
-      setResetTree(false);
-    }, 0);
-
-    // Reset touch state
-    lastTapRef.current = {
-      type: null,
-      id: null,
-      time: 0,
-    };
-  };
-
-
-  // Colapse - mean back
-
-  const handleTreeFolderCollapse = (project) => {
-  setCurrentFolder(null);
   setSelectedItem(null);
 
-  setExpandedIds([]);
+  // Kembali satu level pada tree
+  if (parentFolder) {
+    setExpandedIds(
+      (previous) => {
+        const parentTreeId =
+          `folder-${parentFolder.id}`;
 
-  lastTapRef.current = {
-    type: null,
-    id: null,
-    time: 0,
-  };
+        return previous.filter(
+          (id) =>
+            id === parentTreeId
+        );
+      }
+    );
+  } else {
+    // Sudah kembali ke root
+    setExpandedIds([]);
+  }
 };
+  // =========================================================
+  // TREE COLLAPSE
+  // =========================================================
+
+  const handleTreeFolderCollapse = () => {
+    handleBack();
+  };
 
   // =========================================================
   // EMPTY AREA
@@ -632,20 +976,349 @@ const renderFileIcon = (type) => {
   };
 
   // =========================================================
+  // EXPLORER ITEM
+  // =========================================================
+
+  const renderExplorerItem = (
+    item
+  ) => {
+    if (!item) {
+      return null;
+    }
+
+    const isFolder =
+      item.type === 'folder';
+
+    const isSelected =
+      selectedItem?.type ===
+        item.type &&
+      selectedItem?.id ===
+        item.id;
+
+    // =======================================================
+    // FOLDER
+    // =======================================================
+
+    if (isFolder) {
+      return (
+        <div
+          key={item.id}
+
+          onClick={(e) => {
+            e.stopPropagation();
+
+            handleFolderClick(
+              item
+            );
+          }}
+
+          onDoubleClick={(e) => {
+            e.stopPropagation();
+
+            handleFolderDoubleClick(
+              item
+            );
+          }}
+
+          style={{
+            display: 'flex',
+
+            flexDirection:
+              'column',
+
+            alignItems:
+              'center',
+
+            justifyContent:
+              'flex-start',
+
+            width:
+              'var(--explorer-item-width)',
+
+            minHeight:
+              'var(--explorer-item-height)',
+
+            cursor:
+              item.isLocked
+                ? 'not-allowed'
+                : 'pointer',
+
+            userSelect:
+              'none',
+
+            padding:
+              '4px',
+
+            textAlign:
+              'center',
+
+            boxSizing:
+              'border-box',
+
+            backgroundColor:
+              isSelected
+                ? '#000080'
+                : 'transparent',
+
+            color:
+              isSelected
+                ? 'white'
+                : 'black',
+
+            touchAction:
+              'manipulation',
+
+            WebkitTapHighlightColor:
+              'transparent',
+          }}
+        >
+          {/* FOLDER ICON */}
+
+          <div
+            style={{
+              marginBottom:
+                '0px',
+
+              opacity:
+                item.isLocked
+                  ? 0.55
+                  : 1,
+
+              filter:
+                item.isLocked
+                  ? 'grayscale(100%)'
+                  : 'none',
+
+              pointerEvents:
+                'none',
+            }}
+          >
+            {renderIcon(
+              item.iconType
+            )}
+          </div>
+
+          {/* FOLDER NAME */}
+
+          <span
+            style={{
+              fontSize:
+                '11px',
+
+              lineHeight:
+                '1.2',
+
+              width:
+                '100%',
+
+              textAlign:
+                'center',
+
+              wordBreak:
+                'normal',
+
+              overflowWrap:
+                'break-word',
+
+              pointerEvents:
+                'none',
+            }}
+          >
+            {item.name}
+          </span>
+        </div>
+      );
+    }
+
+    // =======================================================
+    // FILE
+    // =======================================================
+
+    return (
+      <div
+        key={item.id}
+
+        onClick={(e) => {
+          e.stopPropagation();
+
+          handleFileClick(
+            item
+          );
+        }}
+
+        onDoubleClick={(e) => {
+          e.stopPropagation();
+
+          handleFileDoubleClick(
+            item
+          );
+        }}
+
+        style={{
+          display: 'flex',
+
+          flexDirection:
+            'column',
+
+          alignItems:
+            'center',
+
+          justifyContent:
+            'flex-start',
+
+          width:
+            'var(--explorer-item-width)',
+
+          minHeight:
+            'var(--explorer-item-height)',
+
+          cursor:
+            item.link
+              ? 'pointer'
+              : 'default',
+
+          userSelect:
+            'none',
+
+          padding:
+            '4px',
+
+          textAlign:
+            'center',
+
+          boxSizing:
+            'border-box',
+
+          backgroundColor:
+            isSelected
+              ? '#000080'
+              : 'transparent',
+
+          color:
+            isSelected
+              ? 'white'
+              : 'black',
+
+          touchAction:
+            'manipulation',
+
+          WebkitTapHighlightColor:
+            'transparent',
+        }}
+      >
+        {/* FILE ICON */}
+
+        <div
+          style={{
+            marginBottom:
+              '8px',
+
+            pointerEvents:
+              'none',
+
+            display:
+              'flex',
+
+            alignItems:
+              'center',
+
+            justifyContent:
+              'center',
+
+            width:
+              '32px',
+
+            height:
+              '32px',
+          }}
+        >
+          {renderFileIcon(
+            item.iconType
+          )}
+        </div>
+
+        {/* FILE NAME */}
+
+        <span
+          style={{
+            fontSize:
+              '11px',
+
+            lineHeight:
+              '1.2',
+
+            width:
+              '100%',
+
+            textAlign:
+              'center',
+
+            wordBreak:
+              'normal',
+
+            overflowWrap:
+              'break-word',
+
+            pointerEvents:
+              'none',
+          }}
+        >
+          {item.name}
+        </span>
+      </div>
+    );
+  };
+
+  // =========================================================
+  // CURRENT CHILDREN
+  // =========================================================
+
+  const currentChildren =
+    currentFolder
+      ? getChildren(
+          currentFolder
+        )
+      : projects;
+
+  // =========================================================
+  // ROOT / FOLDER COUNT
+  // =========================================================
+
+  const currentObjectCount =
+    currentChildren.length;
+
+  // =========================================================
   // RENDER
   // =========================================================
 
   return (
     <div
       style={{
+        '--explorer-item-width':
+          isMobile
+            ? '90px'
+            : '120px',
+
+        '--explorer-item-height':
+          isMobile
+            ? '82px'
+            : '90px',
+
         display: 'flex',
-        flexDirection: 'column',
+
+        flexDirection:
+          'column',
+
         height: '100%',
+
+        width: '100%',
+
+        minWidth: 0,
+
         fontFamily:
           'MS Sans Serif, sans-serif',
       }}
     >
-
       {/* =====================================================
           MENU BAR
       ===================================================== */}
@@ -653,14 +1326,33 @@ const renderFileIcon = (type) => {
       <div
         style={{
           display: 'flex',
-          gap: '6px',
-          padding: '2px 6px',
+
+          alignItems:
+            'center',
+
+          gap:
+            isMobile
+              ? '4px'
+              : '6px',
+
+          padding:
+            isMobile
+              ? '3px 5px'
+              : '2px 6px',
+
           backgroundColor:
             '#c0c0c0',
+
           borderBottom:
             '1px solid #808080',
-          fontSize: '11px',
-          userSelect: 'none',
+
+          fontSize:
+            '11px',
+
+          userSelect:
+            'none',
+
+          flexShrink: 0,
         }}
       >
         {currentFolder ? (
@@ -668,21 +1360,19 @@ const renderFileIcon = (type) => {
             onClick={
               handleBack
             }
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
 
-              handleBack();
-            }}
             style={{
               padding:
-                '1px 4px',
+                '2px 6px',
 
               cursor:
                 'pointer',
 
               touchAction:
                 'manipulation',
+
+              WebkitTapHighlightColor:
+                'transparent',
             }}
           >
             ← Back
@@ -729,7 +1419,7 @@ const renderFileIcon = (type) => {
       </div>
 
       {/* =====================================================
-          EXPLORER AREA
+          EXPLORER
       ===================================================== */}
 
       <div
@@ -737,6 +1427,10 @@ const renderFileIcon = (type) => {
           flex: 1,
 
           display: 'flex',
+
+          minHeight: 0,
+
+          minWidth: 0,
 
           backgroundColor:
             'white',
@@ -749,97 +1443,122 @@ const renderFileIcon = (type) => {
             'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
         }}
       >
-
         {/* ===================================================
-            TREE PANEL
+            TREE
         =================================================== */}
 
-        <div
-          style={{
-            width: '180px',
-            minWidth: '180px',
+        {!isMobile && (
+          <div
+            style={{
+              width:
+                '180px',
 
-            backgroundColor:
-              '#ffffff',
+              minWidth:
+                '180px',
 
-            overflow: 'auto',
+              backgroundColor:
+                '#ffffff',
 
-            borderRight:
-              '1px solid #808080',
+              overflow:
+                'auto',
 
-            padding: '4px',
+              borderRight:
+                '1px solid #808080',
 
-            boxSizing:
-              'border-box',
+              padding:
+                '4px',
 
-            touchAction:
-              'pan-y',
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <LocalTree
-            data={treeData}
+              boxSizing:
+                'border-box',
 
-            expandedIds={
-              expandedIds
-            }
+              touchAction:
+                'pan-y',
 
-            currentFolder={
-              currentFolder
-            }
+              flexShrink:
+                0,
+            }}
 
-            selectedItem={
-              selectedItem
-            }
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <LocalTree
+              data={
+                treeData
+              }
 
-            onFolderClick={
-              handleTreeFolderClick
-            }
+              expandedIds={
+                expandedIds
+              }
 
-            onFolderDoubleClick={
-              handleTreeFolderDoubleClick
-            }
+              currentFolder={
+                currentFolder
+              }
 
-            onFileClick={
-              handleTreeFileClick
-            }
+              selectedItem={
+                selectedItem
+              }
 
-            onFileDoubleClick={
-              handleTreeFileDoubleClick
-            }
+              onFolderClick={
+                handleTreeFolderClick
+              }
 
-            onToggleFolder={
-              handleTreeToggle
-            }
+              onFolderDoubleClick={
+                handleTreeFolderDoubleClick
+              }
 
-            onFolderCollapse={handleTreeFolderCollapse}
+              onFileClick={
+                handleTreeFileClick
+              }
 
-            resetExpanded={
-              resetTree
-            }
-          />
-        </div>
+              onFileDoubleClick={
+                handleTreeFileDoubleClick
+              }
+
+              onToggleFolder={
+                handleTreeToggle
+              }
+
+              onFolderCollapse={
+                handleTreeFolderCollapse
+              }
+
+              resetExpanded={
+                resetTree
+              }
+            />
+          </div>
+        )}
 
         {/* ===================================================
-            EXPLORER CONTENT
+            CONTENT
         =================================================== */}
 
         <div
           onClick={
             handleExplorerClick
           }
+
           style={{
             flex: 1,
+
+            minWidth: 0,
+
+            minHeight: 0,
 
             backgroundColor:
               'white',
 
-            padding: '12px',
+            padding:
+              isMobile
+                ? '8px'
+                : '12px',
 
             overflowY:
               'auto',
+
+            overflowX:
+              'hidden',
 
             boxShadow:
               'inset 1px 1px 0px #0a0a0a, inset -1px -1px 0px #dfdfdf',
@@ -850,352 +1569,48 @@ const renderFileIcon = (type) => {
         >
           <div
             style={{
-              display: 'grid',
+              display:
+                'grid',
 
               gridTemplateColumns:
-                'repeat(auto-fill, 120px)',
+                isMobile
+                  ? 'repeat(auto-fill, minmax(90px, 1fr))'
+                  : 'repeat(auto-fill, 120px)',
 
               gridAutoRows:
-                '90px',
+                isMobile
+                  ? '82px'
+                  : '90px',
 
-              gap: '8px',
+              gap:
+                isMobile
+                  ? '6px'
+                  : '8px',
 
               alignItems:
                 'start',
 
-              padding: '4px',
+              justifyItems:
+                'start',
+
+              padding:
+                isMobile
+                  ? '2px'
+                  : '4px',
+
+              width:
+                '100%',
+
+              boxSizing:
+                'border-box',
             }}
           >
-
-            {/* =================================================
-                ROOT PROJECTS
-            ================================================= */}
-
-            {!currentFolder &&
-              projects.map(
-                (project) => {
-                  const isSelected =
-                    selectedItem?.type ===
-                      'folder' &&
-                    selectedItem?.id ===
-                      project.id;
-
-                  return (
-                    <div
-                      key={
-                        project.id
-                      }
-
-                      onClick={(e) => {
-                        e.stopPropagation();
-
-                        if (
-                          !isTouchDevice
-                        ) {
-                          handleFolderClick(
-                            project
-                          );
-                        }
-                      }}
-
-                      onDoubleClick={(e) => {
-                        e.stopPropagation();
-
-                        if (
-                          !isTouchDevice
-                        ) {
-                          handleFolderDoubleClick(
-                            project
-                          );
-                        }
-                      }}
-
-                      onPointerUp={(e) => {
-                        if (
-                          isTouchDevice &&
-                          (
-                            e.pointerType ===
-                              'touch' ||
-                            e.pointerType ===
-                              'pen'
-                          )
-                        ) {
-                          e.preventDefault();
-                          e.stopPropagation();
-
-                          handleFolderDoubleClick(
-                            project
-                          );
-                        }
-                      }}
-
-                      style={{
-                        display:
-                          'flex',
-
-                        flexDirection:
-                          'column',
-
-                        alignItems:
-                          'center',
-
-                        width:
-                          '120px',
-
-                        cursor:
-                          project.isLocked
-                            ? 'not-allowed'
-                            : 'pointer',
-
-                        userSelect:
-                          'none',
-
-                        padding:
-                          '4px',
-
-                        textAlign:
-                          'center',
-
-                        boxSizing:
-                          'border-box',
-
-                        backgroundColor:
-                          isSelected
-                            ? '#000080'
-                            : 'transparent',
-
-                        color:
-                          isSelected
-                            ? 'white'
-                            : 'black',
-
-                        touchAction:
-                          'manipulation',
-                      }}
-                    >
-
-                      {/* FOLDER ICON */}
-
-                      <div
-                        style={{
-                          marginBottom:
-                            '4px',
-
-                          opacity:
-                            project.isLocked
-                              ? 0.55
-                              : 1,
-
-                          filter:
-                            project.isLocked
-                              ? 'grayscale(100%)'
-                              : 'none',
-
-                          pointerEvents:
-                            'none',
-                        }}
-                      >
-                        {renderIcon(
-                          project.iconType
-                        )}
-                      </div>
-
-                      {/* FOLDER NAME */}
-
-                      <span
-                        style={{
-                          fontSize:
-                            '11px',
-
-                          lineHeight:
-                            '1.2',
-
-                          width:
-                            '100%',
-
-                          textAlign:
-                            'center',
-
-                          wordBreak:
-                            'normal',
-
-                          overflowWrap:
-                            'break-word',
-
-                          pointerEvents:
-                            'none',
-                        }}
-                      >
-                        {
-                          project.name
-                        }
-                      </span>
-                    </div>
-                  );
-                }
-              )}
-
-            {/* =================================================
-                FILES INSIDE FOLDER
-            ================================================= */}
-
-            {currentFolder &&
-              Array.isArray(
-                currentFolder.files
-              ) &&
-              currentFolder.files.map(
-                (file) => {
-                  const isSelected =
-                    selectedItem?.type ===
-                      'file' &&
-                    selectedItem?.id ===
-                      file.id;
-
-                  return (
-                    <div
-                      key={
-                        file.id
-                      }
-
-                      onClick={(e) => {
-                        e.stopPropagation();
-
-                        if (
-                          !isTouchDevice
-                        ) {
-                          handleFileClick(
-                            file
-                          );
-                        }
-                      }}
-
-                      onDoubleClick={(e) => {
-                        e.stopPropagation();
-
-                        if (
-                          !isTouchDevice
-                        ) {
-                          handleFileDoubleClick(
-                            file
-                          );
-                        }
-                      }}
-
-                      onPointerUp={(e) => {
-                        if (
-                          isTouchDevice &&
-                          (
-                            e.pointerType ===
-                              'touch' ||
-                            e.pointerType ===
-                              'pen'
-                          )
-                        ) {
-                          e.preventDefault();
-                          e.stopPropagation();
-
-                          handleFileDoubleClick(
-                            file
-                          );
-                        }
-                      }}
-
-                      style={{
-                        display:
-                          'flex',
-
-                        flexDirection:
-                          'column',
-
-                        alignItems:
-                          'center',
-
-                        width:
-                          '120px',
-
-                        cursor:
-                          'pointer',
-
-                        userSelect:
-                          'none',
-
-                        padding:
-                          '4px',
-
-                        textAlign:
-                          'center',
-
-                        boxSizing:
-                          'border-box',
-
-                        backgroundColor:
-                          isSelected
-                            ? '#000080'
-                            : 'transparent',
-
-                        color:
-                          isSelected
-                            ? 'white'
-                            : 'black',
-
-                        touchAction:
-                          'manipulation',
-                      }}
-                    >
-
-                      {/* FILE ICON */}
-
-<div
-  style={{
-    marginBottom: '8px',
-    pointerEvents: 'none',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    width: '32px',
-    height: '32px',
-  }}
->
-  {renderFileIcon(file.iconType)}
-</div>
-
-                      {/* FILE NAME */}
-
-                      <span
-                        style={{
-                          fontSize:
-                            '11px',
-
-                          lineHeight:
-                            '1.2',
-
-                          width:
-                            '100%',
-
-                          textAlign:
-                            'center',
-
-                          wordBreak:
-                            'normal',
-
-                          overflowWrap:
-                            'break-word',
-
-                          pointerEvents:
-                            'none',
-                        }}
-                      >
-                        {
-                          file.name
-                        }
-                      </span>
-                    </div>
-                  );
-                }
-              )}
-
+            {currentChildren.map(
+              (item) =>
+                renderExplorerItem(
+                  item
+                )
+            )}
           </div>
         </div>
       </div>
@@ -1231,13 +1646,17 @@ const renderFileIcon = (type) => {
 
           height:
             '20px',
+
+          flexShrink:
+            0,
+
+          boxSizing:
+            'border-box',
         }}
       >
-        {!currentFolder
-          ? `${projects.length} object(s)`
-          : `${currentFolder.files.length} object(s)`}
+        {currentObjectCount}
+        {' object(s)'}
       </div>
-
     </div>
   );
 }
