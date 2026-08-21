@@ -1,0 +1,386 @@
+
+/* ======================================
+   FONT FACES
+====================================== */
+
+@font-face {
+  font-family: "Open Sans";
+
+  src: url("../assets/fonts/OpenSans-Regular.woff2")
+    format("woff2");
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+
+  src: url("../assets/fonts/OpenSans-Bold.woff2")
+    format("woff2");
+
+  font-style: normal;
+  font-weight: 700;
+
+  font-display: swap;
+}
+
+
+/* ======================================
+   CASE STUDY FONT TOKENS
+====================================== */
+
+:root {
+
+  /* --------------------------------------
+     UI
+     Windows / interface style
+  -------------------------------------- */
+
+  --casestudy-font-ui:
+    "MS Sans Serif",
+    "Microsoft Sans Serif",
+    Tahoma,
+    sans-serif;
+
+  --casestudy-font-ui-size: 12px;
+  --casestudy-font-ui-line-height: 18px;
+  --casestudy-font-ui-letter-spacing: 0;
+
+
+  /* --------------------------------------
+     UI READING
+     Slightly larger UI copy
+  -------------------------------------- */
+
+  --casestudy-font-ui-reading-size: 13px;
+  --casestudy-font-ui-reading-line-height: 19px;
+
+
+  /* --------------------------------------
+     READING
+     Main editorial / body font
+  -------------------------------------- */
+
+  --casestudy-font-reading:
+    "Open Sans",
+    Arial,
+    sans-serif;
+
+  --casestudy-font-reading-size: 14px;
+  --casestudy-font-reading-line-height: 22px;
+  --casestudy-font-reading-letter-spacing: -0.005em;
+
+
+  /* --------------------------------------
+     READING LARGE
+     Hero / large editorial copy
+  -------------------------------------- */
+
+  --casestudy-font-reading-large-size: 16px;
+  --casestudy-font-reading-large-line-height: 26px;
+  --casestudy-font-reading-large-letter-spacing: -0.008em;
+
+
+  /* --------------------------------------
+     HEADING
+     Open Sans Bold
+  -------------------------------------- */
+
+  --casestudy-font-heading:
+    "Open Sans",
+    Arial,
+    sans-serif;
+
+  --casestudy-font-heading-weight: 700;
+
+  --casestudy-font-heading-letter-spacing: -0.025em;
+
+
+  /* --------------------------------------
+     HERO HEADING
+     Large display typography
+  -------------------------------------- */
+
+  --casestudy-font-hero-size: 34px;
+
+
+  --casestudy-font-hero-line-height: 1.5;
+
+  --casestudy-font-hero-letter-spacing: -0.04em;
+
+
+  /* --------------------------------------
+     MONOSPACE
+     Labels / metadata / numbers
+  -------------------------------------- */
+
+  --casestudy-font-mono:
+    "Courier New",
+    monospace;
+
+  --casestudy-font-mono-size: 11px;
+  --casestudy-font-mono-line-height: 16px;
+  --casestudy-font-mono-letter-spacing: 0;
+
+
+  /* --------------------------------------
+     COLORS
+  -------------------------------------- */
+
+  --casestudy-text: #0a0a0a;
+  --casestudy-text-muted: #555;
+  --casestudy-text-light: #777;
+
+}
+
+
+/* ======================================
+   UI FONT
+====================================== */
+
+.casestudy-ui {
+  font-family: var(--casestudy-font-ui);
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: var(--casestudy-font-ui-size);
+  line-height: var(--casestudy-font-ui-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-ui-letter-spacing);
+
+  color: #000;
+}
+
+
+/* ======================================
+   UI FONT — READING SIZE
+====================================== */
+
+.casestudy-ui-reading {
+  font-family: var(--casestudy-font-ui);
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: var(--casestudy-font-ui-reading-size);
+  line-height: var(--casestudy-font-ui-reading-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-ui-letter-spacing);
+
+  color: #000;
+}
+
+
+/* ======================================
+   READING FONT
+====================================== */
+
+.casestudy-reading {
+  font-family: var(--casestudy-font-reading);
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: var(--casestudy-font-reading-size);
+  line-height: var(--casestudy-font-reading-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-reading-letter-spacing);
+
+  color: var(--casestudy-text);
+}
+
+
+/* ======================================
+   READING — LARGE
+====================================== */
+
+.casestudy-reading-large {
+  font-family: var(--casestudy-font-reading);
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-size:
+    var(--casestudy-font-reading-large-size);
+
+  line-height:
+    var(--casestudy-font-reading-large-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-reading-large-letter-spacing);
+
+  color: var(--casestudy-text);
+}
+
+
+/* ======================================
+   HEADING
+====================================== */
+
+.casestudy-heading {
+  font-family: var(--casestudy-font-heading);
+
+  font-style: normal;
+
+  font-weight:
+    var(--casestudy-font-heading-weight);
+
+  color: var(--casestudy-text);
+
+  letter-spacing:
+    var(--casestudy-font-heading-letter-spacing);
+}
+
+
+/* ======================================
+   HERO HEADING
+====================================== */
+
+.casestudy-hero-title {
+  font-family: var(--casestudy-font-heading);
+
+  font-style: normal;
+
+  font-weight: 700;
+
+  font-size:
+    var(--casestudy-font-hero-size);
+
+  line-height:
+    var(--casestudy-font-hero-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-hero-letter-spacing);
+
+  color: var(--casestudy-text);
+}
+
+
+/* ======================================
+   MONOSPACE
+====================================== */
+
+.casestudy-mono {
+  font-family: var(--casestudy-font-mono);
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-size:
+    var(--casestudy-font-mono-size);
+
+  line-height:
+    var(--casestudy-font-mono-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-mono-letter-spacing);
+
+  color: var(--casestudy-text);
+}
+
+
+/* ======================================
+   MONOSPACE — MUTED
+====================================== */
+
+.casestudy-mono-muted {
+  font-family: var(--casestudy-font-mono);
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-size:
+    var(--casestudy-font-mono-size);
+
+  line-height:
+    var(--casestudy-font-mono-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-mono-letter-spacing);
+
+  color: var(--casestudy-text-muted);
+}
+
+
+/* ======================================
+   CASE STUDY GLOBAL TYPOGRAPHY
+====================================== */
+
+.casestudy {
+  font-family: var(--casestudy-font-reading);
+
+  color: var(--casestudy-text);
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+
+/* ======================================
+   BODY COPY DEFAULT
+====================================== */
+
+.casestudy p {
+  font-family: var(--casestudy-font-reading);
+
+  font-size: var(--casestudy-font-reading-size);
+  line-height: var(--casestudy-font-reading-line-height);
+
+  letter-spacing:
+    var(--casestudy-font-reading-letter-spacing);
+}
+
+
+/* ======================================
+   STRONG
+====================================== */
+
+.casestudy strong {
+  font-family: var(--casestudy-font-heading);
+
+  font-weight: 700;
+
+  letter-spacing:
+    var(--casestudy-font-heading-letter-spacing);
+}
+
+
+/* ======================================
+   HEADINGS
+====================================== */
+
+.casestudy h1,
+.casestudy h2,
+.casestudy h3,
+.casestudy h4 {
+  font-family: var(--casestudy-font-heading);
+
+  font-weight: 700;
+
+  letter-spacing:
+    var(--casestudy-font-heading-letter-spacing);
+}
+
+
+/* ======================================
+   RESPONSIVE HERO
+====================================== */
+
+@media (max-width: 700px) {
+
+  .casestudy-hero-title {
+    font-size: 24px;
+
+    line-height: 1.05;
+
+    letter-spacing: -0.035em;
+  }
+
+}

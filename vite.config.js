@@ -1,0 +1,25 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
+
+export default defineConfig({
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'public/sitemap.xml',
+          dest: ''
+        },
+        {
+          src: 'public/llms.txt',
+          dest: ''
+        }
+      ]
+    })
+  ],
+  build: {
+    cssMinify: 'esbuild', 
+    emptyOutDir: true,
+  },
+})
