@@ -20,6 +20,7 @@ import RecycleBin from './components/RecycleBin';
 import AboutContent from './components/AboutContent';
 import AlertModal from './components/AlertModal';
 import AlertModalDesktop from './components/AlertModalDesktop'
+import AlertModalInstall from './components/AlertModalInstall';
 import AlertModalFailed from './components/AlertModalFailed';
 import AlertModalEmailFile from './components/AlertModalEmailFile';
 import CameraModal from './components/CameraModal';
@@ -612,6 +613,9 @@ const [alertDesktop, setAlertDesktop] = useState({
 const openAlertDesktop = (title, message) => {
   setAlertDesktop({ show: true, title, message });
 };
+
+// Alert Installer
+const [showInstallAlert, setShowInstallAlert] = useState(false);
 
 // ==========================================
 // WINDOWS BOOT SESSION
@@ -1280,22 +1284,37 @@ onContinue={() => {
   </DesktopIcon>
 </Rnd>
 
+
 {/* Installer */}
 <Rnd
-  default={{ x: 120, y: 24, width: 80, height: 80 }}
+  default={{
+    x: 120,
+    y: 24,
+    width: 80,
+    height: 80,
+  }}
   bounds="window"
   enableResizing={false}
   disableDragging={false}
 >
-  <DesktopIcon onOpen={openInstaller}>
+  <DesktopIcon
+    onOpen={() => setShowInstallAlert(true)}
+  >
     <div style={desktopIconStyle}>
-      <div style={{ fontSize: '32px', marginBottom: '0' }}>
+      <div
+        style={{
+          fontSize: '32px',
+          marginBottom: '0',
+        }}
+      >
         <Install variant="32x32_4" />
       </div>
+
       <span>Installer</span>
     </div>
   </DesktopIcon>
 </Rnd>
+
 
 {/* AI Chat */}
 <Rnd
@@ -1426,6 +1445,21 @@ onContinue={() => {
   message={alertDesktop.message}
   onClose={() => setAlertDesktop({ ...alertDesktop, show: false })}
 />
+
+<AlertModalInstall
+  show={showInstallAlert}
+title="Perdana Installer"
+message="Perdana's Computer is already installed. Run the Installer again to explore Perdana's profile from the beginning."
+
+
+  onClose={() => setShowInstallAlert(false)}
+  onConfirm={() => {
+    setShowInstallAlert(false);
+    openInstaller();
+  }}
+/>
+
+
 
         {/* --- JENDELA MODAL UNTUK MASING-MASING APLIKASI --- */}
 

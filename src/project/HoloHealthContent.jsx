@@ -38,7 +38,6 @@ export default function HoloHealthCaseStudyRetro() {
               remain consistent while scaling to thousands of assets.
             </p>
 
-            {/* IMAGE SEKARANG MENGIKUTI CONTAINER */}
             <div className="casestudy-media casestudy-hero-media">
 
               <img
@@ -446,7 +445,6 @@ export default function HoloHealthCaseStudyRetro() {
 
             </div>
 
-
             <div className="casestudy-snapshot">
 
               <div className="casestudy-snapshot-header">
@@ -478,7 +476,6 @@ export default function HoloHealthCaseStudyRetro() {
               </div>
 
             </div>
-
 
             <a
               href={NOTION_URL}
@@ -524,21 +521,21 @@ export default function HoloHealthCaseStudyRetro() {
           --cs-color-black: #000;
           --cs-color-white: #fff;
 
-          --cs-color-ink: #111;
-          --cs-color-text: #333;
-          --cs-color-muted: #555;
-          --cs-color-subtle: #666;
+          --cs-color-ink: #fff;
+          --cs-color-text: #e8e8e8;
+          --cs-color-muted: #b8b8b8;
+          --cs-color-subtle: #999;
           --cs-color-faint: #777;
-          --cs-color-border: #999;
+          --cs-color-border: #444;
 
-          --cs-color-gray-50: #fafafa;
-          --cs-color-gray-100: #f4f4f2;
-          --cs-color-gray-150: #f3f3f1;
-          --cs-color-gray-200: #eee;
-          --cs-color-gray-300: #e6e6e4;
-          --cs-color-gray-400: #c0c0c0;
+          --cs-color-gray-50: #181818;
+          --cs-color-gray-100: #151515;
+          --cs-color-gray-150: #181818;
+          --cs-color-gray-200: #242424;
+          --cs-color-gray-300: #303030;
+          --cs-color-gray-400: #3a3a3a;
 
-          --cs-color-blue: #3867d6;
+          --cs-color-blue: #5b7cfa;
           --cs-color-green: #20bf6b;
           --cs-color-red: #eb3b5a;
 
@@ -550,24 +547,24 @@ export default function HoloHealthCaseStudyRetro() {
           --cs-color-dark-muted: #aaa;
           --cs-color-dark-subtle: #888;
 
-          --cs-surface-page: var(--cs-color-white);
-          --cs-surface-subtle: var(--cs-color-gray-100);
-          --cs-surface-muted: var(--cs-color-gray-150);
-          --cs-surface-card: var(--cs-color-gray-50);
-          --cs-surface-dark: var(--cs-color-dark);
+          --cs-surface-page: #101010;
+          --cs-surface-subtle: #151515;
+          --cs-surface-muted: #181818;
+          --cs-surface-card: #181818;
+          --cs-surface-dark: #0b0b0b;
 
-          --cs-text-primary: var(--cs-color-ink);
-          --cs-text-secondary: var(--cs-color-text);
-          --cs-text-muted: var(--cs-color-muted);
-          --cs-text-subtle: var(--cs-color-subtle);
+          --cs-text-primary: #fff;
+          --cs-text-secondary: #d0d0d0;
+          --cs-text-muted: #aaa;
+          --cs-text-subtle: #888;
 
-          --cs-text-on-dark: var(--cs-color-white);
-          --cs-text-on-dark-secondary: var(--cs-color-dark-text);
-          --cs-text-on-dark-muted: var(--cs-color-dark-muted);
+          --cs-text-on-dark: #fff;
+          --cs-text-on-dark-secondary: #ccc;
+          --cs-text-on-dark-muted: #999;
 
-          --cs-border-default: var(--cs-color-border);
-          --cs-border-light: var(--cs-color-gray-300);
-          --cs-border-dark: var(--cs-color-dark-border);
+          --cs-border-default: #444;
+          --cs-border-light: #333;
+          --cs-border-dark: #333;
 
           --cs-accent-primary: var(--cs-color-blue);
           --cs-accent-success: var(--cs-color-green);
@@ -597,29 +594,7 @@ export default function HoloHealthCaseStudyRetro() {
           --cs-space-22: 72px;
           --cs-space-23: 88px;
 
-
-          /* ===================================================
-             ONE SOURCE OF TRUTH
-          =================================================== */
-
-          /*
-           * UBAH INI SAJA UNTUK MENGATUR
-           * UKURAN SELURUH CONTENT.
-           *
-           * Contoh:
-           *
-           * 50%  = lebih lebar
-           * 60%  = default
-           * 70%  = lebih lebar lagi
-           * 960px = fixed max width
-           */
-
           --cs-container-max: 60%;
-
-          /*
-           * Jarak kiri-kanan internal.
-           */
-
           --cs-container-gutter: 48px;
 
           --cs-column-gap: 48px;
@@ -650,19 +625,19 @@ export default function HoloHealthCaseStudyRetro() {
 
           overflow: hidden;
 
-          background: var(--cs-color-gray-400);
+          background: #101010;
 
-          color: var(--cs-color-black);
+          color: #fff;
 
           border:
             var(--cs-window-border-width)
             solid;
 
           border-color:
-            var(--cs-color-white)
-            #808080
-            #808080
-            var(--cs-color-white);
+            #444
+            #222
+            #222
+            #444;
 
           box-sizing: border-box;
         }
@@ -680,11 +655,14 @@ export default function HoloHealthCaseStudyRetro() {
             0
             0
             var(--cs-space-10);
+
+          text-align: left;
         }
 
 
         .casestudy-window strong {
           font-weight: 700;
+          color: #fff;
         }
 
 
@@ -707,7 +685,7 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-family: var(--casestudy-font-reading);
 
-          color: var(--casestudy-text);
+          color: #fff;
 
           -webkit-font-smoothing: antialiased;
 
@@ -717,16 +695,12 @@ export default function HoloHealthCaseStudyRetro() {
 
         /* =====================================================
            MASTER CONTAINER
-
-           SEMUA CONTENT MENGIKUTI INI.
+           
+           SENGAJA TIDAK DIUBAH.
+           Posisi/layout tetap original.
         ===================================================== */
 
         .casestudy-container {
-
-          /*
-           * Parent mengambil ukuran maksimum
-           * dari variable utama.
-           */
 
           width: min(
             var(--cs-container-max),
@@ -736,17 +710,14 @@ export default function HoloHealthCaseStudyRetro() {
           margin-left: auto;
           margin-right: auto;
 
-          /*
-           * Tidak ada lagi width tambahan
-           * untuk image.
-           */
-
           box-sizing: border-box;
         }
 
 
         /* =====================================================
            TYPOGRAPHY
+           
+           HANYA ALIGNMENT TEXT YANG DIUBAH.
         ===================================================== */
 
         .casestudy p {
@@ -762,6 +733,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-reading-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -775,6 +748,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-heading-letter-spacing);
+
+          color: #fff;
         }
 
 
@@ -791,6 +766,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-heading-letter-spacing);
+
+          color: #fff;
         }
 
 
@@ -874,7 +851,7 @@ export default function HoloHealthCaseStudyRetro() {
           margin: 0;
 
           color:
-            var(--casestudy-text);
+            #fff;
 
           font-family:
             var(--casestudy-font-heading);
@@ -926,13 +903,6 @@ export default function HoloHealthCaseStudyRetro() {
 
         /* =====================================================
            MEDIA
-           
-           IMPORTANT:
-           IMAGE SEKARANG 100% DARI PARENT.
-           
-           Tidak ada:
-           calc(100% + 80px)
-           -40px
         ===================================================== */
 
         .casestudy-media {
@@ -945,17 +915,7 @@ export default function HoloHealthCaseStudyRetro() {
             0;
 
           background:
-            linear-gradient(
-              135deg,
-              var(--cs-color-gray-200) 25%,
-              var(--cs-color-gray-300) 25%,
-              var(--cs-color-gray-300) 50%,
-              var(--cs-color-gray-200) 50%,
-              var(--cs-color-gray-200) 75%,
-              var(--cs-color-gray-300) 75%
-            );
-
-          background-size: 22px 22px;
+            #202020;
 
           border:
             var(--cs-border-width)
@@ -984,7 +944,7 @@ export default function HoloHealthCaseStudyRetro() {
           max-width: 100%;
 
           background:
-            var(--cs-color-white);
+            #181818;
         }
 
 
@@ -1030,6 +990,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-mono-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1038,7 +1000,7 @@ export default function HoloHealthCaseStudyRetro() {
           display: block;
 
           color:
-            var(--cs-text-primary);
+            #fff;
 
           font-family:
             var(--casestudy-font-heading);
@@ -1051,6 +1013,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-weight:
             var(--casestudy-font-heading-weight);
+
+          text-align: left;
         }
 
 
@@ -1063,42 +1027,50 @@ export default function HoloHealthCaseStudyRetro() {
           padding:
             var(--cs-space-22)
             0;
+
+          background:
+            #101010;
         }
 
 
         .casestudy-section-gray {
 
           background:
-            var(--cs-surface-muted);
+            #181818;
         }
 
 
         .casestudy-section-dark {
 
           background:
-            var(--cs-surface-dark);
+            #0b0b0b;
 
           color:
-            var(--cs-text-on-dark);
+            #fff;
         }
 
 
         .casestudy-section-dark p {
 
           color:
-            var(--cs-text-on-dark-secondary);
+            #ccc;
+
+          text-align: left;
         }
 
 
         .casestudy-section-dark strong {
 
           color:
-            var(--cs-text-on-dark);
+            #fff;
         }
 
 
         /* =====================================================
            SECTION INTRO
+           
+           POSISI TIDAK DIUBAH.
+           HANYA TEXT ALIGN LEFT.
         ===================================================== */
 
         .casestudy-section-intro {
@@ -1131,6 +1103,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-mono-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1149,7 +1123,7 @@ export default function HoloHealthCaseStudyRetro() {
           margin: 0;
 
           color:
-            var(--casestudy-text);
+            #fff;
 
           font-family:
             var(--casestudy-font-heading);
@@ -1164,6 +1138,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-heading-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1171,7 +1147,7 @@ export default function HoloHealthCaseStudyRetro() {
         .casestudy-section-intro h2 {
 
           color:
-            var(--cs-text-on-dark);
+            #fff;
         }
 
 
@@ -1197,6 +1173,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-reading-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1210,6 +1188,9 @@ export default function HoloHealthCaseStudyRetro() {
 
         /* =====================================================
            BODY
+           
+           INI BAGIAN UTAMA YANG KAMU MAU:
+           text rata kiri, tanpa mengubah layout.
         ===================================================== */
 
         .casestudy-body {
@@ -1218,7 +1199,9 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-copy-max);
 
           color:
-            var(--cs-text-secondary);
+            #d0d0d0;
+
+          text-align: left;
         }
 
 
@@ -1235,6 +1218,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-reading-large-letter-spacing) !important;
+
+          text-align: left !important;
         }
 
 
@@ -1246,7 +1231,9 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-18);
 
           color:
-            var(--cs-text-secondary);
+            #d0d0d0;
+
+          text-align: left;
         }
 
 
@@ -1257,7 +1244,9 @@ export default function HoloHealthCaseStudyRetro() {
         .casestudy-body-wide {
 
           color:
-            var(--cs-text-on-dark-secondary);
+            #ccc;
+
+          text-align: left;
         }
 
 
@@ -1284,6 +1273,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           max-width:
             var(--cs-copy-max);
+
+          text-align: left;
         }
 
 
@@ -1293,12 +1284,14 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-11);
 
           background:
-            var(--cs-color-white);
+            #181818;
 
           border:
             var(--cs-border-width)
             solid
             var(--cs-border-default);
+
+          text-align: left;
         }
 
 
@@ -1311,6 +1304,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           color:
             var(--cs-text-secondary);
+
+          text-align: left;
         }
 
 
@@ -1332,6 +1327,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-mono-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1357,6 +1354,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-border-width)
             solid
             var(--cs-border-default);
+
+          text-align: left;
         }
 
 
@@ -1370,6 +1369,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-size:
             var(--casestudy-font-mono-size);
+
+          text-align: left;
         }
 
 
@@ -1380,7 +1381,7 @@ export default function HoloHealthCaseStudyRetro() {
           margin: 0;
 
           color:
-            var(--cs-text-primary);
+            #fff;
 
           font-family:
             var(--casestudy-font-reading-large);
@@ -1393,6 +1394,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-reading-large-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1416,19 +1419,21 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-7);
 
           background:
-            var(--cs-color-white);
+            #181818;
 
           border-top:
             var(--cs-border-width)
             solid
             var(--cs-border-default);
+
+          text-align: left;
         }
 
 
         .casestudy-media-caption-label {
 
           color:
-            var(--cs-text-primary);
+            #fff;
 
           font-family:
             var(--casestudy-font-mono);
@@ -1441,6 +1446,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-mono-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1462,7 +1469,7 @@ export default function HoloHealthCaseStudyRetro() {
           line-height:
             var(--casestudy-font-ui-line-height);
 
-          text-align: right;
+          text-align: left;
         }
 
 
@@ -1501,12 +1508,14 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-10);
 
           background:
-            var(--cs-color-white);
+            #181818;
 
           border-right:
             var(--cs-border-width)
             solid
             var(--cs-border-default);
+
+          text-align: left;
         }
 
 
@@ -1526,6 +1535,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-size:
             var(--casestudy-font-mono-size);
+
+          text-align: left;
         }
 
 
@@ -1535,7 +1546,7 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-4);
 
           color:
-            var(--cs-text-primary);
+            #fff;
 
           font-family:
             var(--casestudy-font-heading);
@@ -1547,6 +1558,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-weight:
             var(--casestudy-font-heading-weight);
+
+          text-align: left;
         }
 
 
@@ -1565,6 +1578,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--casestudy-font-reading-size);
 
           line-height: 21px;
+
+          text-align: left;
         }
 
 
@@ -1602,6 +1617,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-border-width)
             solid
             var(--cs-border-default);
+
+          text-align: left;
         }
 
 
@@ -1612,13 +1629,15 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-family:
             var(--casestudy-font-mono);
+
+          text-align: left;
         }
 
 
         .casestudy-principle-title {
 
           color:
-            var(--cs-text-primary);
+            #fff;
 
           font-family:
             var(--casestudy-font-heading);
@@ -1629,6 +1648,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-weight:
             var(--casestudy-font-heading-weight);
+
+          text-align: left;
         }
 
 
@@ -1645,6 +1666,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-size:
             var(--casestudy-font-mono-size);
+
+          text-align: left;
         }
 
 
@@ -1656,6 +1679,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           color:
             var(--cs-text-secondary);
+
+          text-align: left;
         }
 
 
@@ -1679,9 +1704,10 @@ export default function HoloHealthCaseStudyRetro() {
           border-left:
             3px
             solid
-            var(--cs-color-black);
+            #fff;
 
-          color: #222;
+          color:
+            #fff;
 
           font-family:
             var(--casestudy-font-reading-large);
@@ -1694,6 +1720,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           letter-spacing:
             var(--casestudy-font-reading-large-letter-spacing);
+
+          text-align: left;
         }
 
 
@@ -1715,10 +1743,12 @@ export default function HoloHealthCaseStudyRetro() {
         .casestudy-pullquote {
 
           color:
-            var(--cs-color-white);
+            #fff;
 
           border-left-color:
-            var(--cs-color-white);
+            #fff;
+
+          text-align: left;
         }
 
 
@@ -1738,6 +1768,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-column-gap);
 
           align-items: start;
+
+          text-align: left;
         }
 
 
@@ -1747,7 +1779,9 @@ export default function HoloHealthCaseStudyRetro() {
           margin-top: 0;
 
           color:
-            var(--cs-color-white);
+            #fff;
+
+          text-align: left;
         }
 
 
@@ -1804,6 +1838,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--casestudy-font-mono-size);
 
           line-height: 18px;
+
+          text-align: left;
         }
 
 
@@ -1846,6 +1882,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-border-width)
             solid
             var(--cs-border-dark);
+
+          text-align: left;
         }
 
 
@@ -1856,6 +1894,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-family:
             var(--casestudy-font-mono);
+
+          text-align: left;
         }
 
 
@@ -1877,6 +1917,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-weight:
             var(--casestudy-font-heading-weight);
+
+          text-align: left;
         }
 
 
@@ -1893,6 +1935,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-size:
             var(--casestudy-font-mono-size);
+
+          text-align: left;
         }
 
 
@@ -1932,6 +1976,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-border-width)
             solid
             var(--cs-border-dark);
+
+          text-align: left;
         }
 
 
@@ -1953,6 +1999,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--casestudy-font-mono-size);
 
           line-height: 18px;
+
+          text-align: left;
         }
 
 
@@ -1964,6 +2012,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           color:
             var(--cs-color-dark-muted);
+
+          text-align: left;
         }
 
 
@@ -2136,6 +2186,12 @@ export default function HoloHealthCaseStudyRetro() {
         }
 
 
+        .casestudy-impact-copy {
+
+          text-align: left;
+        }
+
+
         .casestudy-impact-stat {
 
           display: flex;
@@ -2148,17 +2204,19 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-12);
 
           background:
-            var(--cs-color-black);
+            #000;
 
           color:
-            var(--cs-color-white);
+            #fff;
+
+          text-align: left;
         }
 
 
         .casestudy-impact-number {
 
           color:
-            var(--cs-color-white);
+            #fff;
 
           font-family:
             var(--casestudy-font-heading);
@@ -2170,6 +2228,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-weight:
             var(--casestudy-font-heading-weight);
+
+          text-align: left;
         }
 
 
@@ -2186,6 +2246,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-size:
             var(--casestudy-font-mono-size);
+
+          text-align: left;
         }
 
 
@@ -2205,6 +2267,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--casestudy-font-reading-size);
 
           line-height: 23px;
+
+          text-align: left;
         }
 
 
@@ -2215,6 +2279,8 @@ export default function HoloHealthCaseStudyRetro() {
         .casestudy-reflection-content {
 
           max-width: 760px;
+
+          text-align: left;
         }
 
 
@@ -2226,7 +2292,7 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-12);
 
           color:
-            var(--cs-text-primary);
+            #fff;
 
           font-family:
             var(--casestudy-font-reading-large);
@@ -2236,6 +2302,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           line-height:
             var(--casestudy-font-reading-large-line-height);
+
+          text-align: left;
         }
 
 
@@ -2262,16 +2330,18 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-7);
 
           background:
-            var(--cs-color-black);
+            #000;
 
           color:
-            var(--cs-color-white);
+            #fff;
 
           font-family:
             var(--casestudy-font-mono);
 
           font-size:
             var(--casestudy-font-mono-size);
+
+          text-align: left;
         }
 
 
@@ -2292,7 +2362,7 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-9);
 
           background:
-            var(--cs-color-white);
+            #181818;
 
           border-right:
             var(--cs-border-width)
@@ -2303,6 +2373,8 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-border-width)
             solid
             var(--cs-border-default);
+
+          text-align: left;
         }
 
 
@@ -2330,6 +2402,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-size:
             var(--casestudy-font-mono-size);
+
+          text-align: left;
         }
 
 
@@ -2341,7 +2415,7 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-4);
 
           color:
-            var(--cs-text-primary);
+            #fff;
 
           font-family:
             var(--casestudy-font-heading);
@@ -2353,6 +2427,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           font-weight:
             var(--casestudy-font-heading-weight);
+
+          text-align: left;
         }
 
 
@@ -2372,15 +2448,15 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-7);
 
           background:
-            var(--cs-color-black);
+            #fff;
 
           color:
-            var(--cs-color-white);
+            #000;
 
           border:
             var(--cs-window-border-width)
             solid
-            var(--cs-color-black);
+            #fff;
 
           font-family:
             var(--casestudy-font-ui);
@@ -2402,10 +2478,10 @@ export default function HoloHealthCaseStudyRetro() {
         .casestudy-notion-link:hover {
 
           background:
-            var(--cs-color-white);
+            #000;
 
           color:
-            var(--cs-color-black);
+            #fff;
         }
 
 
@@ -2429,7 +2505,7 @@ export default function HoloHealthCaseStudyRetro() {
             var(--cs-space-1);
 
           background:
-            var(--cs-color-gray-400);
+            #3a3a3a;
         }
 
 
@@ -2443,25 +2519,27 @@ export default function HoloHealthCaseStudyRetro() {
             0
             var(--cs-space-2);
 
+          color: #fff;
+
           border-top:
             1px
             solid
-            #808080;
+            #555;
 
           border-left:
             1px
             solid
-            #808080;
+            #555;
 
           border-right:
             1px
             solid
-            var(--cs-color-white);
+            #111;
 
           border-bottom:
             1px
             solid
-            var(--cs-color-white);
+            #111;
 
           overflow: hidden;
 
@@ -2764,6 +2842,8 @@ export default function HoloHealthCaseStudyRetro() {
               var(--casestudy-font-reading-size);
 
             line-height: 25px;
+
+            text-align: left;
           }
 
 

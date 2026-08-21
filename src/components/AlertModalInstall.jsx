@@ -1,60 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { Modal, Button, TitleBar } from '@react95/core';
-import { Drvspace7 } from '@react95/icons';
+import { Install } from '@react95/icons';
 
-import tadaSound from '../assets/sounds/win95_tada.wav';
 
-export default function AlertModal({
+
+export default function AlertModalInstall({
   show,
-
-  // ==========================================
-  // ALERT CONTENT
-  // ==========================================
-  title = 'Feature Locked',
-  message = 'This feature is still under construction or currently locked.',
-
-  // ==========================================
-  // CUSTOM ICON
-  // Default: Drvspace7
-  // ==========================================
-  icon = (
-    <Drvspace7
-      variant="32x32_4"
-    />
-  ),
-
+  title = 'Perdana Installer',
+  message = "Ready to install Perdana.exe?",
   onClose,
-
-  // ==========================================
-  // RESPONSIVE
-  // ==========================================
+  onConfirm,
   isMobile = false,
   isTablet = false,
 }) {
-  const audioRef = useRef(null);
 
-  // ==========================================
-  // PLAY WINDOWS 95 TADA SOUND WHEN OPEN
-  // ==========================================
-  useEffect(() => {
-    if (!show) return;
 
-    const audio = new Audio(tadaSound);
 
-    audio.volume = 0.7;
-
-    audioRef.current = audio;
-
-    audio.play().catch(() => {
-      // Browser may block autoplay until user interaction.
-    });
-
-    return () => {
-      audio.pause();
-      audio.currentTime = 0;
-      audioRef.current = null;
-    };
-  }, [show]);
 
   // ==========================================
   // HIDE MODAL
@@ -153,6 +114,7 @@ export default function AlertModal({
           overflow: 'hidden',
         }}
       >
+
         {/* =========================
             MESSAGE + ICON
         ========================= */}
@@ -161,7 +123,7 @@ export default function AlertModal({
             width: '100%',
 
             display: 'flex',
-            alignItems: 'flex-start',
+            alignItems: 'center',
 
             gap: isMobile ? '10px' : '14px',
 
@@ -174,8 +136,9 @@ export default function AlertModal({
             overflow: 'hidden',
           }}
         >
+
           {/* =========================
-              ICON
+              INSTALL ICON
           ========================= */}
           <div
             style={{
@@ -191,17 +154,16 @@ export default function AlertModal({
               overflow: 'hidden',
             }}
           >
-            {React.cloneElement(icon, {
-              style: {
+            <Install
+              variant="32x32_4"
+              style={{
                 width: isMobile ? '28px' : '32px',
                 height: isMobile ? '28px' : '32px',
 
                 maxWidth: '100%',
                 maxHeight: '100%',
-
-                ...icon.props?.style,
-              },
-            })}
+              }}
+            />
           </div>
 
           {/* =========================
@@ -230,17 +192,38 @@ export default function AlertModal({
         </div>
 
         {/* =========================
-            OK BUTTON
+            ACTION BUTTONS
         ========================= */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'center',
+            alignItems: 'center',
+
+            gap: '8px',
 
             paddingTop: isMobile ? '8px' : '12px',
             paddingBottom: '1%',
           }}
         >
+
+          {/* INSTALL */}
+          <Button
+            onClick={onConfirm}
+            style={{
+              width: isMobile ? '72px' : '70px',
+              minWidth: '70px',
+
+              height: '24px',
+
+              fontFamily: 'MS Sans Serif, sans-serif',
+              fontSize: '12px',
+            }}
+          >
+            Install
+          </Button>
+
+          {/* CANCEL */}
           <Button
             onClick={onClose}
             style={{
@@ -253,9 +236,11 @@ export default function AlertModal({
               fontSize: '12px',
             }}
           >
-            OK
+            Cancel
           </Button>
+
         </div>
+
       </Modal.Content>
     </Modal>
   );
