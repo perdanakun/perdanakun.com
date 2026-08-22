@@ -11,12 +11,29 @@ import {
 import githubIcon from '../icons/github.svg';
 import instagramIcon from '../icons/instagram.svg';
 
+import holohealthIcon from '../assets/images/case-study/holohealthIcon.png';
+
 // =========================================================
 // FILE ICON
 // =========================================================
 
 const renderFileIcon = (type) => {
   switch (type) {
+
+case 'holohealth':
+  return (
+    <img
+      src={holohealthIcon}
+      alt="HoloHealth"
+      style={{
+        width: '20px',
+        height: '20px',
+        objectFit: 'contain',
+      }}
+    />
+  );
+
+
     case 'github':
       return (
         <img

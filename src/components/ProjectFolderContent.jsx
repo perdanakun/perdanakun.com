@@ -14,6 +14,8 @@ import {
   Wordpad,
 } from '@react95/icons';
 
+
+import holohealthIcon from '../assets/images/case-study/holohealthIcon.png';
 import githubIcon from '../icons/github.svg';
 import instagramIcon from '../icons/instagram.svg';
 import figmaIcon from '../icons/figma.svg';
@@ -106,21 +108,21 @@ export default function ProjectFolderContent({
   iconType: 'folder',
   isLocked: false,
   message: '',
-  openWindow: 'holohealth',
-// children: [
-  // {
-  //   id: 'holohealth-overview',
-  //   name: 'Overview',
-  //   type: 'file',
-  //   iconType: 'caseStudy',
-  //   openWindow: 'holohealth',
-  // },
-  // {
-  //   id: 'holohealth-icon-system',
-  //   name: 'Icon System',
-  //   type: 'file',
-  //   iconType: 'documentation',
-  // },
+children: [
+          {
+        id: 'holohealth-case-study',
+        name: 'Case Study',
+        type: 'file',
+        iconType: 'caseStudy',
+        openWindow: 'holohealth',
+          },
+        {
+        id: 'holohealth-icon-system',
+        name: 'HoloHealth.exe',
+        type: 'file',
+        iconType: 'holohealth',
+        link: 'https://holo.health/',
+        },
   // {
   //   id: 'holohealth-visual-language',
   //   name: 'Visual Language',
@@ -133,7 +135,7 @@ export default function ProjectFolderContent({
   //   type: 'file',
   //   iconType: 'caseStudy',
   // },
-// ],
+],
         },
 
         {
@@ -141,8 +143,8 @@ export default function ProjectFolderContent({
           name: 'Ship UI',
           type: 'folder',
           iconType: 'folder',
-          isLocked: false,
-          message: '',
+  isLocked: true,
+  message: 'This folder is currently unavailable.',
           openWindow: 'ship-ui',
      // children: [
 //   {
@@ -179,8 +181,8 @@ export default function ProjectFolderContent({
           name: 'Mayora',
           type: 'folder',
           iconType: 'folder',
-          isLocked: false,
-          message: '',
+  isLocked: true,
+  message: 'This folder is currently unavailable.',
           openWindow: 'mayora',
        // children: [
 //   {
@@ -232,8 +234,8 @@ export default function ProjectFolderContent({
           name: "Perdana's Computer",
           type: 'folder',
           iconType: 'folder',
-          isLocked: false,
-          message: '',
+          isLocked: true,
+          message: 'This folder is currently unavailable.',
           children: [
             {
               id: 'pc-product-overview',
@@ -323,8 +325,8 @@ export default function ProjectFolderContent({
           name: "Perdana's Computer",
           type: 'folder',
           iconType: 'folder',
-          isLocked: false,
-          message: '',
+  isLocked: true,
+  message: 'This folder is currently unavailable.',
           children: [
             {
               id: 'pc-engineering-overview',
@@ -551,6 +553,21 @@ export default function ProjectFolderContent({
     type
   ) => {
     switch (type) {
+
+case 'holohealth':
+  return (
+    <img
+      src={holohealthIcon}
+      alt="HoloHealth"
+      style={{
+        width: '48px',
+        height: '48px',
+        objectFit: 'contain',
+      }}
+    />
+  );
+
+
       case 'github':
         return (
           <img

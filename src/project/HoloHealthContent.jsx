@@ -4,6 +4,10 @@ import holohealthGif from '../assets/images/case-study/holohealth.gif';
 import holohealthGif4 from '../assets/images/case-study/holohealth4.gif';
 import holohealthGif5 from '../assets/images/case-study/holohealth5.gif';
 
+import holohealthTest1 from '../assets/images/case-study/holohealth-test1.jpg';
+import holohealthTest2 from '../assets/images/case-study/holohealth-test2.jpg';
+import holohealthTest3 from '../assets/images/case-study/holohealth-test3.jpg';
+
 const NOTION_URL =
   'https://app.notion.com/p/HoloHealth-Iconography-Visual-System-3c23e6c896238027a77ef87eeb315a85';
 
@@ -137,12 +141,11 @@ export default function HoloHealthCaseStudyRetro() {
             </div>
 
             <MediaImage
-              src={holohealthGif4}
+              src={holohealthTest1}
               alt="HoloHealth iconography in product"
               label="THE PRODUCT"
               description="The iconography system designed to live inside the HoloHealth product."
             />
-
           </div>
 
         </section>
@@ -212,7 +215,7 @@ export default function HoloHealthCaseStudyRetro() {
             </PullQuote>
 
             <MediaImage
-              src={holohealthGif5}
+              src={holohealthTest3}
               alt="HoloHealth master icons and visual system"
               label="MASTER ICONS"
               description="A small set of master icons established the visual direction before production scaled."
@@ -264,10 +267,17 @@ export default function HoloHealthCaseStudyRetro() {
             <Workflow />
 
             <ScaleDiagram />
+                        <MediaImage
+              src={holohealthTest2}
+              alt="HoloHealth iconography in product"
+              label="THE PRODUCT"
+              description="The iconography system designed to live inside the HoloHealth product."
+            />
 
             <div className="casestudy-master-production">
 
               <div className="casestudy-master-card">
+           
 
                 <span className="casestudy-card-label">
                   MASTER ICONS
@@ -340,6 +350,8 @@ export default function HoloHealthCaseStudyRetro() {
 
           </div>
 
+          
+
         </section>
 
 
@@ -400,7 +412,7 @@ export default function HoloHealthCaseStudyRetro() {
             </div>
 
             <MediaImage
-              src={holohealthGif}
+              src={holohealthGif4}
               alt="HoloHealth product using the iconography system"
               label="IN CONTEXT"
               description="The iconography system applied inside the HoloHealth product experience."

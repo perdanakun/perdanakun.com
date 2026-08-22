@@ -56,14 +56,13 @@ import {
   Computer, 
   User, 
   PowerOff, 
-  MsDos, 
   Joy102,
   Shell3232,
   RecycleFull,
   Wangimg128,
   WindowsExplorer,
   FolderFile,
-  Winmine1,
+  MsDos,
   Drvspace7,
   Intl101,
   Install,
@@ -1380,7 +1379,7 @@ onContinue={() => {
 )}>
     <div style={desktopIconStyle}>
       <div style={{ fontSize: '32px', marginBottom: '0' }}>
-        <Winmine1 variant="32x32_4" />
+        <MsDos variant="32x32_32" />
       </div>
       <span>Games</span>
     </div>
@@ -1925,7 +1924,7 @@ INI ENDING KODE INACTIVE*/}
 {windows.csGame && (
   <Modal
     key="csGame-window"
-    icon={<Winmine1 variant="16x16_4" />}
+    icon={<MsDos variant="16x16_32" />}
     title="Games.exe"
     style={{
       position: 'fixed',
@@ -2188,7 +2187,7 @@ INI ENDING KODE INACTIVE*/}
 
 
         {/* --- TASKBAR BAWAH BAWAAN REACT95 --- */}
-<TaskBar
+   <TaskBar
   style={{
     position: 'fixed',
     left: 0,
@@ -2197,57 +2196,130 @@ INI ENDING KODE INACTIVE*/}
     width: '100%',
     zIndex: 99999,
   }}
-          list={
-            <List style={{ width: '240px' }}>
-<List.Item
-  icon={<Computer variant="16x16_4" />}
-  onClick={() => toggleWindow('welcome', true)}
->
-  Welcome
-</List.Item>
+  list={
+    <List style={{ width: '240px' }}>
 
+      <List.Item
+        icon={<Computer variant="16x16_4" />}
+        onClick={() => toggleWindow('welcome', true)}
+      >
+        Welcome
+      </List.Item>
 
-<List.Item 
-  icon={<Intl101 variant="16x16_4" />} 
-  onClick={() => toggleWindow('aiAssistant', true)}
->
-  AI Assistant
-</List.Item>
-              <List.Divider />
-              <List.Item 
-                icon={<Computer variant="16x16_4" />} 
-                onClick={() => toggleWindow('about', true)}
+      <List.Item
+        icon={<Intl101 variant="16x16_4" />}
+        onClick={() => toggleWindow('aiAssistant', true)}
+      >
+        AI Assistant
+      </List.Item>
+
+      <List.Divider />
+
+      {/* ABOUT */}
+      <List.Item
+        icon={<Computer variant="16x16_4" />}
+        onClick={() =>
+          openAlertDesktop(
+            'Sorry about that...',
+            <>
+              This section is still under construction. While I'm polishing the
+              design & code, you can know a little more about me by checking out
+              my{' '}
+              <a
+                href="https://linkedin.com/in/perdanakun"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: '#000080',
+                  textDecoration: 'underline',
+                }}
               >
-                About
-              </List.Item>
-              <List.Item 
-                icon={<Folder variant="16x16_4" />} 
-                onClick={() => toggleWindow('projects', true)}
+                LinkedIn
+              </a>
+            </>
+          )
+        }
+      >
+        About
+      </List.Item>
+
+      {/* PROJECTS */}
+      <List.Item
+        icon={<Folder variant="16x16_4" />}
+        onClick={() => toggleWindow('projects', true)}
+      >
+        Projects
+      </List.Item>
+
+      {/* CONTACT */}
+      <List.Item
+        icon={<Mapi32801 variant="16x16_4" />}
+        onClick={() => toggleWindow('contact', true)}
+      >
+        Contact Me
+      </List.Item>
+
+      {/* GAMES */}
+      <List.Item
+        icon={<MsDos variant="16x16_32" />}
+        onClick={() =>
+          openAlertDesktop(
+            "I'm sorry...",
+            "This game module is still under construction. While I'm polishing the design & code for your entertainment, please check back in the next system update."
+          )
+        }
+      >
+        Games
+      </List.Item>
+
+      {/* WRITING */}
+      <List.Item
+        icon={<Notepad2 variant="16x16_4" />}
+        onClick={() =>
+          openAlertDesktop(
+            'Feature Locked',
+            <>
+              This module is still under construction. While I'm polishing the
+              design & code, feel free to browse my thoughts on{' '}
+              <a
+                href="https://medium.com/@perdanakun"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: '#000080',
+                  textDecoration: 'underline',
+                }}
               >
-                Projects
-              </List.Item>
-              <List.Item 
-                icon={<Mapi32801 variant="16x16_4" />} 
-                onClick={() => toggleWindow('contact', true)}
-              >
-                Contact Me
-              </List.Item>
-              <List.Item 
-                icon={<Winmine1 variant="16x16_4" />} 
-                onClick={() => toggleWindow('csGame', true)}
-              >
-                Games
-              </List.Item>
-              <List.Divider />
-              <List.Item 
-                icon={<PowerOff variant="16x16_4" />} 
-                onClick={handleRestart}
-              >
-                Reset Desktop
-              </List.Item>
-            </List>
-          }
-        />
+                Medium
+              </a>
+            </>
+          )
+        }
+      >
+        Writing
+      </List.Item>
+
+      {/* INSTALLER */}
+      <List.Item
+        icon={<Computer variant="16x16_4" />}
+        onClick={() => setShowInstallAlert(true)}
+      >
+        Installer
+      </List.Item>
+
+      <List.Divider />
+
+      {/* RESET */}
+      <List.Item
+        icon={<PowerOff variant="16x16_4" />}
+        onClick={handleRestart}
+      >
+        Reset Desktop
+      </List.Item>
+
+    </List>
+  }
+/>
 
   </main>
 ) : null}
